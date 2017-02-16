@@ -10,10 +10,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.util.Log;
 
 import org.xutils.*;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class VidyoSampleApplicationkevin extends android.app.Application {
 	@Override
@@ -21,6 +22,8 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 		super.onCreate();
 		x.Ext.init(this);
 		x.Ext.setDebug(org.xutils.BuildConfig.DEBUG);
+		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+		JPushInterface.init(this);
 	}
 	public static final String TAG = "VidyoSample";
 	static Handler hdlr;

@@ -1,7 +1,6 @@
 package com.esoon.vidyosample;
 
 import android.app.Activity;
-import android.widget.EditText;
 
 /**
  * Created by Administrator on 2017/2/12.

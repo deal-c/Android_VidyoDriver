@@ -24,15 +24,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.esoon.utils.Contants;
 import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
 import com.esoon.utils.Tools;
-import com.vidyo.myvidyo.CreateRomActivity;
-import com.vidyo.myvidyo.MyLoginActivity;
-import com.vidyo.myvidyo.modifyRomMsgActivity;
+import com.esoon.vidyo.CreateRomActivity;
+import com.esoon.vidyo.MyLoginActivity;
+import com.esoon.vidyo.modifyRomMsgActivity;
 
 public class CallMainActivity extends Activity implements OnClickListener,
 		INetRequest

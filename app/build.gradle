@@ -8,6 +8,7 @@ android {
 
     }
     defaultConfig {
+        applicationId "cn.jpush.example"
         applicationId "com.example.administrator.android_vidyodriver"
         minSdkVersion 15
         targetSdkVersion 23
