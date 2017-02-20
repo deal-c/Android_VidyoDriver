@@ -29,7 +29,8 @@ import com.esoon.utils.Contants;
 import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
 import com.esoon.utils.Tools;
-import com.esoon.vidyo.CreateRomActivity;
+
+import com.esoon.vidyo.CreateActivity;
 import com.esoon.vidyo.MyLoginActivity;
 import com.esoon.vidyo.modifyRomMsgActivity;
 
@@ -296,7 +297,7 @@ Intent	intent=new Intent(CallMainActivity.this, MyLoginActivity.class);
 			}
 			case R.id.createRom:
 			{
-				Intent	intent1intent=new Intent(CallMainActivity.this,CreateRomActivity.class);
+				Intent	intent1intent=new Intent(CallMainActivity.this,CreateActivity.class);
 				startActivity(intent1intent);
 			}
 			break;
@@ -514,7 +515,7 @@ Intent	intent=new Intent(CallMainActivity.this, MyLoginActivity.class);
 		createRom.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent	intent=new Intent(CallMainActivity.this, CreateRomActivity.class);
+				Intent	intent=new Intent(CallMainActivity.this, CallingActivity.class);
 				startActivity(intent);
 			}
 		});

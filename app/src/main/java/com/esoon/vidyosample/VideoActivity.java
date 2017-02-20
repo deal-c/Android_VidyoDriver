@@ -18,13 +18,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -34,6 +38,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -44,19 +49,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.esoon.utils.Contants;
-import com.esoon.utils.Contants.NetCommand;
-import com.esoon.utils.EnterRoomHttp;
-import com.esoon.utils.ICancelCall;
-import com.esoon.utils.INetRequest;
-import com.esoon.utils.Tools;
 import com.vidyo.LmiDeviceManager.LmiDeviceManagerView;
 import com.vidyo.LmiDeviceManager.LmiVideoCapturer;
-
+import com.vidyo.utils.Contants;
+import com.vidyo.utils.Contants.NetCommand;
+import com.vidyo.utils.EnterRoomHttp;
+import com.vidyo.utils.ICancelCall;
+import com.vidyo.utils.INetRequest;
+import com.vidyo.utils.Tools;
 
 public class VideoActivity extends Activity implements
 		LmiDeviceManagerView.Callback, SensorEventListener,
@@ -265,13 +270,9 @@ public class VideoActivity extends Activity implements
 	{
 		public void handleMessage(Message msg)
 		{
-
 			Bundle b = msg.getData();
-			System.out.println ("?????????????????:" + msg);
 			switch (msg.what) 
 			{
-
-
 			case Event_ShowBand:
 			{
 //				//tests ================
@@ -385,6 +386,7 @@ public class VideoActivity extends Activity implements
 				// 调用进入房间接口. 
 				{
 					Log.d(TAG,"登陆成功");
+					//app.guestlogin("uRIDVSb3hT","123","123");
 					EnterRoomHttp.Arguments args = new EnterRoomHttp.Arguments(
 							Contants.portal, Contants.innerUser,
 							Contants.innerPass,roomid, VideoActivity.this);
@@ -540,7 +542,6 @@ public class VideoActivity extends Activity implements
 
 		if (!loginStatus)
 		{
-
 			StartVideoServerLogin();
 			loginStatus = true;
 			app.HideToolBar(true);
@@ -714,9 +715,11 @@ public class VideoActivity extends Activity implements
 		
 		//清除异常退出标记
 		Tools.SaveConfigData(this, "roomid", "");
+		
 		stopDevices();
 		app.DisableAllVideoStreams();
 		app.Dispose();
+		
 		app.uninitialize();
 		finish();
 	}
@@ -815,7 +818,9 @@ public class VideoActivity extends Activity implements
 		showProgressDialog("加载中...");
 		app.Login("http://" + Contants.portal, Contants.innerUser,
 				Contants.innerPass);
-		
+//		app.guestlogin("http://192.168.5.47","uRIDVSb3hT","guest","");
+
+
 	}
 	
 	public void LmiDeviceManagerViewRender()

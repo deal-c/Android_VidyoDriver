@@ -12,7 +12,7 @@
 
         <Button
             android:onClick="onClick"
-            android:id="@+id/createMyRom"
+
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@drawable/bnt_custom_gray"
@@ -21,6 +21,7 @@
             android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/createMyRom"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
@@ -48,6 +49,7 @@
                 android:textColor="@color/black" />
 
       <EditText
+          android:id="@+id/textname"
           android:hint="请输入姓名"
           android:layout_width="match_parent"
           android:layout_height="wrap_content" />
@@ -71,6 +73,7 @@
             android:text="会议主题"
             android:textColor="@color/black" />
         <EditText
+            android:id="@+id/texttheme"
             android:hint="请输入主题名称"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

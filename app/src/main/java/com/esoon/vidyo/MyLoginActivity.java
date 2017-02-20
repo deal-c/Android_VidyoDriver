@@ -1,6 +1,7 @@
 package com.esoon.vidyo;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -20,17 +21,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.esoon.pojo.room;
+import com.esoon.pojo.scheduleInfo;
+import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.ESClientLoginInterface;
+import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientLoginImpl;
 import com.esoon.vidyosample.CallMainActivity;
 import com.esoon.vidyosample.R;
-import com.google.gson.Gson;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import org.json.JSONObject;
 
-import com.esoon.pojo.Mymessage;
+import com.esoon.pojo.CreateRomMsg;
+import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 
 public class MyLoginActivity extends Activity  {
 
@@ -81,14 +84,11 @@ public class MyLoginActivity extends Activity  {
         name = login_username.getText().toString();
         password = login_password.getText().toString();
         Toast.makeText(MyLoginActivity.this,"正在登陆，请稍后...",Toast.LENGTH_LONG).show();
-        loginInterface=new ESClientLoginImpl();
-        flag=loginInterface.LoginMessage(name,password);
-        if (flag){
-            Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
-            startActivity(intent);
-            MyLoginActivity.this.finish();
-        }
+    /*    loginInterface=new ESClientLoginImpl();
+        flag=loginInterface.LoginMessage(name,password);*/
+
+        ESClientCreateRoom  esClientCreateRoom=new ESClientCreateRoomImpl();
+
     }
 
 
@@ -129,15 +129,30 @@ public class MyLoginActivity extends Activity  {
                     name = login_username.getText().toString();
                     password = login_password.getText().toString();
                     Toast.makeText(MyLoginActivity.this,"正在登陆，请稍后...",Toast.LENGTH_LONG).show();
-                    System.out.println("loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
-                    Log.d(TAG,"loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
-                    if (loginInterface.LoginMessage(name,password)){
-                        System.out.println("搞什么飞机");
+                   System.out.println("loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
+                 //   Log.d(TAG,"loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
+                /* ESClientCreateRoom esClientCreateRoom=new ESClientCreateRoomImpl();
+                    scheduleInfo scheduleinfo=new scheduleInfo();
+                    room room =new room("1231312","121242","1123424");
+                    JSONObject  json=new JSONObject();
+
+                    CreateRomMsg    createRomMsg=new CreateRomMsg("124",scheduleinfo,"12344","video","default",3,room);
+*/
+                    ESClientLoginInterface  esClientLoginInterface=new ESClientLoginImpl();
+
+                    if ( esClientLoginInterface.LoginMessage(name,password)){
                         Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
                         startActivity(intent);
                         MyLoginActivity.this.finish();
                     }
+                   /* if (loginInterface.LoginMessage(name,password)){
+                        System.out.println("搞什么飞机");
+                        Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
+                        startActivity(intent);
+                        MyLoginActivity.this.finish();
+                    }*/
 
 
                 }
@@ -200,11 +215,11 @@ public class MyLoginActivity extends Activity  {
 
 
 
-    private boolean login() {
+    /*private boolean login() {
         RequestParams requestParams = new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/vLogin");
         Gson gson = new Gson();
-        Mymessage ms = new Mymessage();
-        String qq = gson.toJson(ms);
+
+
         requestParams.addBodyParameter("", qq);
         x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
@@ -232,7 +247,7 @@ public class MyLoginActivity extends Activity  {
             }
         });
         return flag;
-    }
+    }*/
 
     private boolean checkEdit() {
         if (login_username.getText().toString().trim().equals("")) {

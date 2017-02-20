@@ -110,7 +110,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 		System.out.println("？？？"+pathDir);
 		System.out.println("？？？"+activity);
 
-	address = Construct(caFileName,logDir, pathDir, activity);
+	address = Construct("E:\\Android_VidyoDriver\\app\\src\\main\\res\\raw\\ca_certificates.crt",logDir, pathDir, activity);
 		if (address == 0)
 			return false;
 		else
@@ -131,7 +131,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 	public void messageBox(String s) {
 //		Bundle b = new Bundle();
 //		b.putString("text", s);
-//		Mymessage m = Mymessage.obtain();
+//		CreateRomMsg m = CreateRomMsg.obtain();
 //		m.what = VideoActivity.MSG_BOX;
 //		m.setData(b);
 //		m.setTarget(hdlr);
@@ -256,7 +256,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 	public native void SetSpeakerVolume (int volume);
 	public native void DisableShareEvents();
 	public native String getBandInfo();
-	
+	public native void guestlogin(String	vidyoportalName,String roomkey, String displayName,String	pin);
 	
 	// load the library - name matches jni/Android.mk
 	static {

@@ -1,11 +1,11 @@
 package com.esoon.vidyo.api.room;
 
-import com.esoon.pojo.Mymessage;
+import com.esoon.pojo.CreateRomMsg;
 
 /**
  * Created by Administrator on 2017/2/14.
  */
 
 public interface ESClientCreateRoom {
-    boolean createroom(Mymessage mymessage);
+    boolean createroom(CreateRomMsg createRomMsg);
 }

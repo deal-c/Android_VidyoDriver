@@ -5,13 +5,16 @@ package com.esoon.pojo;
  */
 
 public class DeleteMsg {
+   private  int roomId;
    private String userId;
     private int deletetype;
 
-    public DeleteMsg(String userId, int deletetype) {
+    public DeleteMsg(int roomId, String userId, int deletetype) {
+        this.roomId = roomId;
         this.userId = userId;
         this.deletetype = deletetype;
     }
+
     public DeleteMsg(){}
 
     public String getUserId() {
