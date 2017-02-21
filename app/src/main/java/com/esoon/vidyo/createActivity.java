@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.esoon.pojo.CreateRomMsg;
 import com.esoon.pojo.ScheduleInfo;
-import com.esoon.pojo.room;
+import com.esoon.pojo.Room;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyosample.R;
@@ -32,7 +32,7 @@ ScheduleInfo    scheduleInfo=new ScheduleInfo();
             public void onClick(View v) {
                 ESClientCreateRoom  esClientCreateRoom=new ESClientCreateRoomImpl();
                 CreateRomMsg    createRomMsg=new CreateRomMsg("123",scheduleInfo,"123","video","default",1,new
-                        room(nameString,themeStrng,"11"));
+                        Room(nameString,themeStrng,"11"));
 
 
                 if (esClientCreateRoom.createroom(createRomMsg));

@@ -32,7 +32,7 @@ import com.esoon.utils.Tools;
 
 import com.esoon.vidyo.CreateActivity;
 import com.esoon.vidyo.MyLoginActivity;
-import com.esoon.vidyo.modifyRomMsgActivity;
+import com.esoon.vidyo.ModifyRomMsgActivity;
 
 public class CallMainActivity extends Activity implements OnClickListener,
 		INetRequest
@@ -302,7 +302,7 @@ Intent	intent=new Intent(CallMainActivity.this, MyLoginActivity.class);
 			}
 			break;
 			case R.id.view_notifylist:
-				Intent	bintent=new Intent(CallMainActivity.this,modifyRomMsgActivity.class);
+				Intent	bintent=new Intent(CallMainActivity.this,ModifyRomMsgActivity.class);
 				startActivity(bintent);
 				break;
 
