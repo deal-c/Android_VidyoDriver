@@ -18,8 +18,17 @@
     android:text="登陆按钮"
     />
 
+<Button
+    android:layout_alignParentBottom="true"
+    android:text="拨打客服中心"
+    android:id="@+id/ACDCALL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 
+<Button
 
-
+    android:id="@+id/DIDCALL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 
 </RelativeLayout>

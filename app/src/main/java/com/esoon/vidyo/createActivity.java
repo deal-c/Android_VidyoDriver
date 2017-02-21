@@ -2,26 +2,24 @@ package com.esoon.vidyo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.esoon.pojo.CreateRomMsg;
+import com.esoon.pojo.ScheduleInfo;
 import com.esoon.pojo.room;
-import com.esoon.pojo.scheduleInfo;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyosample.R;
 import com.esoon.vidyosample.VideoActivity;
 
 public class CreateActivity extends Activity {
-
+ScheduleInfo    scheduleInfo=new ScheduleInfo();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create);
         Button  createrom=(Button)findViewById(R.id.createMyRom);
         EditText    text=(EditText)findViewById(R.id.textname);
@@ -33,7 +31,7 @@ public class CreateActivity extends Activity {
             @Override
             public void onClick(View v) {
                 ESClientCreateRoom  esClientCreateRoom=new ESClientCreateRoomImpl();
-                CreateRomMsg    createRomMsg=new CreateRomMsg("123",new scheduleInfo(),"123","video","default",1,new
+                CreateRomMsg    createRomMsg=new CreateRomMsg("123",scheduleInfo,"123","video","default",1,new
                         room(nameString,themeStrng,"11"));
 
 

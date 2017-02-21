@@ -1,7 +1,6 @@
 package com.esoon.vidyo;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -21,19 +20,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import com.esoon.pojo.room;
-import com.esoon.pojo.scheduleInfo;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.ESClientLoginInterface;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientLoginImpl;
 import com.esoon.vidyosample.CallMainActivity;
 import com.esoon.vidyosample.R;
-
-import org.json.JSONObject;
-
-import com.esoon.pojo.CreateRomMsg;
-import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 
 public class MyLoginActivity extends Activity  {
 
@@ -132,7 +124,7 @@ public class MyLoginActivity extends Activity  {
                    System.out.println("loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
                  //   Log.d(TAG,"loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
                 /* ESClientCreateRoom esClientCreateRoom=new ESClientCreateRoomImpl();
-                    scheduleInfo scheduleinfo=new scheduleInfo();
+                    ScheduleInfo scheduleinfo=new ScheduleInfo();
                     room room =new room("1231312","121242","1123424");
                     JSONObject  json=new JSONObject();
 

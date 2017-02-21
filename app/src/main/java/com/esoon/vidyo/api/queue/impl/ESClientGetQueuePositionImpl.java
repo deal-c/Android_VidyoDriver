@@ -20,7 +20,7 @@ public class ESClientGetQueuePositionImpl implements ESClientGetQueuePosition {
     private static final String TAG = "VidyoSampleActivity";
 
     @Override
-    public boolean esclinetGetQueuePosition(String roomId) {
+    public boolean esclientGetQueuePosition(String roomId) {
         RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/queueinfo/roomId");
 
         try {

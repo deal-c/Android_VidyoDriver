@@ -1,7 +1,5 @@
 package com.esoon.pojo;
 
-import org.json.JSONObject;
-
 /**
  * Created by Administrator on 2017/1/22.
  */
@@ -13,11 +11,11 @@ private String  userId;
     private String  subMeidaType;
     private String  queueType;
     private String  managerId;
-    private scheduleInfo    scheduleInfo;
+    private ScheduleInfo ScheduleInfo;
 
-    public CreateRomMsg(String userId, com.esoon.pojo.scheduleInfo scheduleInfo, String managerId, String subMeidaType, String queueType, int callType, com.esoon.pojo.room room) {
+    public CreateRomMsg(String userId, ScheduleInfo ScheduleInfo, String managerId, String subMeidaType, String queueType, int callType, com.esoon.pojo.room room) {
         this.userId = userId;
-        this.scheduleInfo = scheduleInfo;
+        this.ScheduleInfo = ScheduleInfo;
         this.managerId = managerId;
         this.subMeidaType = subMeidaType;
         this.queueType = queueType;
