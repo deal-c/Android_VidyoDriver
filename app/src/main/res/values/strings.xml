@@ -3,8 +3,8 @@
 
 
     <string name="login">Login</string>
-    <string name="join_button_text">Join Own Room</string>
-    <string name="join_dialog_title">Join My own Room</string>
+    <string name="join_button_text">Join Own RoomMsg</string>
+    <string name="join_dialog_title">Join My own RoomMsg</string>
     <string name="secured_checkbox">secured</string>
     <string name="title_activity_login">客服系统Demo</string>
     <string name="action_settings">Settings</string>
