@@ -54,7 +54,7 @@
     <action android:name="android.intent.action.MAIN" />
     <category android:name="android.intent.category.LAUNCHER" />
 </intent-filter></activity>
-        <activity android:name="com.esoon.vidyo.CreateActivity"></activity>
+        <activity android:name="com.esoon.vidyo.CreatemyActivity"></activity>
 
         <activity android:name="com.esoon.vidyosample.SubActivityConsult" >
         </activity>
@@ -73,7 +73,7 @@
             android:screenOrientation="sensor" >
         </activity>
 
-<activity android:name="com.esoon.vidyo.ModifyRomMsgActivity"></activity>
+<activity android:name="com.esoon.vidyo.ModifyMyRomMsgActivity"></activity>
         <activity
             android:name="com.esoon.vidyosample.MainDemoActivity"
             android:label="@string/title_activity_main_demo"

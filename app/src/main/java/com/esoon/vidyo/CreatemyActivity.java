@@ -9,13 +9,13 @@ import android.widget.EditText;
 
 import com.esoon.pojo.CreateRomMsg;
 import com.esoon.pojo.ScheduleInfo;
-import com.esoon.pojo.Room;
+import com.esoon.pojo.RoomMsg;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyosample.R;
 import com.esoon.vidyosample.VideoActivity;
 
-public class CreateActivity extends Activity {
+public class CreatemyActivity extends Activity {
 ScheduleInfo    scheduleInfo=new ScheduleInfo();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +32,12 @@ ScheduleInfo    scheduleInfo=new ScheduleInfo();
             public void onClick(View v) {
                 ESClientCreateRoom  esClientCreateRoom=new ESClientCreateRoomImpl();
                 CreateRomMsg    createRomMsg=new CreateRomMsg("123",scheduleInfo,"123","video","default",1,new
-                        Room(nameString,themeStrng,"11"));
+                        RoomMsg(nameString,themeStrng,"11"));
 
 
                 if (esClientCreateRoom.createroom(createRomMsg));
                 {
-                    Intent  intent=new Intent(CreateActivity.this, VideoActivity.class);
+                    Intent  intent=new Intent(CreatemyActivity.this, VideoActivity.class);
                     intent.putExtra("roomid", "4");
                     intent.putExtra("calltype","3");
                     startActivity(intent);

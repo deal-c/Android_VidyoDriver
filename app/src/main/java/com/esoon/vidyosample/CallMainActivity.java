@@ -30,9 +30,9 @@ import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
 import com.esoon.utils.Tools;
 
-import com.esoon.vidyo.CreateActivity;
+import com.esoon.vidyo.CreatemyActivity;
 import com.esoon.vidyo.MyLoginActivity;
-import com.esoon.vidyo.ModifyRomMsgActivity;
+import com.esoon.vidyo.ModifyMyRomMsgActivity;
 
 public class CallMainActivity extends Activity implements OnClickListener,
 		INetRequest
@@ -297,12 +297,12 @@ Intent	intent=new Intent(CallMainActivity.this, MyLoginActivity.class);
 			}
 			case R.id.createRom:
 			{
-				Intent	intent1intent=new Intent(CallMainActivity.this,CreateActivity.class);
+				Intent	intent1intent=new Intent(CallMainActivity.this,CreatemyActivity.class);
 				startActivity(intent1intent);
 			}
 			break;
 			case R.id.view_notifylist:
-				Intent	bintent=new Intent(CallMainActivity.this,ModifyRomMsgActivity.class);
+				Intent	bintent=new Intent(CallMainActivity.this,ModifyMyRomMsgActivity.class);
 				startActivity(bintent);
 				break;
 

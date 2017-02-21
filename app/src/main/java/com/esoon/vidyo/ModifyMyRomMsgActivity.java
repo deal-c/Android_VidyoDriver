@@ -14,7 +14,7 @@ import com.esoon.vidyosample.CallMainActivity;
 import com.esoon.vidyosample.R;
 
 
-public class ModifyRomMsgActivity extends Activity {
+public class ModifyMyRomMsgActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +28,13 @@ public class ModifyRomMsgActivity extends Activity {
                 ESClientDeleteRoom  esClientDeleteRoom=new ESClientDeleteRoomImpl();
                 DeleteMsg   deleteMsg=new DeleteMsg(4,"1",10001);
                 if (esClientDeleteRoom.esclientdeleteroom(deleteMsg)){
-                    Toast.makeText(ModifyRomMsgActivity.this,"删除成功",Toast.LENGTH_LONG).show();
-                    Intent  intent=new Intent(ModifyRomMsgActivity.this, CallMainActivity.class);
+                    Toast.makeText(ModifyMyRomMsgActivity.this,"删除成功",Toast.LENGTH_LONG).show();
+                    Intent  intent=new Intent(ModifyMyRomMsgActivity.this, CallMainActivity.class);
                     startActivity(intent);
                     finish();
                 }
                 else {
-                    Toast.makeText(ModifyRomMsgActivity.this,"删除失败，请联系管理员",Toast.LENGTH_LONG).show();
+                    Toast.makeText(ModifyMyRomMsgActivity.this,"删除失败，请联系管理员",Toast.LENGTH_LONG).show();
                 }
             }
         });
