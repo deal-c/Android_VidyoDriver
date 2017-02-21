@@ -6,20 +6,20 @@ package com.esoon.pojo;
 
 public class CreateRomMsg {
 private String  userId;
-    private room    room;
+    private Room Room;
     private int callType;
     private String  subMeidaType;
     private String  queueType;
     private String  managerId;
     private ScheduleInfo ScheduleInfo;
 
-    public CreateRomMsg(String userId, ScheduleInfo ScheduleInfo, String managerId, String subMeidaType, String queueType, int callType, com.esoon.pojo.room room) {
+    public CreateRomMsg(String userId, ScheduleInfo ScheduleInfo, String managerId, String subMeidaType, String queueType, int callType, Room Room) {
         this.userId = userId;
         this.ScheduleInfo = ScheduleInfo;
         this.managerId = managerId;
         this.subMeidaType = subMeidaType;
         this.queueType = queueType;
         this.callType = callType;
-        this.room = room;
+        this.Room = Room;
     }
 }

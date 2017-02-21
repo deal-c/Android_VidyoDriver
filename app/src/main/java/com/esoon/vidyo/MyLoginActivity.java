@@ -125,10 +125,10 @@ public class MyLoginActivity extends Activity  {
                  //   Log.d(TAG,"loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
                 /* ESClientCreateRoom esClientCreateRoom=new ESClientCreateRoomImpl();
                     ScheduleInfo scheduleinfo=new ScheduleInfo();
-                    room room =new room("1231312","121242","1123424");
+                    Room Room =new Room("1231312","121242","1123424");
                     JSONObject  json=new JSONObject();
 
-                    CreateRomMsg    createRomMsg=new CreateRomMsg("124",scheduleinfo,"12344","video","default",3,room);
+                    CreateRomMsg    createRomMsg=new CreateRomMsg("124",scheduleinfo,"12344","video","default",3,Room);
 */
                     ESClientLoginInterface  esClientLoginInterface=new ESClientLoginImpl();
 

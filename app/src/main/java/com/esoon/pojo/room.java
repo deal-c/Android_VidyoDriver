@@ -4,18 +4,18 @@ package com.esoon.pojo;
  * Created by Administrator on 2017/2/15.
  */
 
-public class room {
+public class Room {
     private String roomName;
     private String roomSubject;
    private String roomLocation;
 
-    public room(String roomName, String roomsubject, String roomlocation) {
+    public Room(String roomName, String roomsubject, String roomlocation) {
         this.roomName = roomName;
         this.roomSubject = roomsubject;
         this.roomLocation = roomlocation;
 
     }
-    public room(){}
+    public Room(){}
 
     public String getRoomName() {
         return roomName;

@@ -26,7 +26,8 @@
     android:layout_height="wrap_content" />
 
 <Button
-
+android:layout_alignParentRight="true"
+    android:text="拨打经理"
     android:id="@+id/DIDCALL"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
