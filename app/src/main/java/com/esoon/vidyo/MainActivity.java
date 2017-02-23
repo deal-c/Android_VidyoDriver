@@ -11,7 +11,7 @@ import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyosample.R;
 
 public class MainActivity extends Activity {
-
+    private static final String TAG = "videoactivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
