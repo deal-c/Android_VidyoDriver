@@ -126,7 +126,7 @@ public class VideoActivity extends Activity implements
 	String	roomkey;
 	RadioGroup  panelView = null;
 	TextView tv_title_video= null;
-	Button bnt_exitfullscreen = null;
+	ImageView bnt_exitfullscreen = null;
 	LinearLayout view_messagelist= null; // 聊天内容面板. 
 	LinearLayout  panel_chatsend= null; // 发送聊天内容面板. 
 	EditText edit_chatmsg = null;
@@ -471,7 +471,7 @@ public class VideoActivity extends Activity implements
 //		cameraView.setOnClickListener(this);
 
 		 text_bandinfo = (TextView) findViewById(R.id.text_bandinfo);
-		 bnt_exitfullscreen=(Button) findViewById(R.id.bnt_exitfullscreen);
+		 bnt_exitfullscreen=(ImageView) findViewById(R.id.bnt_exitfullscreen);
 		 bnt_exitfullscreen.setOnClickListener(this);
 		 
 		 edit_chatmsg = (EditText)panel_chatsend.findViewById(R.id.chat_editmsg);

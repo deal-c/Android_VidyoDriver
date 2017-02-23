@@ -5,8 +5,95 @@
 	android:background="@color/black"
 	android:id="@+id/input_layout"
    >
+<LinearLayout
+   android:id="@+id/RelativeLayout01"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:orientation="vertical" 
+	android:gravity="bottom"
+    android:background="@color/video_back" >
+    
+	<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="0dp"
+        android:background="@color/video_back"
+        android:visibility="visible" > 
+	    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/glsurfaceview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/video_back"
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        android:visibility="visible" > 
+    	</LinearLayout>
+    </LinearLayout>
+     
+     	
+     	<RadioGroup
+        	android:id="@+id/radioGroupview"
+          	android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="1dp"
+		    android:layout_marginBottom="1dp"
+		    android:background="@color/video_back"
+        	android:orientation="horizontal">
 
-	<TextView
+     	    <RadioButton
+            style="@style/st_video_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="文本聊天"
+            android:checked="true"
+            android:drawableTop="@drawable/wenbenliaotian"
+            android:id="@+id/tab_chat_video" />
+        
+        <RadioButton
+            style="@style/st_video_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关闭视频"
+              android:drawableTop="@drawable/guanbishipin"
+        
+            android:id="@+id/tab_camera_video" />
+        <RadioButton
+            style="@style/st_video_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="扬声器"
+            android:drawableTop="@drawable/yangshenqi"
+            android:id="@+id/tab_speaker_video" />
+        <RadioButton
+            style="@style/st_video_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="静音"
+            android:drawableTop="@drawable/jingying"
+            android:id="@+id/tab_micro_video" />
+       
+          <RadioButton
+            style="@style/st_video_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="全屏"
+            android:drawableTop="@drawable/quanping"
+            android:id="@+id/tab_fullscreen_video" />
+          
+         <RadioButton
+            style="@style/st_video_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="挂断"
+            android:drawableTop="@drawable/guaduan"
+            android:id="@+id/tab_guanduan_video" />
+    </RadioGroup>
+</LinearLayout>
+
+<TextView
     android:id="@+id/tv_title_video"
     android:layout_width="fill_parent"
     android:layout_height="45dp"
@@ -21,7 +108,7 @@
  />
 
 		<ImageView
-
+		    android:id="@+id/bnt_exitfullscreen"
 		    android:layout_width="wrap_content" 
 			android:layout_height="wrap_content" 
 		    
@@ -96,115 +183,5 @@
         android:textColor="#f06d01"
     	>
     </Button>
-    </LinearLayout>
-
-	<LinearLayout
-       android:id="@+id/RelativeLayout01"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
-        android:background="@color/video_back"
-		android:layout_alignParentTop="true"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentStart="true">
-
-        <LinearLayout
-
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:padding="0dp"
-            android:background="@color/video_back"
-            android:visibility="visible" >
-<LinearLayout
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content">
-
-	<Button
-		android:id="@+id/bnt_exitfullscreen"
-		android:background="@drawable/cucut"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
-	<TextView
-		android:text="退出全屏"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		/>
-
-</LinearLayout>
-			<LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/glsurfaceview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/video_back"
-            android:padding="0dp"
-            android:layout_margin="0dp"
-            android:visibility="visible"
-				>
-
-            </LinearLayout>
-		</LinearLayout>
-
-
-             <RadioGroup
-                android:id="@+id/radioGroupview"
-                  android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/video_back"
-                android:orientation="horizontal">
-
-                 <RadioButton
-                style="@style/st_video_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="文本聊天"
-                android:checked="true"
-                android:drawableTop="@drawable/wenbenliaotian"
-                android:id="@+id/tab_chat_video" />
-
-            <RadioButton
-                style="@style/st_video_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="关闭视频"
-                  android:drawableTop="@drawable/guanbishipin"
-
-                android:id="@+id/tab_camera_video" />
-            <RadioButton
-                style="@style/st_video_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="扬声器"
-                android:drawableTop="@drawable/yangshenqi"
-                android:id="@+id/tab_speaker_video" />
-            <RadioButton
-                style="@style/st_video_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="静音"
-                android:drawableTop="@drawable/jingying"
-                android:id="@+id/tab_micro_video" />
-
-              <RadioButton
-                style="@style/st_video_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="全屏"
-                android:drawableTop="@drawable/quanping"
-                android:id="@+id/tab_fullscreen_video" />
-
-             <RadioButton
-                style="@style/st_video_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="挂断"
-                android:drawableTop="@drawable/guaduan"
-                android:id="@+id/tab_guanduan_video" />
-        </RadioGroup>
     </LinearLayout>
 </com.esoon.vidyosample.InputMethodRelativeLayout>
