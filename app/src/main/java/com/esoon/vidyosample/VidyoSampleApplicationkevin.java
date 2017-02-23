@@ -256,11 +256,11 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 	public native void SetSpeakerVolume (int volume);
 	public native void DisableShareEvents();
 	public native String getBandInfo();
-	public native void guestlogin(String	vidyoportalName,String roomkey, String displayName,String	pin);
+	public native void Guestlogin(String	vidyoportalName,String roomkey, String displayName,String	pin);
 	
 	// load the library - name matches jni/Android.mk
 	static {
 	    System.loadLibrary("VidyoClientApp");
-	    System.loadLibrary("ndkVidyoSample");
+	   System.loadLibrary("ndkVidyoSample");
 	}
 }

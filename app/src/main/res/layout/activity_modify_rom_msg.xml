@@ -21,6 +21,7 @@
             android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/savaRom"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
@@ -44,11 +45,12 @@
             android:background="@color/white"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:text="组织者"
+            android:text="房间号"
             android:textColor="@color/black" />
 
         <EditText
-            android:hint="请输入姓名"
+            android:id="@+id/idEdtxt"
+            android:hint="请输入房间Id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -68,9 +70,33 @@
             android:background="@color/white"
             android:layout_width="100dp"
             android:layout_height="40dp"
+            android:text="创建者"
+            android:textColor="@color/black" />
+        <EditText
+            android:id="@+id/nameEdTxt"
+            android:hint="请输入姓名"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:focusableInTouchMode="true"
+        android:layout_below="@+id/view2"
+        android:paddingLeft="10dp"
+        android:id="@+id/view6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:background="@color/white"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:text="会议主题"
             android:textColor="@color/black" />
         <EditText
+          android:id="@+id/themeEdTxt"
             android:hint="请输入主题名称"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -79,13 +105,14 @@
     <LinearLayout
         android:paddingLeft="10dp"
         android:id="@+id/view3"
-        android:layout_below="@id/view2"
+        android:layout_below="@id/view6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal">
 
         <TextView
+
             android:paddingTop="10dp"
             android:layout_gravity="center"
             android:layout_width="100dp"
@@ -94,6 +121,7 @@
             android:text="创建时间"
             android:textColor="@color/black" />
         <Button
+            android:id="@+id/start_time"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:gravity="right"
@@ -173,20 +201,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/addpeople"/>
-            <ImageView
-                android:id="@+id/add"
-                android:layout_toRightOf="@+id/people"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/touxiang1"
-                />
-            <ImageView
-                android:layout_toRightOf="@+id/add"
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ddrom"
-                />
         </RelativeLayout>
 
         >
@@ -236,13 +251,14 @@
             android:textColor="@color/black" />
 
         <Button
+
             android:paddingTop="5dp"
             android:gravity="right"
             android:text=">"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button" />
+            android:id="@+id/end_time" />
     </LinearLayout>
     >
 

@@ -2,7 +2,9 @@ package com.esoon.vidyo.api.room.impl;
 
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.esoon.vidyo.TestActivity;
 import com.esoon.vidyo.api.room.ESClientLoginInterface;
 import com.google.gson.Gson;
 import com.esoon.pojo.LoginMessage;

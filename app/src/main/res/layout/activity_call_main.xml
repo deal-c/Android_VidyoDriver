@@ -5,6 +5,7 @@
     android:paddingLeft="1dp"
     android:paddingRight="1dp"
     android:paddingBottom="1dp"
+    android:paddingTop="3dp"
     android:background="@color/white">
 
 
@@ -39,19 +40,26 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
 
                android:id="@+id/btngal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/backconf"
 
                 />
-        </LinearLayout>
+            <Button
+                android:id="@+id/deleteRom"
+                android:text="删除会议"
+                android:textSize="6sp"
+                android:layout_alignParentRight="true"
+                android:layout_width="60dp"
+                android:layout_height="26dp" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/imgface_my"
@@ -76,7 +84,7 @@
             <Button
                 android:id="@+id/bnt_callservice"
                 android:layout_width="0.0dip"
-                android:layout_height="45.0dip"
+                android:layout_height="38.0dip"
                 android:layout_marginRight="10.0dip"
                 android:layout_marginTop="0.0dip"
                 android:layout_weight="1.0"
@@ -92,7 +100,7 @@
             <Button
                 android:id="@+id/bnt_callmanager"
                 android:layout_width="0.0dip"
-                android:layout_height="45.0dip"
+                android:layout_height="38.0dip"
                 android:layout_marginTop="0.0dip"
                 android:layout_weight="1.0"
                 android:background="@drawable/bnt_custom_blue"

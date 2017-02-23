@@ -1,6 +1,7 @@
 package com.esoon.vidyo.api.room.impl;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.esoon.pojo.CreateRomMsg;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
@@ -18,14 +19,17 @@ import org.xutils.x;
 public class ESClientCreateRoomImpl implements ESClientCreateRoom {
     boolean flag=false;
     JSONObject object;
+    JSONObject  room;
+    String  roomKey;
     private static final String TAG = "ESClientLoginImpl";
     @Override
-    public boolean createroom(CreateRomMsg createRomMsg) {
+    public String createroom(CreateRomMsg createRomMsg) {
         RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/createRoom");
         Gson gson=new Gson();
       String createMsg= gson.toJson(createRomMsg);
         Log.e(TAG, createMsg+"Something  wrong, filesDir is null");
         requestParams.addBodyParameter("",createMsg);
+
 /*x.http().post(requestParams, new Callback.CommonCallback<String>() {
     @Override
     public void onSuccess(String result) {
@@ -51,6 +55,8 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
         try {
            object= x.http().postSync(requestParams,JSONObject.class);
             int   statusCode= object.getInt("statusCode");
+            room=object.getJSONObject("room");
+            roomKey=room.getString("roomKey");
             if(statusCode==0){
                 flag=true;
             }
@@ -59,9 +65,9 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
             throwable.printStackTrace();
         }
 
-        Log.e(TAG, object+"Something  wrong, filesDir is null");
-
-
-        return flag;
+    /*    Log.e(TAG, room.toString()+"Something  wrong, filesDir is null");
+        Log.e(TAG,roomKey+"Something  wrong, filesDir is null");
+        Log.e(TAG, room+"Something  wrong, filesDir is null");*/
+        return roomKey;
     }
 }

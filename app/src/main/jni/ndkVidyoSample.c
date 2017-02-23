@@ -504,60 +504,6 @@ JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_Construct(
 	FUNCTION_EXIT;
 }
 
-
-JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_Guestlogin(JNIEnv* env,jstring vidyoportalName, jobject javaThis,
-		jstring roomkey, jstring displayName, jstring pin) {
-
-	FUNCTION_ENTRY;
-//	LOGI("Java_com_vidyo_vidyosample_VidyoSampleApplicationkevin_Login() enter\n");
-
-	const char *portalC = (*env)->GetStringUTFChars(env, vidyoportalName, NULL);
-	const char *usernameC = (*env)->GetStringUTFChars(env, displayName, NULL);
-	const char *keyC = (*env)->GetStringUTFChars(env, roomKey, NULL);
-    const char *pinC = (*env)->GetStringUTFChars(env, pin, NULL);
-	LOGI("Starting Login Process\n");
-	VidyoClientInEventRoomLink event = {0};
-	strlcpy(event.portalUri, portalC, sizeof(event.portalUri));
-	strlcpy(event.roomKey, keyC, sizeof(event.roomKey));
-
-	strlcpy(event.pin, pinC, sizeof(event.pin));
-	strlcpy(event.displayName, passwordC, sizeof(event.displayName));
-
-	LOGI("logging in with portalUri %s user %s ", event.portalUri, event.userName);
-	VidyoClientInEventRoomLink(VIDYO_CLIENT_IN_EVENT_LOGIN, &event, sizeof(VidyoClientInEventRoomLink));
- 	FUNCTION_EXIT;
-}
-
-
-
-/*
-JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_guestLogin(JNIEnv* env, jobject javaThis,jstring
-		jstring roomKey, jstring userName, jstring passwordName) {
-
-	FUNCTION_ENTRY;
-	LOGI("Java_com_vidyo_vidyosample_VidyoSampleApplicationkevin_Login() enter\n");
-
-
-const char *portalC = (*env)->GetStringUTFChars(env, vidyoportalName, NULL);
-	const char *usernameC = (*env)->GetStringUTFChars(env, userName, NULL);
-	const char *passwordC = (*env)->GetStringUTFChars(env, passwordName, NULL);
-
-
-	LOGI("Starting Login Process\n");
-	VidyoClientInEventLogIn event = {0};
-strlcpy(event.portalUri,[@"http://192.168.5.47" UTF8String],sizeof(event.portalUri));
-strlcpy(event.roomKey,[roomKey  UTF8String],sizeof(event.roomKey));
-strlcpy(event.displayName,[@"guest" UTF8String],sizeof(event.displayName));
-strlcpy(event.pin,[@""  UTF8String],sizeof(event.pin));
-
-	LOGI("logging in with portalUri %s user %s ", event.portalUri, event.roomKey);
-	VidyoClientSendEvent(VIDYO_CLIENT_IN_EVENT_ROOM_LINK_EX, &event, sizeof(VidyoClientInEventRoomLink));
- 	FUNCTION_EXIT;
-}
-*/
-
-
-
 JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_Login(JNIEnv* env, jobject javaThis,
 		jstring vidyoportalName, jstring userName, jstring passwordName) {
 

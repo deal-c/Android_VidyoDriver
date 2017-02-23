@@ -11,6 +11,13 @@
     tools:context="com.esoon.vidyo.TestActivity"
     android:background="@color/white"
     >
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/romMsg"
+        android:text="获得房间信息"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 <Button
     android:id="@+id/test1"
     android:layout_width="wrap_content"
@@ -24,7 +31,12 @@
     android:id="@+id/ACDCALL"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" />
-
+<Button
+    android:text="截屏"
+    android:id="@+id/ScreenShot"
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 <Button
 android:layout_alignParentRight="true"
     android:text="拨打经理"

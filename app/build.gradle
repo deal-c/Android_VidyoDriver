@@ -7,7 +7,12 @@ android {
         jni.srcDirs = []
 
     }
+
+
     defaultConfig {
+        ndk {
+            moduleName "ndkVidyoSample"
+        }
         applicationId "cn.jpush.example"
         applicationId "com.example.administrator.android_vidyodriver"
         minSdkVersion 15

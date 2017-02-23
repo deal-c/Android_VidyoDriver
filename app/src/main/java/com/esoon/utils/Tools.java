@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
@@ -22,7 +23,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esoon.pojo.CallingMsg;
+import com.esoon.vidyo.api.call.ESClientMakeACDCall;
+import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
+import com.esoon.vidyosample.CallMainActivity;
 import com.esoon.vidyosample.R;
+import com.esoon.vidyosample.VideoActivity;
 
 public class Tools
 {
@@ -186,12 +192,14 @@ public class Tools
 		View loginview = LayoutInflater.from(_this).inflate(
 				R.layout.dialog_selectroomtype, null);
 		Button bnt_selectvideoroom = (Button)loginview.findViewById(R.id.bnt_selectvideoroom);
-		
+
 		bnt_selectvideoroom.setOnClickListener(_click);
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(_this);
+
 		ret = builder.create();
 		ret.setView(loginview, 0, 0, 0, 0);
+
 		return ret;
 	}
 

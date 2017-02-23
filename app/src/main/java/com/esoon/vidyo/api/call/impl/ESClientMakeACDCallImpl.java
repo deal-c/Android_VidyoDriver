@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.esoon.pojo.CallingMsg;
 
 import org.json.JSONObject;
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
@@ -18,28 +19,55 @@ public class ESClientMakeACDCallImpl implements ESClientMakeACDCall {
     private static final String TAG = "videoactivity";
     boolean flag = false;
     JSONObject object;
-    int statusCode;
+    JSONObject  room;
+    String  roomKey;
     @Override
-    public boolean esclientmakeacdcall(CallingMsg callingMsg) {
-        RequestParams requestParams = new RequestParams("http://192.168.5.47/api/v1/video/vidyo/createRoom");
-        Gson gson = new Gson();
-        String calling = gson.toJson(callingMsg);
-        requestParams.addBodyParameter("", calling);
+    public String esclientmakeacdcall(CallingMsg callingMsg) {
+        RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/createRoom");
+        Gson gson=new Gson();
+        String createMsg= gson.toJson(callingMsg);
+        Log.e(TAG, createMsg+"Something  wrong, filesDir is null");
+        requestParams.addBodyParameter("",createMsg);
 
-        Log.e(TAG, callingMsg.toString() + "传递消息");
+/*x.http().post(requestParams, new Callback.CommonCallback<String>() {
+    @Override
+    public void onSuccess(String result) {
+        Log.e(TAG, result.toString()+"Something  wrong, filesDir is null");
+    }
+
+    @Override
+    public void onError(Throwable ex, boolean isOnCallback) {
+        Log.e(TAG, ex.toString()+"Something  wrong, filesDir is null");
+
+    }
+
+    @Override
+    public void onCancelled(CancelledException cex) {
+
+    }
+
+    @Override
+    public void onFinished() {
+
+    }
+});*/
         try {
-            object = x.http().postSync(requestParams, JSONObject.class);//使用xutils异步访问网络
-        statusCode = object.getInt("statusCode");
+            object= x.http().postSync(requestParams,JSONObject.class);
+           // int   statusCode= object.getInt("statusCode");
+            room=object.getJSONObject("room");
+            roomKey=room.getString("roomKey");
 
-            if (statusCode == 0) {
-                flag = true;
-            }
-        } catch (Throwable throwable) {
+
+        }catch (Throwable throwable){
+            Log.e(TAG,throwable.toString()+"121");
+           Log.e(TAG,throwable.getMessage()+"121");
+            Log.e(TAG,throwable.getLocalizedMessage()+"1212");
             throwable.printStackTrace();
         }
-        Log.e(TAG, object + "返回信息");//打印返回值
-        Log.e(TAG, statusCode + "返回信息");//打印返回值
 
-        return flag;
+      Log.e(TAG, room+"Something  wrong, filesDir is null");
+        Log.e(TAG,roomKey+"Something  wrong, filesDir is null");
+        Log.e(TAG, room+"Something  wrong, filesDir is null");
+        return roomKey;
     }
 }

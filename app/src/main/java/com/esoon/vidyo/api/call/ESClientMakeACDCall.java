@@ -8,5 +8,5 @@ import com.esoon.pojo.CallingMsg;
 
 public interface ESClientMakeACDCall  {
 
-boolean esclientmakeacdcall(CallingMsg callingMsg);
+String esclientmakeacdcall(CallingMsg callingMsg);
 }

@@ -7,5 +7,5 @@ import com.esoon.pojo.CreateRomMsg;
  */
 
 public interface ESClientCreateRoom {
-    boolean createroom(CreateRomMsg createRomMsg);
+    String createroom(CreateRomMsg createRomMsg);
 }

@@ -18,17 +18,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -38,7 +34,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -49,11 +44,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esoon.pojo.CallingMsg;
+import com.esoon.vidyo.ESClientScreenShot;
+import com.esoon.vidyo.api.call.ESClientMakeACDCall;
+import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.vidyo.LmiDeviceManager.LmiDeviceManagerView;
 import com.vidyo.LmiDeviceManager.LmiVideoCapturer;
 import com.vidyo.utils.Contants;
@@ -125,7 +123,7 @@ public class VideoActivity extends Activity implements
 	boolean isCloseSpeaker =false;  // 是否关闭了 扬声器
 	boolean isFullscreen =false;  // 是否全屏. 
 	boolean isCloseCamare =false;		//是否关闭了采集视频
-	
+	String	roomkey;
 	RadioGroup  panelView = null;
 	TextView tv_title_video= null;
 	ImageView bnt_exitfullscreen = null;
@@ -387,11 +385,12 @@ public class VideoActivity extends Activity implements
 				{
 					Log.d(TAG,"登陆成功");
 					//app.guestlogin("uRIDVSb3hT","123","123");
-					EnterRoomHttp.Arguments args = new EnterRoomHttp.Arguments(
+					if(roomid!=null){
+						EnterRoomHttp.Arguments args = new EnterRoomHttp.Arguments(
 							Contants.portal, Contants.innerUser,
 							Contants.innerPass,roomid, VideoActivity.this);
 					AsyncTask<EnterRoomHttp.Arguments, Integer, EnterRoomHttp.Arguments> atHttpCalls = new EnterRoomHttp()
-							.execute(args);
+							.execute(args);}
 				}
 				break;
 			}
@@ -410,7 +409,8 @@ public class VideoActivity extends Activity implements
 		Log.d(TAG, "entering onCreate " );
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE); // disable title bar
-		//必须传递roomid 这个参数. 
+		//必须传递roomid 这个参数.
+		this.roomkey=this.getIntent().getStringExtra("roomkey");
 		this.roomid = this.getIntent().getStringExtra("roomid");
 		this.needdelete = this.getIntent().getBooleanExtra("needdelete", false);
 		this.showqueue =this.getIntent().getBooleanExtra("showqueue", false);
@@ -448,7 +448,8 @@ public class VideoActivity extends Activity implements
 		 panelView = (RadioGroup)this.findViewById(R.id.radioGroupview);
 		 
 		 tv_title_video = (TextView) findViewById(R.id.tv_title_video);
-		 
+		 Button	jieping=(Button)findViewById(R.id.jieping);
+		jieping.setOnClickListener(this);
 		 RadioButton t = (RadioButton)this.findViewById(R.id.tab_fullscreen_video);
 		 t.setOnClickListener(this);
 		 
@@ -510,7 +511,7 @@ public class VideoActivity extends Activity implements
 		//NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		String caFileName = writeCaCertificates();
 		String dialogMessage;
-		setupAudio(); // will set the audio to high volume level
+//		setupAudio(); // will set the audio to high volume level
 
 		currentOrientation = -1;
 
@@ -617,7 +618,7 @@ public class VideoActivity extends Activity implements
 	private void setupAudio()
 	{
 		int set_Volume = 45535;
-		app.SetSpeakerVolume(set_Volume);
+//		app.SetSpeakerVolume(set_Volume);
 	}
 
 	@Override
@@ -816,10 +817,22 @@ public class VideoActivity extends Activity implements
 	private void StartVideoServerLogin()
 	{
 		showProgressDialog("加载中...");
+
+		Log.d(TAG,"33333333333333333成功了么");
+		Log.d(TAG,"33333333333333333成功了么");
+	if (roomkey!=null){
+		app.Guestlogin("http://192.168.5.47",roomkey,"guest","");
+	}else {
 		app.Login("http://" + Contants.portal, Contants.innerUser,
 				Contants.innerPass);
-//		app.guestlogin("http://192.168.5.47","uRIDVSb3hT","guest","");
+	}
 
+
+		Log.d(TAG,"33333333333333333成功了么");
+		Log.d(TAG,"33333333333333333成功了么");
+		Log.d(TAG,"33333333333333333成功了么");
+		Log.d(TAG,"33333333333333333成功了么");
+		Log.d(TAG,"33333333333333333成功了么");
 
 	}
 	
@@ -1023,6 +1036,19 @@ public class VideoActivity extends Activity implements
 				
 			break;
 		}
+			case	R.id.jieping:
+			/*	Thread downloadRun = new Thread() {
+					@Override
+					public void run() {
+						down();
+					}
+
+
+				};
+				new Thread(downloadRun).start();
+
+*/
+				break;
 		case R.id.tab_camera_video:
 		{
 			//摄像头开启,关闭
@@ -1103,7 +1129,12 @@ public class VideoActivity extends Activity implements
 			 */
 		}
 	}
+	private void down(){
+		ESClientScreenShot.shoot(VideoActivity.this);
+		Toast.makeText(VideoActivity.this,"截屏成功，图片已保存至sd卡目录下",Toast.LENGTH_LONG);
 
+
+	}
 	@Override
 	public void onConfigurationChanged(Configuration newConfig)
 	{

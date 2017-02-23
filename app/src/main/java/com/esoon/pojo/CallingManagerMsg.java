@@ -65,4 +65,8 @@ public class CallingManagerMsg {
         this.manageId = manageId;
         this.subMediaType = subMediaType;
     }
+
+    public CallingManagerMsg(String subMediaType) {
+        this.subMediaType = subMediaType;
+    }
 }

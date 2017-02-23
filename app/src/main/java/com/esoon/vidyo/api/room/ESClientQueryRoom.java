@@ -8,5 +8,5 @@ import com.esoon.pojo.QueryMsg;
 
 public interface ESClientQueryRoom {
 
-    boolean esclientqueryeroom(QueryMsg queryMsg);
+    String esclientqueryeroom(QueryMsg queryMsg);
 }

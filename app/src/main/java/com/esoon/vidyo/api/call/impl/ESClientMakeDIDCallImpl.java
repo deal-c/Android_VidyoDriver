@@ -19,28 +19,34 @@ public class ESClientMakeDIDCallImpl implements ESClientMakeDIDCall {
     private static final String TAG = "videoactivity";
     boolean flag = false;
     JSONObject object;
-    int statusCode;
+    JSONObject  room;
+    String  roomKey;
     @Override
-    public boolean esclientMakeDiDCall(CallingManagerMsg callingMsg) {
-        RequestParams requestParams = new RequestParams("http://192.168.5.47/api/v1/video/vidyo/createRoom");
+    public String esclientMakeDiDCall(CallingManagerMsg callingMsg) {
+        RequestParams requestParams = new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/createRoom");
         Gson gson = new Gson();
         String calling = gson.toJson(callingMsg);
         requestParams.addBodyParameter("", calling);
 
         Log.e(TAG, callingMsg.toString() + "传递消息");
-        try {
-            object = x.http().postSync(requestParams, JSONObject.class);//使用xutils异步访问网络
-            statusCode = object.getInt("statusCode");
 
-            if (statusCode == 0) {
-                flag = true;
-            }
-        } catch (Throwable throwable) {
+        try {
+            object= x.http().postSync(requestParams,JSONObject.class);
+            // int   statusCode= object.getInt("statusCode");
+            room=object.getJSONObject("room");
+            roomKey=room.getString("roomKey");
+
+
+        }catch (Throwable throwable){
+            Log.e(TAG,throwable.toString()+"121");
+            Log.e(TAG,throwable.getMessage()+"121");
+            Log.e(TAG,throwable.getLocalizedMessage()+"1212");
             throwable.printStackTrace();
         }
-        Log.e(TAG, object + "返回信息");//打印返回值
-        Log.e(TAG, statusCode + "返回信息");//打印返回值
 
-        return flag;
+        Log.e(TAG, room+"Something  wrong, filesDir is null");
+        Log.e(TAG,roomKey+"Something  wrong, filesDir is null");
+        Log.e(TAG, room+"Something  wrong, filesDir is null");
+        return roomKey;
     }
 }
