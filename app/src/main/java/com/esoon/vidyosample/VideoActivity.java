@@ -121,12 +121,12 @@ public class VideoActivity extends Activity implements
 	
 	boolean isCloseMicro =false;		//是否关闭了 麦克. 
 	boolean isCloseSpeaker =false;  // 是否关闭了 扬声器
-	boolean isFullscreen =false;  // 是否全屏. 
+	boolean isFullscreen =false;  // 是否// 全屏.
 	boolean isCloseCamare =false;		//是否关闭了采集视频
 	String	roomkey;
 	RadioGroup  panelView = null;
 	TextView tv_title_video= null;
-	ImageView bnt_exitfullscreen = null;
+	Button bnt_exitfullscreen = null;
 	LinearLayout view_messagelist= null; // 聊天内容面板. 
 	LinearLayout  panel_chatsend= null; // 发送聊天内容面板. 
 	EditText edit_chatmsg = null;
@@ -448,8 +448,8 @@ public class VideoActivity extends Activity implements
 		 panelView = (RadioGroup)this.findViewById(R.id.radioGroupview);
 		 
 		 tv_title_video = (TextView) findViewById(R.id.tv_title_video);
-		 Button	jieping=(Button)findViewById(R.id.jieping);
-		jieping.setOnClickListener(this);
+		// Button	jieping=(Button)findViewById(R.id.jieping);
+		//jieping.setOnClickListener(this);
 		 RadioButton t = (RadioButton)this.findViewById(R.id.tab_fullscreen_video);
 		 t.setOnClickListener(this);
 		 
@@ -471,7 +471,7 @@ public class VideoActivity extends Activity implements
 //		cameraView.setOnClickListener(this);
 
 		 text_bandinfo = (TextView) findViewById(R.id.text_bandinfo);
-		 bnt_exitfullscreen=(ImageView) findViewById(R.id.bnt_exitfullscreen);
+		 bnt_exitfullscreen=(Button) findViewById(R.id.bnt_exitfullscreen);
 		 bnt_exitfullscreen.setOnClickListener(this);
 		 
 		 edit_chatmsg = (EditText)panel_chatsend.findViewById(R.id.chat_editmsg);
@@ -618,7 +618,7 @@ public class VideoActivity extends Activity implements
 	private void setupAudio()
 	{
 		int set_Volume = 45535;
-//		app.SetSpeakerVolume(set_Volume);
+	app.SetSpeakerVolume(set_Volume);
 	}
 
 	@Override
@@ -831,8 +831,6 @@ public class VideoActivity extends Activity implements
 		Log.d(TAG,"33333333333333333成功了么");
 		Log.d(TAG,"33333333333333333成功了么");
 		Log.d(TAG,"33333333333333333成功了么");
-		Log.d(TAG,"33333333333333333成功了么");
-		Log.d(TAG,"33333333333333333成功了么");
 
 	}
 	
@@ -972,6 +970,9 @@ public class VideoActivity extends Activity implements
 		switch (arg0.getId()) {
 		case R.id.bnt_sendchatmsg:
 		{
+
+			Log.d(TAG,"33333333333333333成功了么");
+
 			String chatmsg = this.edit_chatmsg.getText().toString();
 			System.out.println ("发送聊天内容..." +chatmsg);
 			
@@ -983,7 +984,7 @@ public class VideoActivity extends Activity implements
 				app.SendChat(chatmsg);
 				this.ShowMessage("我:", chatmsg);
 				edit_chatmsg.setText("");
-				
+				Log.d(TAG,"已经33333333333333333成功了么");
 				 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		            // 隐藏软键盘
 		         imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
@@ -1036,8 +1037,8 @@ public class VideoActivity extends Activity implements
 				
 			break;
 		}
-			case	R.id.jieping:
-			/*	Thread downloadRun = new Thread() {
+			/*case	R.id.jieping:
+			*//*	Thread downloadRun = new Thread() {
 					@Override
 					public void run() {
 						down();
@@ -1047,8 +1048,8 @@ public class VideoActivity extends Activity implements
 				};
 				new Thread(downloadRun).start();
 
-*/
-				break;
+*//*
+				break;*/
 		case R.id.tab_camera_video:
 		{
 			//摄像头开启,关闭
