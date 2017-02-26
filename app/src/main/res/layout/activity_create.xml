@@ -16,7 +16,7 @@
             android:layout_height="40dp"
             android:background="@drawable/bnt_custom_gray"
             android:drawableLeft="@drawable/backconf"
-            android:text="创建会议"
+            android:text="预约新会议"
             android:textColor="@color/black" />
 
         <Button

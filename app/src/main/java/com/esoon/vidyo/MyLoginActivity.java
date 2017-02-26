@@ -121,7 +121,7 @@ public class MyLoginActivity extends Activity  {
                     name = login_username.getText().toString();
                     password = login_password.getText().toString();
                     Toast.makeText(MyLoginActivity.this,"正在登陆，请稍后...",Toast.LENGTH_LONG).show();
-                   System.out.println("loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
+                  // System.out.println("loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
                  //   Log.d(TAG,"loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
                 /* ESClientCreateRoom esClientCreateRoom=new ESClientCreateRoomImpl();
                     ScheduleInfo scheduleinfo=new ScheduleInfo();
@@ -135,7 +135,9 @@ public class MyLoginActivity extends Activity  {
                     if ( esClientLoginInterface.LoginMessage(name,password)){
                         Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
+                        intent.putExtra("name",name);
                         startActivity(intent);
+
                         MyLoginActivity.this.finish();
                     }
                    /* if (loginInterface.LoginMessage(name,password)){

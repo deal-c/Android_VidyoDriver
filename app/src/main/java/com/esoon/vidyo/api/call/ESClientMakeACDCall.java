@@ -1,6 +1,7 @@
 package com.esoon.vidyo.api.call;
 
 import com.esoon.pojo.CallingMsg;
+import com.esoon.pojo.ReturnMsg;
 
 /**
  * Created by Administrator on 2017/2/15.
@@ -8,5 +9,5 @@ import com.esoon.pojo.CallingMsg;
 
 public interface ESClientMakeACDCall  {
 
-String esclientmakeacdcall(CallingMsg callingMsg);
+    ReturnMsg esclientmakeacdcall(CallingMsg callingMsg);
 }

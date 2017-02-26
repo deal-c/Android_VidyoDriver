@@ -1,4 +1,4 @@
-package com.esoon.vidyo.api.room;
+package com.esoon.vidyo;
 
 import android.app.Activity;
 

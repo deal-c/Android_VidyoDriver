@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="文本聊天"
             android:checked="true"
-            android:drawableTop="@drawable/wenbenliaotian"
+
             android:id="@+id/tab_chat_video" />
         
         <RadioButton
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="关闭视频"
-              android:drawableTop="@drawable/guanbishipin"
+
         
             android:id="@+id/tab_camera_video" />
         <RadioButton
@@ -65,14 +65,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="扬声器"
-            android:drawableTop="@drawable/yangshenqi"
+
             android:id="@+id/tab_speaker_video" />
         <RadioButton
             style="@style/st_video_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="静音"
-            android:drawableTop="@drawable/jingying"
+
             android:id="@+id/tab_micro_video" />
        
           <RadioButton
@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="全屏"
-            android:drawableTop="@drawable/quanping"
+
             android:id="@+id/tab_fullscreen_video" />
           
          <RadioButton
@@ -88,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="挂断"
-            android:drawableTop="@drawable/guaduan"
+
             android:id="@+id/tab_guanduan_video" />
     </RadioGroup>
 </LinearLayout>

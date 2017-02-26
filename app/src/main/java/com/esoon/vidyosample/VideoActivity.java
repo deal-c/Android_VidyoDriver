@@ -49,6 +49,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.esoon.pojo.CallingMsg;
+import com.esoon.pojo.ReturnMsg;
+import com.esoon.vidyo.CallingServerActivity;
+import com.esoon.vidyo.CreatemyActivity;
 import com.esoon.vidyo.ESClientScreenShot;
 import com.esoon.vidyo.api.call.ESClientMakeACDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
@@ -540,7 +543,12 @@ public class VideoActivity extends Activity implements
 			// app = null;
 			return;
 		}
+/*if(calltype.equals("manager")){
+	Intent intent1=new Intent(VideoActivity.this,CreatemyActivity.class);
 
+	startActivity(intent1);
+
+}*/
 		if (!loginStatus)
 		{
 			StartVideoServerLogin();
@@ -553,25 +561,34 @@ public class VideoActivity extends Activity implements
 		//显示排队界面. 
 		if(showqueue)
 		{
-			Log.d(TAG,"显示排队界面...");
-			Intent it = new Intent(this,CallingActivity.class);
-			
-			it.putExtra("calltype", calltype);
-			
-			this.startActivityForResult(it, 1);
+			ESClientMakeACDCall esClientMakeACDCall=new ESClientMakeACDCallImpl();
+			CallingMsg callingMsg=new CallingMsg("1","video");
+			ReturnMsg roomkey=esClientMakeACDCall.esclientmakeacdcall(callingMsg);
+			Intent intent1=new Intent(VideoActivity.this,CallingServerActivity.class);
+			intent1.putExtra("roomkey",roomkey.getRoomKey());
+			intent1.putExtra("roomId",roomkey.getRoomId());
+			startActivity(intent1);
+			this.finish();
+
+
 		}
-		
+
 		//存储异常退出标记
 		Tools.SaveConfigData(this, "roomid", roomid);
-		
-		
-		    
-		
+
+
+
+
 		Log.d(TAG, "leaving onCreate");
-		
-		
+
+
 	}
-	
+
+	private void down3() {
+		Log.d(TAG,"显示排队界面...");
+
+	}
+
 	/**
 	 * 监控键盘按键事件
 	 */
@@ -1036,6 +1053,8 @@ public class VideoActivity extends Activity implements
 				panel_chatsend.setVisibility(View.GONE);
 				
 			break;
+
+
 		}
 			/*case	R.id.jieping:
 			*//*	Thread downloadRun = new Thread() {
@@ -1058,10 +1077,10 @@ public class VideoActivity extends Activity implements
 			RadioButton rv = (RadioButton)arg0;
 			
 			Drawable top = null;
-			if(this.isCloseCamare)
+		/*	if(this.isCloseCamare)
 				top = getResources().getDrawable(R.drawable.guanbishipin_1);
 			else
-				top = getResources().getDrawable(R.drawable.guanbishipin);
+				top = getResources().getDrawable(R.drawable.guanbishipin);*/
 			
 			rv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
 			
@@ -1077,10 +1096,10 @@ public class VideoActivity extends Activity implements
 			Drawable top = null;
 			RadioButton rv = (RadioButton)arg0;
 			
-			if(this.isCloseMicro)
+/*			if(this.isCloseMicro)
 				top = getResources().getDrawable(R.drawable.jingying_1);
 			else
-				top = getResources().getDrawable(R.drawable.jingying);
+				top = getResources().getDrawable(R.drawable.jingying);*/
 			
 			rv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
 			
@@ -1097,10 +1116,10 @@ public class VideoActivity extends Activity implements
 			Drawable top = null;
 			RadioButton rv = (RadioButton)arg0;
 			
-			if(this.isCloseSpeaker)
+			/*if(this.isCloseSpeaker)
 				top = getResources().getDrawable(R.drawable.yangshenqi_1);
 			else
-				top = getResources().getDrawable(R.drawable.yangshenqi);
+				top = getResources().getDrawable(R.drawable.yangshenqi);*/
 			
 			rv.setCompoundDrawablesWithIntrinsicBounds(null, top , null, null);
 			

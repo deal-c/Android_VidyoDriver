@@ -17,15 +17,19 @@ import org.xutils.x;
 public class ESClientGetQueuePositionImpl implements ESClientGetQueuePosition {
     JSONObject object;
     boolean flag=false;
-    private static final String TAG = "VidyoSampleActivity";
-
+    private static final String TAG = "ESClientGetQueue";
+JSONObject  queueinfo;
+    int  queuenum;
     @Override
-    public boolean esclientGetQueuePosition(String roomId) {
+    public int esclientGetQueuePosition(String roomId) {
         RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/queueinfo/roomId");
 
         try {
            object= x.http().getSync(requestParams,JSONObject.class);
             int   statusCode= object.getInt("statusCode");
+            queueinfo=object.getJSONObject("queueinfo");
+       queuenum=queueinfo.getInt("queuenum");
+
             if(statusCode==0){
                 flag=true;
             }
@@ -34,6 +38,6 @@ public class ESClientGetQueuePositionImpl implements ESClientGetQueuePosition {
         }
 
         Log.e(TAG, object+"Something  wrong, filesDir is null");
-        return flag;
+        return queuenum;
     }
 }

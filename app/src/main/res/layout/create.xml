@@ -10,13 +10,13 @@
         android:layout_height="match_parent"
 
 
-        android:background="@color/dark_yellow"
+
 
         android:paddingBottom="1dp"
 
         android:scaleType="fitCenter"
         android:src="@drawable/create"
-        android:text="创建新会议"
+        android:text="添加预约会议"
         android:textColor="#ff000000"
         android:textSize="16.0sp" />
 </RelativeLayout>

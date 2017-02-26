@@ -110,7 +110,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 		System.out.println("？？？"+pathDir);
 		System.out.println("？？？"+activity);
 
-	address = Construct("E:\\Android_VidyoDriver\\app\\src\\main\\res\\raw\\ca_certificates.crt",logDir, pathDir, activity);
+	address = Construct(caFileName,logDir, pathDir, activity);
 		if (address == 0)
 			return false;
 		else

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="20dp"
+    android:paddingBottom="30dp"
+    >
+<TextView
+    android:textColor="@color/blue"
+    android:text="创建会议"
+    android:paddingLeft="40dp"
+    android:textSize="25sp"
+    android:id="@+id/headtext"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+    <LinearLayout
+        android:paddingTop="100dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:textSize="20sp"
+            android:text="会议名称"
+
+            android:hint="Test"
+            android:textColor="@color/black"
+            android:paddingLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <EditText
+            android:hint="roomName"
+            android:paddingRight="20dp"
+            android:id="@+id/getname"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:paddingTop="150dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:textSize="20sp"
+            android:text="会议地址"
+
+            android:textColor="@color/black"
+            android:paddingLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="roomLocation"
+            android:paddingRight="20dp"
+            android:id="@+id/getnlocation"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:paddingTop="200dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:textSize="20sp"
+            android:text="会议标题"
+            android:textColor="@color/black"
+            android:paddingLeft="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="roomSubject"
+            android:paddingRight="20dp"
+            android:id="@+id/gettitle"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:paddingTop="300dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:textSize="20sp"
+            android:text="vidyoprotal"
+            android:textColor="@color/black"
+            android:paddingLeft="40dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="http://portaladdress"
+            android:paddingRight="20dp"
+            android:id="@+id/vidyoprotal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:paddingTop="350dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:textSize="20sp"
+            android:text="Roomkey"
+            android:textColor="@color/black"
+            android:paddingLeft="40dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="RoomKey"
+            android:paddingRight="20dp"
+            android:id="@+id/Roomkey"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/clickLogin"
+        android:textColor="@color/blue"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="130dp"
+        android:layout_height="45dp"
+        android:text="点击登录"
+        android:textSize="20sp"
+        />
+    <LinearLayout
+        android:paddingTop="400dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    <TextView
+        android:textSize="20sp"
+        android:text="GuestName"
+        android:textColor="@color/black"
+        android:paddingLeft="40dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:hint="GuestName"
+        android:paddingRight="20dp"
+        android:id="@+id/GuestName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingTop="450dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TextView
+            android:textSize="20sp"
+            android:text="RoomPin"
+            android:textColor="@color/black"
+            android:paddingLeft="40dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:hint="RoomPin"
+            android:paddingRight="20dp"
+            android:id="@+id/RoomPin"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

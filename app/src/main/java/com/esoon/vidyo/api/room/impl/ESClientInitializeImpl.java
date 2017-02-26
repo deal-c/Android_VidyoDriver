@@ -2,10 +2,16 @@ package com.esoon.vidyo.api.room.impl;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 
+import android.content.res.Resources;
+import android.os.AsyncTask;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.hardware.Sensor;
@@ -16,10 +22,17 @@ import android.view.WindowManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.esoon.utils.EnterRoomHttp;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import com.esoon.vidyo.VidyoSampleApplication;
+import com.esoon.utils.Contants;
+import com.esoon.utils.EnterRoomHttp;
 import com.esoon.vidyo.api.room.ESClientInitialize;
+import com.esoon.vidyosample.R;
+
+import com.esoon.vidyosample.VideoActivity;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 import com.vidyo.LmiDeviceManager.*;
 
@@ -122,7 +135,7 @@ private boolean flag=false;
                     case SWITCH_CAMERA:
                         String whichCamera = (String) (msg.obj);
                         boolean isFrontCam = whichCamera.equals("FrontCamera");
-                        Log.d(VidyoSampleApplication.TAG, "Got camera switch = " + whichCamera);
+                       // Log.d(VidyoSampleApplication.TAG, "Got camera switch = " + whichCamera);
 
                         // switch to the next camera, force settings are per device.
                         // sample does not get this values
@@ -145,11 +158,19 @@ private boolean flag=false;
         System.out.print("222222222222222222222222222");
 
 
+        activity.setContentView(R.layout.conference);
+
+        bcView = new LmiDeviceManagerView(activity, this);
+        View C = activity.findViewById(R.id.glsurfaceview);
+        ViewGroup parent = (ViewGroup) C.getParent();
+        int index = parent.indexOfChild(C);
+        parent.removeView(C);
+        parent.addView(bcView, index);
         usedCamera = 1;
 
         ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-     //   String caFileName = getcet.writeCaCertificates();
+
         String dialogMessage;
 //        setupAudio(); // will set the audio to high volume level
 
@@ -173,7 +194,10 @@ private boolean flag=false;
             return  flag;
         }
         if (!loginStatus) {
-            activity.showDialog(DIALOG_LOGIN);
+            //activity.showDialog(DIALOG_LOGIN);
+
+
+            app.Guestlogin("192.168.5.47","uRIDVSb3hT","123","");
             loginStatus = true;
             app.HideToolBar(false);
             app.SetEchoCancellation(true);
@@ -186,6 +210,11 @@ private boolean flag=false;
         return flag;
 
 
+    }
+
+    @Override
+    public boolean ESCLientInitalizeCallback() {
+        return false;
     }
 
     private void setupAudio() {

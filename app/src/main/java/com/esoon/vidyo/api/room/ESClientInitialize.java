@@ -8,4 +8,5 @@ import android.app.Activity;
 
 public interface ESClientInitialize {
   public boolean ESClientInitialize(Activity activity, String CRTpath);
+  public boolean   ESCLientInitalizeCallback();
 }

@@ -1,8 +1,7 @@
-package com.esoon.vidyo.api.room.impl;
+package com.esoon.vidyo;
 
 import android.app.Activity;
 
-import com.esoon.vidyo.api.room.ESClientInitdefine;
 import com.esoon.vidyo.api.room.ESClientInitialize;
 import com.esoon.vidyo.api.room.impl.ESClientInitializeImpl;
 
