@@ -273,7 +273,7 @@ public class MyLoginActivity extends Activity  {
             flag=false;
 
             startActivity(intent);
-           // MyLoginActivity.this.finish();
+            MyLoginActivity.this.finish();
 
         }
         return flag;

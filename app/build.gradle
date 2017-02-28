@@ -10,6 +10,7 @@ android {
 
 
     defaultConfig {
+        applicationId "com.esoon"
         ndk {
             moduleName "ndkVidyoSample"
         }
