@@ -44,6 +44,7 @@ public class ESClientLoginImpl implements ESClientLoginInterface {
            }
        }catch (Throwable throwable) {
            throwable.printStackTrace();
+           throwable.toString();
        }
         Log.e(TAG, "Something wrong, filesDir is null");
         Log.e(TAG, "Something  wrong, filesDir is null");

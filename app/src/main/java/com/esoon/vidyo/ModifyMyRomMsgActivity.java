@@ -38,6 +38,8 @@ String  roomId;
         Button  deleteConfig=(Button)findViewById(R.id.deleteConfig);
         final Button  start_time=(Button)findViewById(R.id.start_time);
         final Button  end_time=(Button)findViewById(R.id.end_time);
+        idEdtxt.setText(roomId);
+
         Button  saveRom=(Button)findViewById(R.id.savaRom);
         saveRom.setOnClickListener(new View.OnClickListener() {
             @Override

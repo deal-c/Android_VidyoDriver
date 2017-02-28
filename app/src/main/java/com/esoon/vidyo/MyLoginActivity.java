@@ -1,11 +1,15 @@
 package com.esoon.vidyo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.os.StrictMode;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -26,6 +30,7 @@ import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientLoginImpl;
 import com.esoon.vidyosample.CallMainActivity;
 import com.esoon.vidyosample.R;
+import com.vidyo.utils.Tools;
 
 public class MyLoginActivity extends Activity  {
 
@@ -35,8 +40,9 @@ public class MyLoginActivity extends Activity  {
     private CheckBox cb_remeber;
     private Button user_register_button;
     private CheckBox psdButton;
+    boolean myflag=false;
     private EditText edit_id;
-    boolean flag = false;
+    boolean flag =true;
     static String YES = "yes";
     static String NO = "no";
     static String name, password;
@@ -46,7 +52,7 @@ public class MyLoginActivity extends Activity  {
     private SharedPreferences sp = null;//声明一个SharedPreferences
     public static boolean isHttps = false;
     private static final String TAG = "VidyoSampleActivity";
-
+    String dialogMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,31 @@ public class MyLoginActivity extends Activity  {
 
 
     }
+    private void showErrorDialog(String msg)
+    {
+
+
+        AlertDialog.Builder builder;
+        AlertDialog alerterror=null;
+
+        final AlertDialog finalAlerterror = alerterror;
+        builder = new AlertDialog.Builder(this).setTitle(msg)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog,
+                                                int whichButton)
+                            {
+                                finalAlerterror.dismiss();
+                                // showDialog(DIALOG_JOIN_CONF);
+                                finish();
+                            }
+                        });
+        alerterror = builder.create();
+        alerterror.show();
+
+    }
+
     private void startMain() {
 
         name = login_username.getText().toString();
@@ -117,10 +148,20 @@ public class MyLoginActivity extends Activity  {
             public void onClick(View view) {
                 Log.d(TAG,"checkEdit():"+checkEdit());
                 System.out.println("checkEdit():"+checkEdit());
+
+/*
+
+                if(! Tools.isNetworkConnected(MyLoginActivity.this)) {
+                    dialogMessage = new String("Network Unavailable!\n"
+                            + "Check network connection.");
+                    showErrorDialog("网络不通");
+                    // app = null;
+                    return;
+                }else{*/
                 if (checkEdit()) {
                     name = login_username.getText().toString();
                     password = login_password.getText().toString();
-                    Toast.makeText(MyLoginActivity.this,"正在登陆，请稍后...",Toast.LENGTH_LONG).show();
+                   // Toast.makeText(MyLoginActivity.this,"正在登陆，请稍后...",Toast.LENGTH_LONG).show();
                   // System.out.println("loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
                  //   Log.d(TAG,"loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
                 /* ESClientCreateRoom esClientCreateRoom=new ESClientCreateRoomImpl();
@@ -129,17 +170,33 @@ public class MyLoginActivity extends Activity  {
                     JSONObject  json=new JSONObject();
 
                     CreateRomMsg    createRomMsg=new CreateRomMsg("124",scheduleinfo,"12344","video","default",3,RoomMsg);
-*/
-                    ESClientLoginInterface  esClientLoginInterface=new ESClientLoginImpl();
+*/   Thread downloadRun1 = new Thread() {
+                        @Override
+                        public void run() {
+                         myflag=down1();
 
-                    if ( esClientLoginInterface.LoginMessage(name,password)){
-                        Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
-                        intent.putExtra("name",name);
-                        startActivity(intent);
+                        }
 
-                        MyLoginActivity.this.finish();
-                    }
+
+                    };
+                  new Thread(downloadRun1).start();
+
+                    /*if(flag){
+
+                    }*/
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog();
+                        }
+                    },3000);
+                            //告诉主线程执行任务
+
+
+
+
+
                    /* if (loginInterface.LoginMessage(name,password)){
                         System.out.println("搞什么飞机");
                         Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
@@ -206,7 +263,43 @@ public class MyLoginActivity extends Activity  {
         });
     }
 
+    private boolean down1() {
 
+        ESClientLoginInterface  esClientLoginInterface=new ESClientLoginImpl();
+        if ( esClientLoginInterface.LoginMessage(name,password)) {
+            //   Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
+            intent.putExtra("name", name);
+            flag=false;
+
+            startActivity(intent);
+           // MyLoginActivity.this.finish();
+
+        }
+        return flag;
+    }
+
+
+
+protected void  dialog(){
+    AlertDialog.Builder builder=new AlertDialog.Builder(MyLoginActivity.this);
+    builder.setMessage("请检查网络连接");
+    builder.setTitle("提示");
+    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+            MyLoginActivity.this.finish();
+        }
+    });
+builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        dialog.dismiss();
+    }
+});
+    builder.create().show();
+}
 
 
     /*private boolean login() {

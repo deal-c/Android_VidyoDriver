@@ -131,8 +131,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
         HashMap mp = new HashMap();
         mp.put("operation", "notifyVidyoRoom.action");
         mp.put("userid", Contants.serveruser);
-        Tools.NetGetData(Contants.serverurl, mp, CallMainActivity.this,
-                CallMainActivity.this, NetCommand.Notifylist.getValue());
+       Tools.NetGetData(Contants.serverurl, mp, CallMainActivity.this,CallMainActivity.this, NetCommand.Notifylist.getValue());
 
 
     }
@@ -151,17 +150,19 @@ public class CallMainActivity extends Activity implements OnClickListener,
         TextView text_topicrow = (TextView) v.findViewById(R.id.text_topicrow);
         ImageButton bnt_attend = (ImageButton) v.findViewById(R.id.bnt_attend);
         bnt_attend.setOnClickListener(this);
+
         try {
 
 
             JSONArray jsonArray=new JSONArray();
             jsonArray=array;
             if (jsonArray!=null){
-
+                view_notifylist.setTag(o.getString("roomId"));
                 text_opentime.setText(o.getString("roomId"));
                 text_topicrow.setText(o.getString("roomCreatedBy"));
                 text_organizerrow.setText(o.getString("roomSubject"));
                 bnt_attend.setTag(o.getString("roomKey"));
+              //  v.setOnClickListener(this);
             }
 
 

@@ -15,8 +15,8 @@ android {
         }
         applicationId "cn.jpush.example"
         applicationId "com.example.administrator.android_vidyodriver"
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 17
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
