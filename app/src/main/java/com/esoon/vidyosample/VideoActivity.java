@@ -55,6 +55,10 @@ import com.esoon.vidyo.CreatemyActivity;
 import com.esoon.vidyo.ESClientScreenShot;
 import com.esoon.vidyo.api.call.ESClientMakeACDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
+import com.esoon.vidyo.api.other.ESClientMuteAudio;
+import com.esoon.vidyo.api.other.ESClientSendMessage;
+import com.esoon.vidyo.api.other.impl.ESClientMuteAudioImpl;
+import com.esoon.vidyo.api.other.impl.ESClientSendMessageImpl;
 import com.vidyo.LmiDeviceManager.LmiDeviceManagerView;
 import com.vidyo.LmiDeviceManager.LmiVideoCapturer;
 import com.vidyo.utils.Contants;
@@ -998,7 +1002,11 @@ public class VideoActivity extends Activity implements
 				Toast.makeText(this, "发送内容不能为空", 3).show();
 			}else
 			{
-				app.SendChat(chatmsg);
+
+				ESClientSendMessage	esClientSendMessage=new ESClientSendMessageImpl();
+				esClientSendMessage.Sendchat("123",chatmsg,VideoActivity
+				.this);
+				//app.SendChat(chatmsg);
 				this.ShowMessage("我:", chatmsg);
 				edit_chatmsg.setText("");
 				Log.d(TAG,"已经33333333333333333成功了么");
@@ -1091,6 +1099,8 @@ public class VideoActivity extends Activity implements
 		{
 			//麦克开启,关闭
 			this.isCloseMicro = !this.isCloseMicro;
+			ESClientMuteAudio	MuteAudio=new ESClientMuteAudioImpl();
+		//	MuteAudio.MuteAudio(isCloseMicro,VideoActivity.this);
 			app.AutoStartMicrophone(isCloseMicro);
 			
 			Drawable top = null;

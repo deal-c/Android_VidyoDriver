@@ -2,11 +2,12 @@ package com.esoon.vidyo.api.room;
 
 import com.esoon.pojo.QueryMsg;
 
+import org.json.JSONArray;
+
 /**
- * Created by Administrator on 2017/2/20.
+ * Created by Administrator on 2017/2/27.
  */
 
 public interface ESClientQueryRoom {
-
-    String esclientqueryeroom(QueryMsg queryMsg);
+        JSONArray esclientqueryeroom(QueryMsg queryMsg);
 }

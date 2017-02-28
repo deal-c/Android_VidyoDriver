@@ -53,7 +53,7 @@
         </activity>
         <activity android:name="com.esoon.vidyo.MainActivity" />
         <activity android:name="com.esoon.vidyo.DateActivity" />
-        <activity android:name="com.esoon.vidyo.TestActivity"></activity>
+        <activity android:name="com.esoon.vidyo.TestActivity" />
         <activity android:name="com.esoon.vidyo.CreatemyActivity" />
         <activity android:name=".SubActivityConsult" />
         <activity
@@ -85,7 +85,9 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.esoon.vidyo.NewCreateActivity" />
-        <activity android:name="com.esoon.vidyo.CallingServerActivity">  </activity>
+        <activity android:name="com.esoon.vidyo.CallingServerActivity" />
+        <activity android:name="com.esoon.vidyo.SeclectPicActivity"></activity>
+        <activity android:name="com.esoon.vidyo.Test1Activity"></activity>
     </application>
 
 </manifest>
