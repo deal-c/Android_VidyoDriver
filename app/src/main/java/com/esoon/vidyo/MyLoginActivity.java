@@ -150,6 +150,7 @@ public class MyLoginActivity extends Activity  {
                 Log.d(TAG,"checkEdit():"+checkEdit());
                 System.out.println("checkEdit():"+checkEdit());
 
+
 /*
 
                 if(! Tools.isNetworkConnected(MyLoginActivity.this)) {
@@ -162,16 +163,9 @@ public class MyLoginActivity extends Activity  {
                 if (checkEdit()) {
                     name = login_username.getText().toString();
                     password = login_password.getText().toString();
-                   // Toast.makeText(MyLoginActivity.this,"正在登陆，请稍后...",Toast.LENGTH_LONG).show();
-                  // System.out.println("loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
-                 //   Log.d(TAG,"loginInterface.LoginMessage(name,password):"+loginInterface.LoginMessage(name,password));
-                /* ESClientCreateRoom esClientCreateRoom=new ESClientCreateRoomImpl();
-                    ScheduleInfo scheduleinfo=new ScheduleInfo();
-                    RoomMsg RoomMsg =new RoomMsg("1231312","121242","1123424");
-                    JSONObject  json=new JSONObject();
 
-                    CreateRomMsg    createRomMsg=new CreateRomMsg("124",scheduleinfo,"12344","video","default",3,RoomMsg);
-*/   Thread downloadRun1 = new Thread() {
+
+   Thread downloadRun1 = new Thread() {
                         @Override
                         public void run() {
                          myflag=down1();

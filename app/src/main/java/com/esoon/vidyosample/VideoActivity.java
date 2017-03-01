@@ -585,14 +585,7 @@ public class VideoActivity extends Activity implements
 		//显示排队界面. 
 		if(showqueue)
 		{
-			ESClientMakeACDCall esClientMakeACDCall=new ESClientMakeACDCallImpl();
-			CallingMsg callingMsg=new CallingMsg("1","video");
-			ReturnMsg roomkey=esClientMakeACDCall.esclientmakeacdcall(callingMsg);
-			Intent intent1=new Intent(VideoActivity.this,CallingServerActivity.class);
-			intent1.putExtra("roomkey",roomkey.getRoomKey());
-			intent1.putExtra("roomId",roomkey.getRoomId());
-			startActivity(intent1);
-			this.finish();
+
 
 
 		}
@@ -1019,7 +1012,7 @@ public class VideoActivity extends Activity implements
 			
 			if(chatmsg.isEmpty())
 			{
-				Toast.makeText(this, "发送内容不能为空", 3).show();
+			//	Toast.makeText(this, "发送内容不能为空", 3).show();
 			}else
 			{
 

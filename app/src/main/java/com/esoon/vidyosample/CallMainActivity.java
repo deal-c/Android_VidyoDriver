@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -56,6 +57,8 @@ import static android.R.attr.data;
 
 public class CallMainActivity extends Activity implements OnClickListener,
         INetRequest {
+    private String FILE = "saveUserNamePwd";
+    private SharedPreferences sp = null;
     JSONArray array;
     boolean myflag=true;
     String name;
@@ -103,6 +106,11 @@ public class CallMainActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+     /*   sp = getSharedPreferences(FILE, MODE_PRIVATE);
+
+//进入界面时，这个if用来判断SharedPreferences里面name和password有没有数据，有的话则直接打在EditText上面
+
+            name = sp.getString("name", "");*/
         array=new JSONArray();
         Thread downloadRun1 = new Thread() {
             @Override
@@ -112,7 +120,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
         };
         new Thread(downloadRun1).start();
         setContentView(R.layout.activity_call_main);
-        this.name = this.getIntent().getStringExtra("name");
+  this.name = this.getIntent().getStringExtra("name");
         Button bntservice = (Button) this.findViewById(R.id.bnt_callservice);
         Button bntmanager = (Button) this.findViewById(R.id.bnt_callmanager);
         Button createRom = (Button) this.findViewById(R.id.createRom);
@@ -245,16 +253,23 @@ public class CallMainActivity extends Activity implements OnClickListener,
                 if (calltype.equals("service")) {
                     //客服中心
                     Tools.showProgressDialog(this, "加载中...");
-                    HashMap mp = new HashMap();
+                  /*  HashMap mp = new HashMap();
                     // operation=&userid=cust2
                     mp.put("operation", "addVidyoRoom.action");
                     mp.put("userid", Contants.serveruser);
                     mp.put("subMeidaType", "vidyoVideo");
                     mp.put("type", "1");
-                    mp.put("managerId", Contants.managerId);
+                    mp.put("managerId", Contants.managerId);*/
 
-                    Tools.NetGetData(Contants.serverurl,
-                            mp, this, this, NetCommand.CreateRoomService.getValue());
+                    ESClientMakeACDCall esClientMakeACDCall=new ESClientMakeACDCallImpl();
+                    CallingMsg callingMsg=new CallingMsg("1","video");
+                    ReturnMsg roomkey=esClientMakeACDCall.esclientmakeacdcall(callingMsg);
+                    Intent intent1=new Intent(CallMainActivity.this,CallingServerActivity.class);
+                    intent1.putExtra("roomkey",roomkey.getRoomKey());
+                    intent1.putExtra("roomId",roomkey.getRoomId());
+                    startActivity(intent1);
+                    this.finish(); //Tools.NetGetData(Contants.serverurl,  mp, this, this, NetCommand.CreateRoomService.getValue());
+
 
                 } else {
                     // 经理

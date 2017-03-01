@@ -29,6 +29,7 @@ TextView    queueMsg;
     String  roomKey;
     String  TAG="CallingServerActivity";
     Button  delete;
+    boolean flag=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,15 @@ TextView    queueMsg;
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flag=false;
+
+                ESClientDeleteRoom  esClientDeleteRoom=new ESClientDeleteRoomImpl();
+                DeleteMsg   deleteMsg=new DeleteMsg(Integer.parseInt(roomId),"",2);
+                if ( esClientDeleteRoom.esclientdeleteroom(deleteMsg)) {
+                    Intent intent=new Intent(CallingServerActivity.this,CallMainActivity.class);
+                    startActivity(intent);
+               finish();
+                }
                 Thread downloadRun3 = new Thread() {
                     @Override
                     public void run() {
@@ -54,7 +64,7 @@ TextView    queueMsg;
 
 
                 };
-                new Thread(downloadRun3).start();
+             //   new Thread(downloadRun3).start();
             }
         });
 
@@ -67,7 +77,7 @@ TextView    queueMsg;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (roomKey!=null){
+                if (roomKey!=null&&flag){
                Intent   intent=new Intent(CallingServerActivity.this,VideoActivity.class);
                 intent.putExtra("roomkey",roomKey);
                 startActivity(intent);
@@ -103,13 +113,7 @@ TextView    queueMsg;
     }
 
     private void down3() {
-       ESClientDeleteRoom  esClientDeleteRoom=new ESClientDeleteRoomImpl();
-        DeleteMsg   deleteMsg=new DeleteMsg(Integer.parseInt(roomId),"",2);
-     if ( esClientDeleteRoom.esclientdeleteroom(deleteMsg)) {
-         Intent intent=new Intent(CallingServerActivity.this,CallMainActivity.class);
-         startActivity(intent);
-this.finish();
-     }
+
 
     }
 }
