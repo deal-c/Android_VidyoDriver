@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.esoon.R;
+
 public class Fragment3 extends Fragment {
 	private View rootView;
 	

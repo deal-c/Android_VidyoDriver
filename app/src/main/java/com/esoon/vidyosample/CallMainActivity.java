@@ -28,6 +28,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.esoon.R;
 import com.esoon.pojo.CallingManagerMsg;
 import com.esoon.pojo.CallingMsg;
 import com.esoon.pojo.CreateRomMsg;
@@ -158,9 +159,9 @@ public class CallMainActivity extends Activity implements OnClickListener,
             jsonArray=array;
             if (jsonArray!=null){
                 view_notifylist.setTag(o.getString("roomId"));
-                text_opentime.setText(o.getString("roomId"));
-                text_topicrow.setText(o.getString("roomCreatedBy"));
-                text_organizerrow.setText(o.getString("roomSubject"));
+                text_opentime.setText(o.getString("roomName"));
+                text_topicrow.setText(o.getString("roomSubject"));
+                text_organizerrow.setText(o.getString("roomScheduleStartDate"));
                 bnt_attend.setTag(o.getString("roomKey"));
               //  v.setOnClickListener(this);
             }
@@ -184,7 +185,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
 
         ESClientQueryRoom esClientQueryRoom = new ESClientQueryRoomImpl();
-        QueryMsg queryMsg = new QueryMsg(0, 0, "123");
+        QueryMsg queryMsg = new QueryMsg(1);
         Log.e(TAG, queryMsg + "Romsg   is");
         array = esClientQueryRoom.esclientqueryeroom(queryMsg);
 
@@ -266,8 +267,8 @@ public class CallMainActivity extends Activity implements OnClickListener,
                     mp.put("type", "2");
                     mp.put("managerId", Contants.managerId);
 
-                    Tools.NetGetData(Contants.serverurl,
-                            mp, this, this, NetCommand.CreateRoomManager.getValue());
+                   /* Tools.NetGetData(Contants.serverurl,
+                            mp, this, this, NetCommand.CreateRoomManager.getValue());*/
                 }
                 break;
             }
@@ -327,22 +328,23 @@ public class CallMainActivity extends Activity implements OnClickListener,
 				startActivity(intent1);
 				break;*/
             case R.id.bnt_callmanager:
-                Thread downloadRun1 = new Thread() {
+                /*Thread downloadRun1 = new Thread() {
                     @Override
                     public void run() {
                         down1();
                     }
 
 
-                };
+                };*/
             {
-		/*	dialogselectalltype=Tools.createSelectCallType(this, this);
+			dialogselectalltype=Tools.createSelectCallManager(this, this);
 			dialogselectalltype.show();
+
 			dialogselectalltype.getWindow().setLayout(
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
 
-			new Thread() {
+			/*new Thread() {
 				@Override
 				public void run() {
 					super.run();
@@ -359,7 +361,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
 				}
 			}.start();*/
 
-                new Thread(downloadRun1).start();
+               // new Thread(downloadRun1).start();
 
 
             }
@@ -441,7 +443,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
     private void down1() {
         ESClientMakeDIDCall EsClientMakeDIDCall = new ESClientMakeDIDCallImpl();
-        CallingManagerMsg callingMsg = new CallingManagerMsg("video");
+        CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","123","1232");
         String roomkey = EsClientMakeDIDCall.esclientMakeDiDCall(callingMsg);
         Log.e(TAG, roomkey + "roomkey	is:");
         Intent intent1 = new Intent(CallMainActivity.this, VideoActivity.class);

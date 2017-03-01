@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.esoon.R;
 import com.esoon.pojo.CallingManagerMsg;
 import com.esoon.pojo.CallingMsg;
 import com.esoon.pojo.CreateRomMsg;
@@ -28,7 +29,7 @@ import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientInitializeImpl;
 import com.esoon.vidyo.api.room.impl.ESClientLoginImpl;
 import com.esoon.vidyo.api.room.impl.ESClientQueryRoomImpl;
-import com.esoon.vidyosample.R;
+
 import com.esoon.vidyosample.VideoActivity;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 import com.google.gson.Gson;

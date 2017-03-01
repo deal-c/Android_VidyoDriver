@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.esoon.R;
+
 public class Fragment1 extends Fragment implements OnClickListener {
 	private View rootView;
 	

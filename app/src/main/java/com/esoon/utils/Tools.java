@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,11 +24,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esoon.R;
+import com.esoon.pojo.CallingManagerMsg;
 import com.esoon.pojo.CallingMsg;
 import com.esoon.vidyo.api.call.ESClientMakeACDCall;
+import com.esoon.vidyo.api.call.ESClientMakeDIDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
+import com.esoon.vidyo.api.call.impl.ESClientMakeDIDCallImpl;
 import com.esoon.vidyosample.CallMainActivity;
-import com.esoon.vidyosample.R;
+
 import com.esoon.vidyosample.VideoActivity;
 
 public class Tools
@@ -183,10 +188,42 @@ public class Tools
 		return ret;
 	}
 
-	
-	
+
+	public static Dialog createSelectCallManager(final Activity _this,
+												 OnClickListener _click)
+	{
+		AlertDialog ret = null;
+		View loginview = LayoutInflater.from(_this).inflate(
+				R.layout.dialog_selectroomtype, null);
+		Button bnt_selectvideoroom = (Button)loginview.findViewById(R.id.bnt_selectvideoroom);
+
+		bnt_selectvideoroom.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				ESClientMakeDIDCall EsClientMakeDIDCall = new ESClientMakeDIDCallImpl();
+				CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","123","1232");
+				String roomkey = EsClientMakeDIDCall.esclientMakeDiDCall(callingMsg);
+				//Log.e(TAG, roomkey + "roomkey	is:");
+				if(roomkey!=null){
+					Intent intent1 = new Intent(_this, VideoActivity.class);
+					intent1.putExtra("roomkey", roomkey);
+					_this.startActivity(intent1);
+				}
+			}
+		});
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(_this);
+
+		ret = builder.create();
+		ret.setView(loginview, 0, 0, 0, 0);
+
+		return ret;
+	}
+
+
+
 	public static Dialog createSelectCallType(Activity _this,
-			OnClickListener _click)
+											  OnClickListener _click)
 	{
 		AlertDialog ret = null;
 		View loginview = LayoutInflater.from(_this).inflate(
@@ -202,7 +239,6 @@ public class Tools
 
 		return ret;
 	}
-
 	public static int getScreenStatusHeight(Activity act)
 	{
 

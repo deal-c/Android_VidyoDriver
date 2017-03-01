@@ -16,12 +16,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.esoon.R;
 import com.esoon.pojo.CreateRomMsg;
 import com.esoon.pojo.ScheduleInfo;
 import com.esoon.pojo.RoomMsg;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
-import com.esoon.vidyosample.R;
+
 import com.esoon.vidyosample.VideoActivity;
 
 import java.io.FileNotFoundException;

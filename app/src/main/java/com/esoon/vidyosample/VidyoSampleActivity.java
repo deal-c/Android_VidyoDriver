@@ -35,6 +35,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.esoon.R;
 import com.esoon.vidyosample.appSampleHttp.Arguments;
 import com.vidyo.LmiDeviceManager.LmiDeviceManagerView;
 import com.vidyo.LmiDeviceManager.LmiVideoCapturer;

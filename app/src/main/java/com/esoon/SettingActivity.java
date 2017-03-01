@@ -1,4 +1,4 @@
-package com.esoon.vidyosample;
+package com.esoon;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-
 
 import java.util.HashSet;
 import java.util.Set;

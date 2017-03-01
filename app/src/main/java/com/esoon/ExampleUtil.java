@@ -1,4 +1,4 @@
-package com.esoon.vidyosample;
+package com.esoon;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;

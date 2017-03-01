@@ -9,7 +9,7 @@ import java.security.AccessControlContext;
  */
 
 public interface ESClientSendMessage {
-boolean Sendchat(String userId, String   messageInfo, Activity  activity);
+boolean Sendchat(String userId, String messageInfo, Activity activity);
 
 
 }

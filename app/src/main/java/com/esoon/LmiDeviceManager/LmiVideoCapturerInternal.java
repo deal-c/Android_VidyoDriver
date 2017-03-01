@@ -923,7 +923,7 @@ public class LmiVideoCapturerInternal extends SurfaceView implements Camera.Prev
 		Log.d(TAG, "Using callback buffers");
 
 		/*
-		 * Must call this before calling addCallbackBuffer to get all the
+		 * Must Call this before calling addCallbackBuffer to get all the
 		 * reflection variables setup
 		 */
 		initializeAddCallbackBufferMethod();

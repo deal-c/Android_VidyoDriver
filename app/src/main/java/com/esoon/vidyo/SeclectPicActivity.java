@@ -3,7 +3,7 @@ package com.esoon.vidyo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.esoon.vidyosample.R;
+
 
 
 
@@ -17,6 +17,8 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.esoon.R;
 
 public class SeclectPicActivity extends Activity {
 
@@ -35,7 +37,7 @@ public class SeclectPicActivity extends Activity {
 
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }

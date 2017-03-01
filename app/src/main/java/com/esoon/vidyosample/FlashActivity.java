@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.esoon.R;
+
 public class FlashActivity extends Activity {
 
 	final int GOMain = 10002;
@@ -16,7 +18,7 @@ public class FlashActivity extends Activity {
 
 			if (msg.what == GOMain) {
 				Intent it = new Intent();
-				it.setClass(FlashActivity.this, MainActivity.class);
+			//	it.setClass(FlashActivity.this, MainActivity.class);
 				FlashActivity.this.startActivity(it);
 				FlashActivity.this.finish();
 			}

@@ -24,12 +24,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.esoon.R;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.ESClientLoginInterface;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientLoginImpl;
 import com.esoon.vidyosample.CallMainActivity;
-import com.esoon.vidyosample.R;
+
 import com.vidyo.utils.Tools;
 
 public class MyLoginActivity extends Activity  {
@@ -273,7 +274,7 @@ public class MyLoginActivity extends Activity  {
             flag=false;
 
             startActivity(intent);
-            MyLoginActivity.this.finish();
+           // MyLoginActivity.this.finish();
 
         }
         return flag;

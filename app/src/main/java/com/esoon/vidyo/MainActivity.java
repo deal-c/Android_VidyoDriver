@@ -5,10 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.esoon.R;
 import com.esoon.pojo.CallingMsg;
 import com.esoon.vidyo.api.call.ESClientMakeACDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
-import com.esoon.vidyosample.R;
+
 
 public class MainActivity extends Activity {
     private static final String TAG = "videoactivity";

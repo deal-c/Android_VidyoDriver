@@ -9,6 +9,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.esoon.R;
+
 public class Fragment2 extends Fragment implements OnClickListener
 {
 	private View rootView;

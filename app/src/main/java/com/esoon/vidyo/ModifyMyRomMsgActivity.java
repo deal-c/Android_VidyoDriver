@@ -10,11 +10,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.esoon.R;
 import com.esoon.pojo.DeleteMsg;
 import com.esoon.vidyo.api.room.ESClientDeleteRoom;
 import com.esoon.vidyo.api.room.impl.ESClientDeleteRoomImpl;
 import com.esoon.vidyosample.CallMainActivity;
-import com.esoon.vidyosample.R;
+
 
 
 public class ModifyMyRomMsgActivity extends Activity {

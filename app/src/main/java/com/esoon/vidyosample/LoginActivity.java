@@ -26,6 +26,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esoon.R;
 import com.esoon.utils.Contants;
 import com.esoon.utils.INetRequest;
 import com.esoon.utils.Tools;
@@ -311,8 +312,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 		case R.id.menu_setting_item:
 		{
 			//其他参数设置
-			Intent  it = new Intent(this,SettingActivity.class);
-			this.startActivity(it);
+		//	Intent  it = new Intent(this,SettingActivity.class);
+			//this.startActivity(it);
 			break;
 		}
 		

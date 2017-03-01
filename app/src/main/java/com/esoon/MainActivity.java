@@ -1,5 +1,4 @@
-package com.esoon.vidyosample;
-
+package com.esoon;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,8 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
@@ -108,7 +105,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 			break;
 		}
 	}
-	
+
 	// 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
 	private void init(){
 		 JPushInterface.init(getApplicationContext());
@@ -134,7 +131,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 		unregisterReceiver(mMessageReceiver);
 		super.onDestroy();
 	}
-	
+
 
 	//for receive customer msg from jpush server
 	private MessageReceiver mMessageReceiver;
@@ -142,7 +139,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 	public static final String KEY_TITLE = "title";
 	public static final String KEY_MESSAGE = "message";
 	public static final String KEY_EXTRAS = "extras";
-	
+
 	public void registerMessageReceiver() {
 		mMessageReceiver = new MessageReceiver();
 		IntentFilter filter = new IntentFilter();
@@ -167,7 +164,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 			}
 		}
 	}
-	
+
 	private void setCostomMsg(String msg){
 		 if (null != msgText) {
 			 msgText.setText(msg);

@@ -11,7 +11,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.esoon.vidyosample.R;
+import com.esoon.R;
+
 
 public class DateActivity extends Activity {
 

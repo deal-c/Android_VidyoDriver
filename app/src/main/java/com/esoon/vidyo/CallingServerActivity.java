@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.esoon.R;
 import com.esoon.pojo.CallingMsg;
 import com.esoon.pojo.DeleteMsg;
 import com.esoon.pojo.ReturnMsg;
@@ -19,7 +20,7 @@ import com.esoon.vidyo.api.queue.impl.ESClientGetQueuePositionImpl;
 import com.esoon.vidyo.api.room.ESClientDeleteRoom;
 import com.esoon.vidyo.api.room.impl.ESClientDeleteRoomImpl;
 import com.esoon.vidyosample.CallMainActivity;
-import com.esoon.vidyosample.R;
+
 import com.esoon.vidyosample.VideoActivity;
 
 public class CallingServerActivity extends Activity {

@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.esoon.R;
 import com.esoon.utils.Contants;
 import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;

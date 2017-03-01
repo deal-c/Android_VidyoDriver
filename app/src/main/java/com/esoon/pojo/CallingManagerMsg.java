@@ -10,8 +10,17 @@ public class CallingManagerMsg {
     String  userData;
     String  manageId;
     String  subMediaType;
+int  callType;
+
+    public CallingManagerMsg(int callType, String subMediaType, String manageId, String userId) {
+        this.callType = callType;
+        this.subMediaType = subMediaType;
+        this.manageId = manageId;
+        this.userId = userId;
+    }
 
     @Override
+
     public String toString() {
         return "CallingManagerMsg{" +
                 "userId='" + userId + '\'' +

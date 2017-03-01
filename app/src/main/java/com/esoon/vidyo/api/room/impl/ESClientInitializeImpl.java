@@ -27,10 +27,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.esoon.R;
 import com.esoon.utils.Contants;
 import com.esoon.utils.EnterRoomHttp;
 import com.esoon.vidyo.api.room.ESClientInitialize;
-import com.esoon.vidyosample.R;
+
 
 import com.esoon.vidyosample.VideoActivity;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;

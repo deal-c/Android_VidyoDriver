@@ -7,6 +7,6 @@ import com.esoon.pojo.CallingManagerMsg;
  */
 
 public interface ESClientMakeDIDCall {
-String esclientMakeDiDCall(CallingManagerMsg   callingManagerMsg);
+String esclientMakeDiDCall(CallingManagerMsg callingManagerMsg);
 
 }

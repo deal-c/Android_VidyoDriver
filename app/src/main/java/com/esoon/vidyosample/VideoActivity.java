@@ -48,11 +48,13 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esoon.R;
 import com.esoon.pojo.CallingMsg;
 import com.esoon.pojo.ReturnMsg;
 import com.esoon.vidyo.CallingServerActivity;
 import com.esoon.vidyo.CreatemyActivity;
 import com.esoon.vidyo.ESClientScreenShot;
+import com.esoon.vidyo.MyLoginActivity;
 import com.esoon.vidyo.api.call.ESClientMakeACDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyo.api.other.ESClientMuteAudio;
@@ -140,7 +142,7 @@ public class VideoActivity extends Activity implements
 	TextView text_bandinfo = null; //显示带宽信息
 	private boolean isloopband=true;
 
-	com.esoon.vidyosample.InputMethodRelativeLayout input_layout ;
+	InputMethodRelativeLayout input_layout ;
 	
 	//=======================================
 	
@@ -368,7 +370,7 @@ public class VideoActivity extends Activity implements
 
 			case CALL_ENDED:
 				stopDevices();
-				VideoActivity.this.finish();
+				dialog();
 				
 				app.RenderRelease();
 				break;
@@ -403,8 +405,26 @@ public class VideoActivity extends Activity implements
 			}
 		}
 	};
-	
-	
+
+	protected void  dialog(){
+		AlertDialog.Builder builder=new AlertDialog.Builder(VideoActivity.this);
+		builder.setMessage("请检查网络连接");
+		builder.setTitle("提示");
+		builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				VideoActivity.this.finish();
+			}
+		});
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.create().show();
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)

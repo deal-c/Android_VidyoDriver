@@ -1,4 +1,4 @@
-package com.esoon.vidyosample;
+package com.esoon;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -12,8 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-
 
 import java.util.LinkedHashSet;
 import java.util.Set;

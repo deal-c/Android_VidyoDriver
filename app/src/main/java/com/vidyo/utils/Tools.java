@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.esoon.vidyosample.R;
+import com.esoon.R;
 
 
 public class Tools

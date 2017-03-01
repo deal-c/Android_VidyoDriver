@@ -163,8 +163,8 @@ public class LmiAudioPlaybackDevice {
 			}
 			
 			/*
-			 * Temporary call to modify volume for devices that may need it.
-			 * This call should be done in a better way in the future
+			 * Temporary Call to modify volume for devices that may need it.
+			 * This Call should be done in a better way in the future
 			 */
 			setupSpeakerNeedsVolumeIncrease(track);
 			

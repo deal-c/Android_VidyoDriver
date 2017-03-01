@@ -21,7 +21,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 	public void onCreate() {
 		super.onCreate();
 		x.Ext.init(this);
-		x.Ext.setDebug(org.xutils.BuildConfig.DEBUG);
+		x.Ext.setDebug(BuildConfig.DEBUG);
 		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
 		JPushInterface.init(this);
 	}

@@ -8,10 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.esoon.R;
 import com.esoon.pojo.QueryMsg;
 import com.esoon.vidyo.api.room.ESClientQueryRoom;
 import com.esoon.vidyo.api.room.impl.ESClientQueryRoomImpl;
-import com.esoon.vidyosample.R;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;

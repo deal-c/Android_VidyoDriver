@@ -172,7 +172,7 @@ public LmiVideoCapturerCapability[] getCapabilities(boolean anyFormat) {
 
 		// VMANDRD-1953 Black screen appears for 6-7 seconds after click 
 		// Revert to the previous (VM 2.3) version, as the below change doesn't bring 
-		// much benefit while unnecessarily causing long wait when drop a call. After
+		// much benefit while unnecessarily causing long wait when drop a Call. After
 		// this revert, it is indeed same as SDK220 
 		/*
 		while (capturerInternal.isActive()) {

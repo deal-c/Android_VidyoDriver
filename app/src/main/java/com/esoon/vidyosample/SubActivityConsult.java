@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.esoon.R;
+
 public class SubActivityConsult extends Activity {
 
 	@Override

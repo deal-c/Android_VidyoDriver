@@ -7,6 +7,6 @@ import android.app.Activity;
  */
 
 public interface ESClientMuteAudio {
-    boolean MuteAudio(boolean   flag, Activity  activity);
+    boolean MuteAudio(boolean flag, Activity activity);
 
 }

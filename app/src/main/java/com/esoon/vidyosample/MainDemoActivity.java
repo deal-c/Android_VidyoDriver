@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 //import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.esoon.R;
 import com.esoon.utils.Contants;
 import com.esoon.utils.Tools;
 
