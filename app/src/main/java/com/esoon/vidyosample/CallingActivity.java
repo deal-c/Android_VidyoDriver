@@ -18,7 +18,6 @@ import com.esoon.R;
 import com.esoon.utils.Contants;
 import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
-import com.esoon.utils.Tools;
 
 public class CallingActivity extends Activity implements OnClickListener,
 		INetRequest
@@ -43,8 +42,8 @@ public class CallingActivity extends Activity implements OnClickListener,
 				mp.put("operation", "queueNumber.action");
 				mp.put("userid", Contants.serveruser);
 
-				Tools.NetGetData(Contants.serverurl, mp, CallingActivity.this,
-						CallingActivity.this, NetCommand.QueueNumber.getValue());
+			/*	Tools.NetGetData(Contants.serverurl, mp, CallingActivity.this,
+						CallingActivity.this, NetCommand.QueueNumber.getValue());*/
 				break;
 			case Msg_cancel:
 			{

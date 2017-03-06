@@ -21,37 +21,16 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
     JSONObject object;
     JSONObject  room;
     String  roomKey;
-    private static final String TAG = "ESClientLoginImpl";
+    private static final String TAG = "ESClientCreateRoomImpl";
     @Override
     public String createroom(CreateRomMsg createRomMsg) {
         RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/createRoom");
         Gson gson=new Gson();
       String createMsg= gson.toJson(createRomMsg);
-        Log.e(TAG, createMsg+"Something  wrong, filesDir is null");
+        Log.e(TAG, "sending createRomMsg   :"+createMsg);
+        Log.e(TAG, "createRoom   start");
         requestParams.addBodyParameter("",createMsg);
 
-/*x.http().post(requestParams, new Callback.CommonCallback<String>() {
-    @Override
-    public void onSuccess(String result) {
-        Log.e(TAG, result.toString()+"Something  wrong, filesDir is null");
-    }
-
-    @Override
-    public void onError(Throwable ex, boolean isOnCallback) {
-        Log.e(TAG, ex.toString()+"Something  wrong, filesDir is null");
-
-    }
-
-    @Override
-    public void onCancelled(CancelledException cex) {
-
-    }
-
-    @Override
-    public void onFinished() {
-
-    }
-});*/
         try {
            object= x.http().postSync(requestParams,JSONObject.class);
             int   statusCode= object.getInt("statusCode");
@@ -63,11 +42,14 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
 
         }catch (Throwable throwable){
             throwable.printStackTrace();
+            Log.e(TAG, "createRoom fail ");
+            Log.e(TAG, "createRoom  throwable is"+throwable.toString());
         }
 
     /*    Log.e(TAG, room.toString()+"Something  wrong, filesDir is null");
         Log.e(TAG,roomKey+"Something  wrong, filesDir is null");
         Log.e(TAG, room+"Something  wrong, filesDir is null");*/
+        Log.e(TAG, "createroom   success");
         return roomKey;
     }
 }

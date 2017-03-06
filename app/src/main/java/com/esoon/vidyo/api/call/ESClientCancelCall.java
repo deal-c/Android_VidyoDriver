@@ -5,5 +5,5 @@ package com.esoon.vidyo.api.call;
  */
 
 public interface ESClientCancelCall {
-
+boolean CancleCall(int roomId,String userId);
 }

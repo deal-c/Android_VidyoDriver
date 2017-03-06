@@ -504,6 +504,45 @@ JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_Construct(
 	FUNCTION_EXIT;
 }
 
+
+JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_GuestLogin(JNIEnv* env,jstring vidyoportalName, jobject javaThis,
+		jstring roomkey, jstring displayName, jstring pin) {
+
+	FUNCTION_ENTRY;
+	const char *portalC = (*env)->GetStringUTFChars(env, vidyoportalName, NULL);
+	const char *usernameC = (*env)->GetStringUTFChars(env, displayName, NULL);
+	const char *keyC = (*env)->GetStringUTFChars(env, roomKey, NULL);
+    const char *pinC = (*env)->GetStringUTFChars(env, pin, NULL);
+	LOGI("Starting Login Process\n");
+	VidyoClientInEventRoomLink event = {0};
+	strlcpy(event.portalUri, portalC, sizeof(event.portalUri));
+	strlcpy(event.roomKey, keyC, sizeof(event.roomKey));
+
+	strlcpy(event.pin, pinC, sizeof(event.pin));
+	strlcpy(event.displayName, passwordC, sizeof(event.displayName));
+
+	LOGI("logging in with portalUri %s user %s ", event.portalUri, event.displayName);
+	VidyoClientInEventRoomLink(VIDYO_CLIENT_IN_EVENT_ROOM_LINK, &event, sizeof(VidyoClientInEventRoomLink));
+ 	FUNCTION_EXIT;
+}
+
+JNIEXPORT jint Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_RequestGetNumParticipants(JNIEnv* env, jobject javaThis)
+{
+        FUNCTION_ENTRY;
+		VidyoClientRequestGetNumParticipants    requestGetNum={0};
+		VidyoClientSendRequest(VIDYO_CLIENT_REQUEST_GET_NUM_PARTICIPANTS, &requestGetNum, sizeof(VidyoClientRequestGetNumParticipants));
+        LOGI("numParticipants:%d\n", requestGetNum.numParticipants);
+        jint rs =  requestGetNum.numParticipants;
+        return rs;
+        FUNCTION_EXIT;
+
+}
+
+
+
+
+
+
 JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_Login(JNIEnv* env, jobject javaThis,
 		jstring vidyoportalName, jstring userName, jstring passwordName) {
 

@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 
     public void onClick(View view) {
         ESClientMakeACDCall esClientMakeACDCall=new ESClientMakeACDCallImpl();
-        CallingMsg callingMsg=new CallingMsg("1212","1","video");
+        CallingMsg callingMsg=new CallingMsg("1212",1,"video");
         esClientMakeACDCall.esclientmakeacdcall(callingMsg);
 
 

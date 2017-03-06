@@ -9,10 +9,10 @@ import org.json.JSONObject;
 public class CallingMsg {
     String userId;
     String subMediaType;
-    String queueType;
+    int queueType;
     String userdata;
 
-    public CallingMsg(String userId, String queueType, String subMediaType) {
+    public CallingMsg(String userId, int queueType, String subMediaType) {
         this.userId = userId;
         this.queueType = queueType;
         this.subMediaType = subMediaType;
@@ -27,7 +27,7 @@ public class CallingMsg {
                 '}';
     }
 
-    public CallingMsg(String subMediaType, String queueType) {
+    public CallingMsg(String subMediaType, int queueType) {
         this.subMediaType = subMediaType;
         this.queueType = queueType;
     }

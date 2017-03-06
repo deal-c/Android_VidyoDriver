@@ -1,22 +1,11 @@
 package com.esoon.vidyosample;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,24 +30,25 @@ import com.esoon.utils.Contants;
 import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
 import com.esoon.utils.Tools;
-
-import com.esoon.vidyo.*;
-import com.esoon.vidyo.TestActivity;
-import com.esoon.vidyo.api.call.ESClientMakeACDCall;
+import com.esoon.vidyo.CallingServerActivity;
+import com.esoon.vidyo.CreatemyActivity;
+import com.esoon.vidyo.ModifyMyRomMsgActivity;
+import com.esoon.vidyo.MyLoginActivity;
 import com.esoon.vidyo.api.call.ESClientMakeDIDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyo.api.call.impl.ESClientMakeDIDCallImpl;
-import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.ESClientQueryRoom;
-import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientQueryRoomImpl;
 
-import static android.R.attr.data;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 public class CallMainActivity extends Activity implements OnClickListener,
         INetRequest {
-    private String FILE = "saveUserNamePwd";
-    private SharedPreferences sp = null;
     JSONArray array;
     boolean myflag=true;
     String name;
@@ -70,6 +60,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
     private static String TAG = "callMain";
     private final int Msg_NetInvite = 1;
     private LinearLayout view_notifylist = null;
+    ReturnMsg   returnMsg;
 
     ScheduleInfo scheduleInfo = new ScheduleInfo();
     // 邀请进入房间的提示窗口.
@@ -106,11 +97,6 @@ public class CallMainActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     /*   sp = getSharedPreferences(FILE, MODE_PRIVATE);
-
-//进入界面时，这个if用来判断SharedPreferences里面name和password有没有数据，有的话则直接打在EditText上面
-
-            name = sp.getString("name", "");*/
         array=new JSONArray();
         Thread downloadRun1 = new Thread() {
             @Override
@@ -120,7 +106,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
         };
         new Thread(downloadRun1).start();
         setContentView(R.layout.activity_call_main);
-  this.name = this.getIntent().getStringExtra("name");
+        this.name = this.getIntent().getStringExtra("name");
         Button bntservice = (Button) this.findViewById(R.id.bnt_callservice);
         Button bntmanager = (Button) this.findViewById(R.id.bnt_callmanager);
         Button createRom = (Button) this.findViewById(R.id.createRom);
@@ -253,35 +239,36 @@ public class CallMainActivity extends Activity implements OnClickListener,
                 if (calltype.equals("service")) {
                     //客服中心
                     Tools.showProgressDialog(this, "加载中...");
-                  /*  HashMap mp = new HashMap();
-                    // operation=&userid=cust2
-                    mp.put("operation", "addVidyoRoom.action");
-                    mp.put("userid", Contants.serveruser);
-                    mp.put("subMeidaType", "vidyoVideo");
-                    mp.put("type", "1");
-                    mp.put("managerId", Contants.managerId);*/
-
-                    ESClientMakeACDCall esClientMakeACDCall=new ESClientMakeACDCallImpl();
-                    CallingMsg callingMsg=new CallingMsg("1","video");
-                    ReturnMsg roomkey=esClientMakeACDCall.esclientmakeacdcall(callingMsg);
-                    Intent intent1=new Intent(CallMainActivity.this,CallingServerActivity.class);
-                    intent1.putExtra("roomkey",roomkey.getRoomKey());
-                    intent1.putExtra("roomId",roomkey.getRoomId());
-                    startActivity(intent1);
-                    this.finish(); //Tools.NetGetData(Contants.serverurl,  mp, this, this, NetCommand.CreateRoomService.getValue());
-
+                    ESClientMakeACDCallImpl esClientMakeACDCall=new ESClientMakeACDCallImpl();
+                    CallingMsg  createRomMsg=new CallingMsg("video",1);
+                    returnMsg=esClientMakeACDCall.esclientmakeacdcall(createRomMsg);
+                    Log.e(TAG,"acdcall    fail");
+                  if (returnMsg!=null) {
+                      Intent  intent=new Intent(CallMainActivity.this, CallingServerActivity.class);
+                    intent.putExtra("roomkey", returnMsg.getRoomKey());
+                    intent.putExtra("roomId",  returnMsg.getRoomId());
+                      Log.e(TAG,"acdcall    start");
+                    startActivity(intent);
+                    Tools.dismissProgressDialog();}
+              /*      Tools.NetGetData(Contants.serverurl,
+                            mp, this, this, NetCommand.CreateRoomService.getValue());*/
 
                 } else {
                     // 经理
                     Tools.showProgressDialog(this, "加载中...");
                     HashMap mp = new HashMap();
                     // operation=&userid=cust2
-                    mp.put("operation", "addVidyoRoom.action");
-                    mp.put("userid", Contants.serveruser);
-                    mp.put("subMeidaType", "vidyoVideo");
-                    mp.put("type", "2");
-                    mp.put("managerId", Contants.managerId);
 
+                    ESClientMakeDIDCall EsClientMakeDIDCall = new ESClientMakeDIDCallImpl();
+                    CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","123","1232");
+                    String roomkey = EsClientMakeDIDCall.esclientMakeDiDCall(callingMsg);
+                    //Log.e(TAG, roomkey + "roomkey	is:");
+                    if(roomkey!=null){
+                        Intent intent1 = new Intent(CallMainActivity.this, VideoActivity.class);
+                        intent1.putExtra("roomkey", roomkey);
+                        startActivity(intent1);
+                        Tools.dismissProgressDialog();
+                    }
                    /* Tools.NetGetData(Contants.serverurl,
                             mp, this, this, NetCommand.CreateRoomManager.getValue());*/
                 }
@@ -325,14 +312,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
                 calltype = "service";
-		/*	ESClientMakeACDCall esClientMakeACDCall=new ESClientMakeACDCallImpl();
-			CallingMsg callingMsg=new CallingMsg("","1","video");
 
-			String	roomkey=esClientMakeACDCall.esclientmakeacdcall(callingMsg);
-			Log.e(TAG,roomkey+"roomkey	is:");
-			Intent intent1=new Intent(CallMainActivity.this,VideoActivity.class);
-			intent1.putExtra("roomkey",roomkey);
-			startActivity(intent1);*/
 
 
             }
@@ -352,32 +332,13 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
                 };*/
             {
-			dialogselectalltype=Tools.createSelectCallManager(this, this);
+			dialogselectalltype=Tools.createSelectCallType(this, this);
 			dialogselectalltype.show();
 
 			dialogselectalltype.getWindow().setLayout(
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.WRAP_CONTENT);
-
-			/*new Thread() {
-				@Override
-				public void run() {
-					super.run();
-					try {
-						Thread.sleep(6000);//休眠3秒
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-					Intent intent1=new Intent(CallMainActivity.this,CreatemyActivity.class);
-
-					startActivity(intent1);
-
-				}
-			}.start();*/
-
-               // new Thread(downloadRun1).start();
-
+                calltype = "manager";
 
             }
             break;
@@ -406,24 +367,12 @@ public class CallMainActivity extends Activity implements OnClickListener,
             case R.id.createRom:
 
             {
-				/*ESClientCreateRoom esClientCreateRoom=new ESClientCreateRoomImpl();
-				CreateRomMsg createRomMsg=new CreateRomMsg("123",scheduleInfo,"123","video","default",1,new
-						RoomMsg("","","11"));
-				String  roomkey=esClientCreateRoom.createroom(createRomMsg);
-				Log.d(TAG,"33333333333333333成功了么");
-				Log.d(TAG,"33333333333333333成功了么"+esClientCreateRoom.createroom(createRomMsg));
-*/
+
+
                 Intent intent4 = new Intent(CallMainActivity.this, CreatemyActivity.class);
                 //	intent4.putExtra("roomKey",roomkey);
                 startActivity(intent4);
-                Thread downloadRun3 = new Thread() {
-                    @Override
-                    public void run() {
-                        down3();
-                    }
 
-
-                };
                 //new Thread(downloadRun3).start();
 
 
@@ -443,10 +392,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
     }
 
-    private void down3() {
 
-
-    }
 
     private void down() {
         Intent intent = new Intent(CallMainActivity.this, VideoActivity.class);
@@ -456,20 +402,6 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
     }
 
-    private void down1() {
-        ESClientMakeDIDCall EsClientMakeDIDCall = new ESClientMakeDIDCallImpl();
-        CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","123","1232");
-        String roomkey = EsClientMakeDIDCall.esclientMakeDiDCall(callingMsg);
-        Log.e(TAG, roomkey + "roomkey	is:");
-        Intent intent1 = new Intent(CallMainActivity.this, VideoActivity.class);
-        intent1.putExtra("roomkey", roomkey);
-        startActivity(intent1);
-		/*Intent intent1=new Intent(CallMainActivity.this,CreatemyActivity.class);
-		intent1.putExtra("calltype",calltype);
-		startActivity(intent1);
-		this.finish();
-*/
-    }
 
     @Override
     public void NetExecutePost(JSONObject result, int resultcode, int commandid) {

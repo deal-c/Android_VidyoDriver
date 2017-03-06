@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 //import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.esoon.R;
 import com.esoon.utils.Contants;
-import com.esoon.utils.Tools;
+import com.vidyo.utils.Tools;
 
 public class MainDemoActivity extends Activity  implements OnClickListener
 {
@@ -100,7 +100,7 @@ public class MainDemoActivity extends Activity  implements OnClickListener
 	private String LastRoomid = null;
 	public void checkExceptionQuitRoom()
 	{
-		String lastroomid =Tools.getConfigData(this, "roomid");
+		String lastroomid = Tools.getConfigData(this, "roomid");
 		
 		if(lastroomid !=null &&  !"".equals(lastroomid))
 		{

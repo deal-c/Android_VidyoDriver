@@ -2,7 +2,6 @@ package com.esoon.vidyo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,11 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.esoon.R;
-import com.esoon.pojo.CallingMsg;
 import com.esoon.pojo.DeleteMsg;
-import com.esoon.pojo.ReturnMsg;
-import com.esoon.vidyo.api.call.ESClientMakeACDCall;
-import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyo.api.queue.ESClientGetQueuePosition;
 import com.esoon.vidyo.api.queue.impl.ESClientGetQueuePositionImpl;
 import com.esoon.vidyo.api.room.ESClientDeleteRoom;
@@ -38,8 +33,13 @@ TextView    queueMsg;
         queueMsg=(TextView)findViewById(R.id.queueMsg);
         roomId=this.getIntent().getStringExtra("roomId");
         roomKey=this.getIntent().getStringExtra("roomkey");
+        Log.e(TAG,"roomMsg  roomId  is:"+roomKey);
+        Log.e(TAG,"roomMsg  roomId  is:"+roomKey);
+        Log.e(TAG,"roomMsg  roomId  is:"+roomKey);
+        Log.e(TAG,"roomMsg  roomId  is:"+roomKey);
         ESClientGetQueuePosition    esc=new ESClientGetQueuePositionImpl();
-      int  queuenum=esc.esclientGetQueuePosition(roomId);
+
+      int  queuenum=esc.esclientGetQueuePosition(Integer.parseInt(roomId));
 
         queueMsg.setText("当前排队数为"+queuenum);
 
@@ -48,10 +48,19 @@ TextView    queueMsg;
             @Override
             public void onClick(View v) {
                 flag=false;
-
+                Log.e(TAG,"roomMsg  roomId  is:"+roomId);
+                Log.e(TAG,"roomMsg  roomId  is:"+roomId);
+                Log.e(TAG,"roomMsg  roomId  is:"+roomId);
+                Log.e(TAG,"roomMsg  roomId  is:"+roomId);
                 ESClientDeleteRoom  esClientDeleteRoom=new ESClientDeleteRoomImpl();
                 DeleteMsg   deleteMsg=new DeleteMsg(Integer.parseInt(roomId),"",2);
-                if ( esClientDeleteRoom.esclientdeleteroom(deleteMsg)) {
+             //   ESClientCancelCall  CancerCall=new ESClientCancelCallImpl();
+
+
+
+
+
+                if (esClientDeleteRoom.esclientdeleteroom(deleteMsg)) {
                     Intent intent=new Intent(CallingServerActivity.this,CallMainActivity.class);
                     startActivity(intent);
                finish();
@@ -81,6 +90,7 @@ TextView    queueMsg;
                Intent   intent=new Intent(CallingServerActivity.this,VideoActivity.class);
                 intent.putExtra("roomkey",roomKey);
                 startActivity(intent);
+                    flag=false;
 
                 }
 

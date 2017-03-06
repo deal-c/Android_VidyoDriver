@@ -198,7 +198,7 @@ private boolean flag=false;
             //activity.showDialog(DIALOG_LOGIN);
 
 
-            app.Guestlogin("192.168.5.47","uRIDVSb3hT","123","");
+            app.GuestLogin("192.168.5.47","uRIDVSb3hT","123","");
             loginStatus = true;
             app.HideToolBar(false);
             app.SetEchoCancellation(true);

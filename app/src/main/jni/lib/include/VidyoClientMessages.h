@@ -1621,6 +1621,8 @@ typedef enum VidyoClientRequest_
 	/*!
 		Inquire total number of conference participants.
 
+
+
 		@see Corresponding parameter structure #VidyoClientRequestGetNumParticipants
 	*/
 	VIDYO_CLIENT_REQUEST_GET_NUM_PARTICIPANTS = VIDYO_CLIENT_REQUEST_BASE + 1609,

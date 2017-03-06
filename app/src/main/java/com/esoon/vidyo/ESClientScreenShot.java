@@ -1,68 +1,54 @@
 package com.esoon.vidyo;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.os.Environment;
 import android.view.View;
 
 
 public class ESClientScreenShot {
+    private static void screenshot(Activity activity)
+    {
+        // 获取屏幕
+        View dView = activity.getWindow().getDecorView();
+        dView.setDrawingCacheEnabled(true);
+        dView.buildDrawingCache();
+        Bitmap bmp = dView.getDrawingCache();
+        if (bmp != null)
+        {
+            try {
+                // 获取内置SD卡路径
+                String sdCardPath = Environment.getExternalStorageDirectory().getPath();
+                // 图片文件路径
+                String filePath = sdCardPath + File.separator + "screenshot.png";
 
-
-    // 获取指定Activity的截屏，保存到png文件
-    private static Bitmap takeScreenShot(Activity activity){
-
-
-//View是你需要截图的View
-        View view = activity.getWindow().getDecorView();
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-        Bitmap b1 = view.getDrawingCache();
-
-
-//获取状态栏高度
-        Rect frame = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
-        System.out.println(statusBarHeight);
-
-//获取屏幕长和高
-        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
-        int height = activity.getWindowManager().getDefaultDisplay().getHeight();
-
-
-//去掉标题栏
-//Bitmap b = Bitmap.createBitmap(b1, 0, 25, 320, 455);
-        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);
-        view.destroyDrawingCache();
-        return b;
-    }
-
-
-    //保存到sdcard
-    private static void savePic(Bitmap b,String strFileName){
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(strFileName);
-            if (null != fos)
-            {
-                b.compress(Bitmap.CompressFormat.PNG, 90, fos);
-                fos.flush();
-                fos.close();
+                File file = new File(filePath);
+                FileOutputStream os = new FileOutputStream(file);
+                bmp.compress(Bitmap.CompressFormat.PNG, 100, os);
+                os.flush();
+                os.close();
+            } catch (Exception e) {
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
-
-
-    //程序入口
     public static void shoot(Activity a){
-        ESClientScreenShot.savePic(ESClientScreenShot.takeScreenShot(a), "sdcard/xx.png");
+        screenshot(a);
     }
 }
+
+    //程序入口
+
+
+
+
+
+
+
+
+
+

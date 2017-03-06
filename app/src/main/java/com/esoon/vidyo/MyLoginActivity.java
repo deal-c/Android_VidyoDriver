@@ -183,7 +183,9 @@ public class MyLoginActivity extends Activity  {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            dialog();
+
+                            if (myflag==false){
+                            dialog();}
                         }
                     },3000);
                             //告诉主线程执行任务

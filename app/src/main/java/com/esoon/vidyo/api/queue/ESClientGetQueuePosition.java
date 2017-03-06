@@ -9,5 +9,5 @@ import org.json.JSONObject;
  */
 
 public interface ESClientGetQueuePosition {
-    int esclientGetQueuePosition(String roomId);
+    int esclientGetQueuePosition(int    roomId);
 }

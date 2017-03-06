@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 public class ESClientQueryRoomImpl  implements ESClientQueryRoom {
-    private static final String TAG = "ESClientLoginImpl";
+    private static final String TAG = "ESClientQueryRoomImpl";
     boolean flag=false;
     JSONArray rommsg;
     JSONObject  object;
@@ -34,7 +34,7 @@ public class ESClientQueryRoomImpl  implements ESClientQueryRoom {
         RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/queryRoom");
         Gson gson=new Gson();
         String dMsg=gson.toJson(queryMsg);
-        System.out.println("错误日志1");
+
         requestParams.addBodyParameter("",dMsg);
     /* x.http().post(requestParams, new Callback.CommonCallback<String>() {
             @Override
@@ -59,7 +59,7 @@ public class ESClientQueryRoomImpl  implements ESClientQueryRoom {
 
             }
         });*/
-    Log.e(TAG,"2222222222222222"+dMsg);
+
         try {
            object= x.http().postSync(requestParams,JSONObject.class);
             statusCode  = object.getInt("statusCode");
@@ -70,15 +70,12 @@ public class ESClientQueryRoomImpl  implements ESClientQueryRoom {
 
         }catch (Throwable throwable){
            // rommsg=throwable.toString();
-            System.out.println("错误日志2"+throwable.toString());
-            Log.e(TAG,throwable.toString()+"121");
-            Log.e(TAG,throwable.getMessage()+"121");
-            Log.e(TAG,throwable.getLocalizedMessage()+"1212");
+            System.out.println("query   wrong   msg is："+throwable.toString());
+
             throwable.printStackTrace();
         }
-        Log.e(TAG,"1asdfasdf啊U和督查us的话爱上打撒地方23"+object);
-        Log.e(TAG,"1asdfasdf啊U和督查us的话爱上打撒地方23"+object);
-        Log.e(TAG,"1asdfasdf啊U和督查us的话爱上打撒地方23"+object);
+        Log.e(TAG,"queryMsg is"+object);
+
         return rommsg;
     }
 

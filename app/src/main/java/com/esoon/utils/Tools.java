@@ -1,9 +1,5 @@
 package com.esoon.utils;
 
-import java.util.HashMap;
-
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,14 +21,13 @@ import android.widget.Toast;
 
 import com.esoon.R;
 import com.esoon.pojo.CallingManagerMsg;
-import com.esoon.pojo.CallingMsg;
-import com.esoon.vidyo.api.call.ESClientMakeACDCall;
 import com.esoon.vidyo.api.call.ESClientMakeDIDCall;
-import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyo.api.call.impl.ESClientMakeDIDCallImpl;
-import com.esoon.vidyosample.CallMainActivity;
-
 import com.esoon.vidyosample.VideoActivity;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class Tools
 {
@@ -390,7 +384,7 @@ public class Tools
 		{
 			Contants.managerId = sval;
 		}
-		 System.out.println ("loadSetting:" + Contants.portal + "--"+Contants.serverurl );
+		 System.out.println ("loadSetting:" + Contants.portal + "--"+ Contants.serverurl );
 		      
 	}
 

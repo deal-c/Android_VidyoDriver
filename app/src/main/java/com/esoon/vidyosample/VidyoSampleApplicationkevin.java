@@ -255,8 +255,9 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 	public native void SetEchoCancellation (boolean aecenable);
 	public native void SetSpeakerVolume (int volume);
 	public native void DisableShareEvents();
+	public native int RequestGetNumParticipants();
 	public native String getBandInfo();
-	public native void Guestlogin(String	vidyoportalName,String roomkey, String displayName,String	pin);
+	public native void GuestLogin(String	vidyoportalName,String roomkey, String displayName,String	pin);
 	
 	// load the library - name matches jni/Android.mk
 	static {

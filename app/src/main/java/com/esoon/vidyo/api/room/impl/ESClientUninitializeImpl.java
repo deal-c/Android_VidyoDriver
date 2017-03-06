@@ -2,7 +2,6 @@ package com.esoon.vidyo.api.room.impl;
 
 import android.app.Activity;
 
-import com.esoon.utils.Tools;
 import com.esoon.vidyo.api.room.ESClientUninitialize;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 
@@ -18,7 +17,7 @@ public class ESClientUninitializeImpl implements ESClientUninitialize {
         VidyoSampleApplicationkevin app;
 
         app = (VidyoSampleApplicationkevin) activity.getApplication();
-        Tools.SaveConfigData(activity, "roomid", "");
+      //  Tools.SaveConfigData(activity, "roomid", "");
 
         app.DisableAllVideoStreams();
         app.Dispose();

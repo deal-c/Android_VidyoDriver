@@ -17,7 +17,7 @@ import org.xutils.x;
  */
 
 public class ESClientMakeACDCallImpl implements ESClientMakeACDCall {
-    private static final String TAG = "videoactivity";
+    private static final String TAG = "ESClientMakeACDCallImpl";
     boolean flag = false;
     JSONObject object;
     JSONObject  room;
@@ -29,7 +29,7 @@ public class ESClientMakeACDCallImpl implements ESClientMakeACDCall {
         RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/createRoom");
         Gson gson=new Gson();
         String createMsg= gson.toJson(callingMsg);
-        Log.e(TAG, createMsg+"Something  wrong, filesDir is null");
+        Log.e(TAG, createMsg+"calling   msg is:");
         requestParams.addBodyParameter("",createMsg);
 
 /*x.http().post(requestParams, new Callback.CommonCallback<String>() {
