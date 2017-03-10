@@ -95,7 +95,7 @@ public class CreatemyActivity extends Activity {
         adapter = new BaseAdapter() {
             @Override
             public int getCount() {
-                return 6;
+                return 10;
             }
 
             @Override

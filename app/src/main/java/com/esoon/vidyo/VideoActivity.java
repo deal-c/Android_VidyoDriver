@@ -451,7 +451,6 @@ public class VideoActivity extends Activity implements
         this.roomid = this.getIntent().getStringExtra("roomId");
         this.needdelete = this.getIntent().getBooleanExtra("needdelete", false);
         this.showqueue = this.getIntent().getBooleanExtra("showqueue", false);
-
         this.calltype = this.getIntent().getStringExtra("calltype");
         if (roomid != null) {
             ESClientGetQueuePosition esc = new ESClientGetQueuePositionImpl();
@@ -483,9 +482,9 @@ public class VideoActivity extends Activity implements
 
         bntGuanduan = (RadioButton) this.findViewById(R.id.tab_guanduan_video);
         bntGuanduan.setOnClickListener(this);
-
+/*
         joinRomNum = (TextView) findViewById(R.id.roomNum);
-        joinRomNum.setOnClickListener(this);
+        joinRomNum.setOnClickListener(this);*/
         panelView = (RadioGroup) this.findViewById(R.id.radioGroupview);
         tv_title_video = (TextView) findViewById(R.id.tv_title_video);
         // Button	jieping=(Button)findViewById(R.id.jieping);
@@ -501,7 +500,7 @@ public class VideoActivity extends Activity implements
         t.setOnClickListener(this);
         t = (RadioButton) this.findViewById(R.id.tab_chat_video);
         t.setOnClickListener(this);
-        t = (RadioButton) this.findViewById(R.id.screenShot);
+    /*    t = (RadioButton) this.findViewById(R.id.screenShot);*/
         t.setOnClickListener(this);
 
         view_messagelist = (LinearLayout) this.findViewById(R.id.view_messagelist);
@@ -1026,11 +1025,11 @@ public class VideoActivity extends Activity implements
                 break;
 
             }
-            case R.id.roomNum:
+           /* case R.id.roomNum:
                 ESClientGetVideoNumParticipants getNum = new ESClientGetVideoNumParticipantsImpl();
 
                 Toast.makeText(VideoActivity.this, "当前会议人数为：" + getNum.GetVideoNumParticipants(this), Toast.LENGTH_SHORT).show();
-                break;
+                break;*/
             case R.id.tab_chat_video: {
                 //聊天开启,关闭
                 //app.SendChat("888888888发送测试消息....");
@@ -1063,20 +1062,20 @@ public class VideoActivity extends Activity implements
                 RadioButton rv = (RadioButton) arg0;
 
                 Drawable top = null;
-		/*	if(this.isCloseCamare)
-				top = getResources().getDrawable(R.drawable.guanbishipin_1);
+		if(this.isCloseCamare)
+				top = getResources().getDrawable(R.drawable.camera_privacy);
 			else
-				top = getResources().getDrawable(R.drawable.guanbishipin);*/
+				top = getResources().getDrawable(R.drawable.camera);
 
                 rv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
 
                 break;
             }
-            case R.id.screenShot:
+            /*case R.id.screenShot:
                 ESClientScreenShotImpl.shoot(this);
                 Toast.makeText(VideoActivity.this, "截屏成功，可在sd卡目录下查看.png文件", Toast.LENGTH_LONG).show();
 
-                break;
+                break;*/
             case R.id.tab_micro_video: {
                 //麦克开启,关闭
                 this.isCloseMicro = !this.isCloseMicro;
@@ -1087,10 +1086,10 @@ public class VideoActivity extends Activity implements
                 Drawable top = null;
                 RadioButton rv = (RadioButton) arg0;
 			
-/*			if(this.isCloseMicro)
-				top = getResources().getDrawable(R.drawable.jingying_1);
+			if(this.isCloseMicro)
+				top = getResources().getDrawable(R.drawable.mic_mute);
 			else
-				top = getResources().getDrawable(R.drawable.jingying);*/
+				top = getResources().getDrawable(R.drawable.mic);
 
                 rv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
 
@@ -1107,10 +1106,10 @@ public class VideoActivity extends Activity implements
                 Drawable top = null;
                 RadioButton rv = (RadioButton) arg0;
 			
-			/*if(this.isCloseSpeaker)
-				top = getResources().getDrawable(R.drawable.yangshenqi_1);
+			if(this.isCloseSpeaker)
+				top = getResources().getDrawable(R.drawable.speaker);
 			else
-				top = getResources().getDrawable(R.drawable.yangshenqi);*/
+				top = getResources().getDrawable(R.drawable.speaker_mute);
 
                 rv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
 

@@ -102,7 +102,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
         };
       //  new Thread(downloadRun1).start();
         userId =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
-   String     userName =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("userName","get  wrong   userId");
+   String     userName =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("name","get  wrong   userId");
 
         array=down6();
         setContentView(R.layout.activity_call_main);
@@ -111,7 +111,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
         Button bntmanager = (Button) this.findViewById(R.id.bnt_callmanager);
         Button createRom = (Button) this.findViewById(R.id.createRom);
         TextView tx_nihao = (TextView) this.findViewById(R.id.tx_nihao);
-        tx_nihao.setText(name + ",您好");
+        tx_nihao.setText(userName + ",您好");
         createRom.setOnClickListener(this);
         bntservice.setOnClickListener(this);
         bntmanager.setOnClickListener(this);
@@ -284,11 +284,10 @@ public class CallMainActivity extends Activity implements OnClickListener,
                       Intent  intent=new Intent(CallMainActivity.this, VideoActivity.class);
                     intent.putExtra("roomkey", returnMsg.getRoomKey());
                     intent.putExtra("roomId",  returnMsg.getRoomId());
-                      Log.e(TAG,"acdcall    start");
+                      Log.e(TAG,"acdcall    roomId"+ returnMsg.getRoomId());
                     startActivity(intent);
                     Tools.dismissProgressDialog();}
-              /*      Tools.NetGetData(Contants.serverurl,
-                            mp, this, this, NetCommand.CreateRoomService.getValue());*/
+
 
                 } else {
                     // 经理
