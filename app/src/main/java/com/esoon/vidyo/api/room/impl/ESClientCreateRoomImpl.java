@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.esoon.pojo.CreateRomMsg;
+import com.esoon.pojo.ReturnMsg;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.google.gson.Gson;
 
@@ -12,8 +13,10 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import static com.esoon.utils.VidyoUtils.queueinfo;
+
 /**
- * Created by Administrator on 2017/2/14.
+ * 创建房间
  */
 
 public class ESClientCreateRoomImpl implements ESClientCreateRoom {
@@ -21,10 +24,12 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
     JSONObject object;
     JSONObject  room;
     String  roomKey;
+    String  roomId;
+    ReturnMsg   returnMsg=new   ReturnMsg();
     private static final String TAG = "ESClientCreateRoomImpl";
     @Override
-    public String createroom(CreateRomMsg createRomMsg) {
-        RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/createRoom");
+    public ReturnMsg Createroom(CreateRomMsg createRomMsg) {
+        RequestParams requestParams=new RequestParams(queueinfo+"api/v1/video/vidyo/createRoom");
         Gson gson=new Gson();
       String createMsg= gson.toJson(createRomMsg);
         Log.e(TAG, "sending createRomMsg   :"+createMsg);
@@ -36,6 +41,8 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
             int   statusCode= object.getInt("statusCode");
             room=object.getJSONObject("room");
             roomKey=room.getString("roomKey");
+            roomId=room.getString("roomId");
+            Log.e(TAG, "createRoom msg is:"+object);
             if(statusCode==0){
                 flag=true;
             }
@@ -46,10 +53,11 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
             Log.e(TAG, "createRoom  throwable is"+throwable.toString());
         }
 
-    /*    Log.e(TAG, room.toString()+"Something  wrong, filesDir is null");
-        Log.e(TAG,roomKey+"Something  wrong, filesDir is null");
-        Log.e(TAG, room+"Something  wrong, filesDir is null");*/
+
         Log.e(TAG, "createroom   success");
-        return roomKey;
+
+        returnMsg.setRoomKey(roomKey);
+        returnMsg.setRoomId(roomId);
+        return returnMsg;
     }
 }

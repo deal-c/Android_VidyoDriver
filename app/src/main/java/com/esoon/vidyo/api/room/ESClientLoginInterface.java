@@ -7,7 +7,7 @@ package com.esoon.vidyo.api.room;
  */
 
 public interface ESClientLoginInterface {
-   public boolean LoginMessage(String userName, String userPsd);
+   public boolean loginMessage(String userName, String userPsd,String   userId);
 
 
 }

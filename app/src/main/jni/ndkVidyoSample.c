@@ -10,7 +10,7 @@ static VidyoBool joinStatus = 0;
 int x;
 int y;
 static VidyoBool allVideoDisabled = 0;
-
+void ParticipantsChanged(const VidyoClientOutEventParticipantsChanged * paticpantsChange);
 void SampleSwitchCamera(const char *name);
 void SampleStartConference();
 void SampleEndConference();
@@ -148,7 +148,18 @@ void SampleGuiOnOutEvent(VidyoClientOutEvent event,
 		LOGI("chatmsg:%s",chatmsg->message);
 		//发送消息到java
 		Event_GroupChat(chatmsg);
-	}
+	}else if (event == VIDYO_CLIENT_OUT_EVENT_PARTICIPANTS_CHANGED)
+   {
+
+            LOGI("VidyoClientOutEventParticipantsChanged Started Event\n");
+          VidyoClientOutEventParticipantsChanged * paticpantsChange = (VidyoClientOutEventParticipantsChanged *)param;
+          ParticipantsChanged(paticpantsChange);
+   }
+	
+	
+	
+	
+	
 
 }
 
@@ -198,6 +209,41 @@ static jmethodID getApplicationJniMethodId(JNIEnv *env, jobject obj, const char*
 	return mid;
 }
 
+
+void ParticipantsChanged(const VidyoClientOutEventParticipantsChanged * paticpantsChange)
+{
+        jboolean isAttached;
+        JNIEnv *env;
+        jmethodID mid;
+        jstring js;
+        env = getJniEnv(&isAttached);
+        if (env == NULL)
+                goto FAIL0;
+
+        mid = getApplicationJniMethodId(env, applicationJniObj, "", "(Ljava/lang/Integer)V");
+        if (mid == NULL)
+                goto FAIL1;
+
+        jint jparticipantCount = (env, paticpantsChange->participantCount);
+
+
+        (*env)->CallVoidMethod(env, applicationJniObj, mid, jparticipantCount);
+
+		if (isAttached)
+		{
+			(*global_vm)->DetachCurrentThread(global_vm);
+		}
+        LOGE("Event_GroupChat End");
+        return;
+FAIL1:
+		if (isAttached)
+		{
+			(*global_vm)->DetachCurrentThread(global_vm);
+		}
+FAIL0:
+        LOGE("Event_GroupChat FAILED");
+        return;
+}
 
 void Event_GroupChat(const VidyoClientOutEventGroupChat * chat)
 {
@@ -505,8 +551,8 @@ JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_Construct(
 }
 
 
-JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_GuestLogin(JNIEnv* env,jstring vidyoportalName, jobject javaThis,
-		jstring roomkey, jstring displayName, jstring pin) {
+JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_GuestLogin(JNIEnv* env, jobject javaThis,jstring vidyoportalName,
+		jstring roomKey, jstring displayName, jstring pin) {
 
 	FUNCTION_ENTRY;
 	const char *portalC = (*env)->GetStringUTFChars(env, vidyoportalName, NULL);
@@ -519,10 +565,10 @@ JNIEXPORT void Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_GuestLogin
 	strlcpy(event.roomKey, keyC, sizeof(event.roomKey));
 
 	strlcpy(event.pin, pinC, sizeof(event.pin));
-	strlcpy(event.displayName, passwordC, sizeof(event.displayName));
+	strlcpy(event.displayName, usernameC, sizeof(event.displayName));
 
 	LOGI("logging in with portalUri %s user %s ", event.portalUri, event.displayName);
-	VidyoClientInEventRoomLink(VIDYO_CLIENT_IN_EVENT_ROOM_LINK, &event, sizeof(VidyoClientInEventRoomLink));
+	VidyoClientSendEvent(VIDYO_CLIENT_IN_EVENT_ROOM_LINK ,&event, sizeof(VidyoClientInEventRoomLink));
  	FUNCTION_EXIT;
 }
 
@@ -634,7 +680,7 @@ JNIEXPORT void JNICALL Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_Re
 	FUNCTION_EXIT;
 }
 
-/**
+/**n
  * band info
  */
  jstring JNICALL Java_com_esoon_vidyosample_VidyoSampleApplicationkevin_getBandInfo(JNIEnv *env)

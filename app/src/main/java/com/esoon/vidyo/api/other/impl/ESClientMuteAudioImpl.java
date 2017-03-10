@@ -6,7 +6,7 @@ import com.esoon.vidyo.api.other.ESClientMuteAudio;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 
 /**
- * Created by Administrator on 2017/2/27.
+ * 开启/关闭话筒
  */
 
 public  class ESClientMuteAudioImpl implements ESClientMuteAudio {

@@ -1,4 +1,4 @@
-package com.esoon.vidyosample;
+package com.esoon.vidyo;
 
 import java.util.HashMap;
 
@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.esoon.R;
 import com.esoon.utils.Contants;
-import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
+import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 
 public class CallingActivity extends Activity implements OnClickListener,
 		INetRequest

@@ -2,16 +2,12 @@ package com.esoon.vidyo.api.room.impl;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 
-import android.content.res.Resources;
-import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.hardware.Sensor;
@@ -22,28 +18,23 @@ import android.view.WindowManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.esoon.R;
-import com.esoon.utils.Contants;
 import com.esoon.utils.EnterRoomHttp;
 import com.esoon.vidyo.api.room.ESClientInitialize;
 
 
-import com.esoon.vidyosample.VideoActivity;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 import com.vidyo.LmiDeviceManager.*;
 
 import android.hardware.SensorManager;
 
-public class ESClientInitializeImpl  implements ESClientInitialize,
+public class ESClientInitializeImpl implements ESClientInitialize,
         LmiDeviceManagerView.Callback,
         SensorEventListener {
-
-    private static final String TAG = "VidyoSampleActivity";
+    /**
+     * 初始化
+     */
+    private static final String TAG = "ESClientInitializeImpl";
 
     private boolean doRender = false;
 
@@ -94,27 +85,28 @@ public class ESClientInitializeImpl  implements ESClientInitialize,
     private ImageView cameraView;
     private AudioManager audioManager;
 
-    EnterRoomHttp.Arguments args=null;
+    EnterRoomHttp.Arguments args = null;
 
 
-private boolean flag=false;
-
+    private boolean flag = false;
 
 
     @Override
-    public boolean ESClientInitialize(final Activity activity,String   crtpath) {
-
+    public boolean ESClientInitialize(final Activity activity, String crtpath) {
 
         message_handler = new Handler() {
             public void handleMessage(Message msg) {
                 Bundle b = msg.getData();
-                System.out.print("1111111111111111111111111111111111" + msg);
+
                 switch (msg.what) {
                     case LIBRARY_STARTED:
+
                         app.DisableAutoLogin();
                         break;
 
                     case CALL_STARTED:
+                    //    startMsg="video has already start";
+
                         app.StartConferenceMedia();
                         app.SetPreviewModeON(true);
                         app.SetCameraDevice(usedCamera);
@@ -124,19 +116,18 @@ private boolean flag=false;
 
                     case CALL_ENDED:
                         stopDevices();
-                        activity.showDialog(DIALOG_JOIN_CONF);
                         app.RenderRelease();
+                    //    endMsg="video end";
                         break;
 
                     case MSG_BOX:
                         message = new StringBuffer(b.getString("text"));
-                        activity.showDialog(DIALOG_MSG);
                         break;
 
                     case SWITCH_CAMERA:
                         String whichCamera = (String) (msg.obj);
                         boolean isFrontCam = whichCamera.equals("FrontCamera");
-                       // Log.d(VidyoSampleApplication.TAG, "Got camera switch = " + whichCamera);
+                        // Log.d(VidyoSampleApplication.TAG, "Got camera switch = " + whichCamera);
 
                         // switch to the next camera, force settings are per device.
                         // sample does not get this values
@@ -144,19 +135,18 @@ private boolean flag=false;
                         break;
 
                     case LOGIN_SUCCESSFUL:
-                        activity.showDialog(DIALOG_JOIN_CONF);
+
                         break;
                 }
             }
         };
-
-//	  app = new VidyoSampleApplication(message_handler);
+        app = (VidyoSampleApplicationkevin) activity.getApplication();
         app = (VidyoSampleApplicationkevin) activity.getApplication();
         app.setHandler(message_handler);
 
+
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);// get the full screen size from android
-        System.out.print("222222222222222222222222222");
 
 
         activity.setContentView(R.layout.conference);
@@ -182,30 +172,29 @@ private boolean flag=false;
         Sensor mSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(this, gSensor, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-        System.out.print("33333333333333333333333333");
+
         if (netInfo == null || !netInfo.isConnected()) {
             dialogMessage = new String("Network Unavailable!\n" + "Check network connection.");
             activity.showDialog(FINISH_MSG);
-            //app = null;
-            return  flag;
+
+            return flag;
         } else if (app.initialize(crtpath, activity) == false) {
             dialogMessage = new String("Initialization Failed!\n" + "Check network connection.");
             activity.showDialog(FINISH_MSG);
-            //app = null;
-            return  flag;
+
+            return flag;
         }
         if (!loginStatus) {
             //activity.showDialog(DIALOG_LOGIN);
 
 
-            app.GuestLogin("192.168.5.47","uRIDVSb3hT","123","");
+   app.GuestLogin("192.168.5.47","7wHyQrjNeG","123","");
             loginStatus = true;
             app.HideToolBar(false);
             app.SetEchoCancellation(true);
         }
-        Log.d(TAG, "leaving onCreate");
-        flag=true;
-
+        Log.d(TAG, "ESClientInitialize  success");
+        flag = true;
 
 
         return flag;
@@ -275,64 +264,7 @@ private boolean flag=false;
     }
 
     public void onSensorChanged(SensorEvent event) {
-       /* int newOrientation = currentOrientation;
 
-        int type = event.sensor.getType();
-        float[] data;
-        if (type == Sensor.TYPE_ACCELEROMETER) {
-            data = mGData; *//* set accelerometer data pointer *//*
-        } else if (type == Sensor.TYPE_MAGNETIC_FIELD) {
-            data = mMData; *//* set magnetic data pointer *//*
-        } else {
-            return;
-        }
-        *//* copy the data to the appropriate array *//*
-        for (int i = 0; i < 3; i++)
-            data[i] = event.values[i];		*//* copy the data to the appropriate array *//*
-
-		*//*
-		 * calculate the rotation data from the latest accelerometer and
-		 * magnetic data
-		 *//*
-        Boolean ret = SensorManager.getRotationMatrix(mR, mI, mGData, mMData);
-        if (ret == false)
-            return;
-
-        SensorManager.getOrientation(mR, mOrientation);
-
-       Configuration config =getResources().getConfiguration();
-        boolean hardKeyboardOrientFix = (config.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO);
-
-        int pitch = (int) (mOrientation[1] * degreePerRadian);
-        int roll = (int) (mOrientation[2] * degreePerRadian);
-
-       if (pitch < -45) {
-            if (hardKeyboardOrientFix)
-                newOrientation = ORIENTATION_LEFT;
-            else
-                newOrientation = ORIENTATION_UP;
-        } else if (pitch > 45) {
-            if (hardKeyboardOrientFix)
-                newOrientation = ORIENTATION_RIGHT;
-            else
-                newOrientation = ORIENTATION_DOWN;
-        } else if (roll < -45 && roll > -135) {
-            if (hardKeyboardOrientFix)
-                newOrientation = ORIENTATION_UP;
-            else
-                newOrientation = ORIENTATION_RIGHT;
-        } else if (roll > 45 && roll < 135) {
-            if (hardKeyboardOrientFix)
-                newOrientation = ORIENTATION_DOWN;
-            else
-                newOrientation = ORIENTATION_LEFT;
-        }
-
-        if (newOrientation != currentOrientation) {
-            currentOrientation = newOrientation;
-            app.SetOrientation(newOrientation);
-        }
-*/
 
     }
 

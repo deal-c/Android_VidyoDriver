@@ -1,9 +1,17 @@
 package com.esoon.utils;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.esoon.vidyosample.VidyoSampleApplicationkevin;
+
 /**
  * Created by Administrator on 2017/3/6.
  */
 
 public class VidyoUtils {
-    public static final String   queueinfo="http://192.168.4.143:8090/api/v1/video/vidyo/queueinfo/";
+
+
+    public static final String   queueinfo="http://116.247.105.125:8190/";
+
 }

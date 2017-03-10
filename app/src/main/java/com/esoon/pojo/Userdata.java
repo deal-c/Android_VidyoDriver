@@ -33,6 +33,10 @@ public class Userdata {
         this.address = address;
     }
 
+    public Userdata(String userId) {
+        this.userId = userId;
+    }
+
     String address;
     public Userdata(){}
     public Userdata(String userName, String address, String userId) {

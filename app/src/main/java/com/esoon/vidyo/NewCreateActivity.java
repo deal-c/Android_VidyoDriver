@@ -2,22 +2,12 @@ package com.esoon.vidyo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.esoon.R;
-import com.esoon.pojo.CreateRomMsg;
-import com.esoon.pojo.RoomMsg;
-import com.esoon.pojo.ScheduleInfo;
-import com.esoon.vidyo.api.room.ESClientCreateRoom;
-import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
-
-import com.esoon.vidyosample.VideoActivity;
 
 import cn.jpush.android.api.JPushInterface;
 

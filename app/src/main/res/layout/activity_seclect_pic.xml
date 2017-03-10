@@ -1,18 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <ImageView
-        android:id="@+id/imgView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"></ImageView>
-    <Button
-        android:id="@+id/buttonLoadPicture"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:padding="10dp"
+    >
+  <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="30dp"><Button
+      android:background="@color/white"
+      android:text="取消"
+      android:id="@+id/cancellinvite"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+      <TextView
+          android:textSize="20sp"
+          android:textColor="@color/black"
+          android:text="邀请新成员"
+          android:layout_centerHorizontal="true"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+      <Button
+          android:focusable="true"
+          android:id="@+id/commit"
+android:background="@color/white"
+          android:layout_alignParentRight="true"
+          android:text="完成"
+
+          android:layout_width="50dp"
+          android:layout_height="30dp" /></RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:text="Load Picture"
-        android:layout_gravity="center"></Button>
-</LinearLayout>
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ListView
+
+
+            android:id="@+id/lvGenerals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+        </ListView>
+    </RelativeLayout>
+
+</RelativeLayout>

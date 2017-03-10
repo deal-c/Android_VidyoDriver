@@ -1,7 +1,8 @@
-package com.esoon.vidyosample;
+package com.esoon.vidyo;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,19 +22,13 @@ import android.widget.TextView;
 import com.esoon.R;
 import com.esoon.pojo.CallingManagerMsg;
 import com.esoon.pojo.CallingMsg;
-import com.esoon.pojo.CreateRomMsg;
 import com.esoon.pojo.QueryMsg;
 import com.esoon.pojo.ReturnMsg;
-import com.esoon.pojo.RoomMsg;
 import com.esoon.pojo.ScheduleInfo;
 import com.esoon.utils.Contants;
 import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
 import com.esoon.utils.Tools;
-import com.esoon.vidyo.CallingServerActivity;
-import com.esoon.vidyo.CreatemyActivity;
-import com.esoon.vidyo.ModifyMyRomMsgActivity;
-import com.esoon.vidyo.MyLoginActivity;
 import com.esoon.vidyo.api.call.ESClientMakeDIDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyo.api.call.impl.ESClientMakeDIDCallImpl;
@@ -41,6 +36,7 @@ import com.esoon.vidyo.api.room.ESClientQueryRoom;
 import com.esoon.vidyo.api.room.impl.ESClientQueryRoomImpl;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -61,7 +57,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
     private final int Msg_NetInvite = 1;
     private LinearLayout view_notifylist = null;
     ReturnMsg   returnMsg;
-
+    String  userId;
     ScheduleInfo scheduleInfo = new ScheduleInfo();
     // 邀请进入房间的提示窗口.
     Dialog conferenceDialog = null;
@@ -101,10 +97,14 @@ public class CallMainActivity extends Activity implements OnClickListener,
         Thread downloadRun1 = new Thread() {
             @Override
             public void run() {
-                down6();
+                array=down6();
             }
         };
-        new Thread(downloadRun1).start();
+      //  new Thread(downloadRun1).start();
+        userId =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
+   String     userName =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("userName","get  wrong   userId");
+
+        array=down6();
         setContentView(R.layout.activity_call_main);
         this.name = this.getIntent().getStringExtra("name");
         Button bntservice = (Button) this.findViewById(R.id.bnt_callservice);
@@ -115,18 +115,34 @@ public class CallMainActivity extends Activity implements OnClickListener,
         createRom.setOnClickListener(this);
         bntservice.setOnClickListener(this);
         bntmanager.setOnClickListener(this);
-        //	Button	deleteRom=(Button)findViewById(R.id.deleteRom);
-        //	deleteRom.setOnClickListener(this);
+
         Button btngal = (Button) findViewById(R.id.btngal);
         btngal.setOnClickListener(this);
         view_notifylist = (LinearLayout) this.findViewById(R.id.view_notifylist);
 
+        String  userId=this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
+
+        Log.e(TAG,"getshare id  is:"+userId);
+
+
+        for (int j= 0;j<array.length();j++){
+                JSONObject jsonObject= null;
+                try {
+                    jsonObject = array.getJSONObject(j);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                View vtemp = this.createRowView(jsonObject);
+                view_notifylist.addView(vtemp);
+                myflag=false;
+                // bnt_attend.setTag(o.getString("roomid"));
+            }
 
         //请求通知会议列表.
-        HashMap mp = new HashMap();
+ /*     HashMap mp = new HashMap();
         mp.put("operation", "notifyVidyoRoom.action");
         mp.put("userid", Contants.serveruser);
-       Tools.NetGetData(Contants.serverurl, mp, CallMainActivity.this,CallMainActivity.this, NetCommand.Notifylist.getValue());
+       Tools.NetGetData(Contants.serverurl, mp, CallMainActivity.this,CallMainActivity.this, NetCommand.Notifylist.getValue());*/
 
 
     }
@@ -136,7 +152,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
      *
      * @param o
      */
-    private View createRowView(JSONObject o) {
+    private View createRowView(final JSONObject o) {
         View v = LayoutInflater.from(this).inflate(
                 R.layout.callrow_include, null);
 
@@ -144,22 +160,39 @@ public class CallMainActivity extends Activity implements OnClickListener,
         TextView text_organizerrow = (TextView) v.findViewById(R.id.text_organizerrow);
         TextView text_topicrow = (TextView) v.findViewById(R.id.text_topicrow);
         ImageButton bnt_attend = (ImageButton) v.findViewById(R.id.bnt_attend);
-        bnt_attend.setOnClickListener(this);
+       // bnt_attend.setOnClickListener(this);
 
         try {
-
-
-            JSONArray jsonArray=new JSONArray();
-            jsonArray=array;
-            if (jsonArray!=null){
                 view_notifylist.setTag(o.getString("roomId"));
-                text_opentime.setText(o.getString("roomName"));
+                text_opentime.setText(o.getString("roomId"));
                 text_topicrow.setText(o.getString("roomSubject"));
-                text_organizerrow.setText(o.getString("roomScheduleStartDate"));
-                bnt_attend.setTag(o.getString("roomKey"));
-              //  v.setOnClickListener(this);
-            }
+                text_organizerrow.setText(o.getString("roomCreatedDate"));
+          //      bnt_attend.setTag(o.getString("roomKey"));
+                v.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent  intent=new Intent(CallMainActivity.this,TestActivity.class);
+                        try {
+                            intent.putExtra("roomKey",o.getString("roomKey"));
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
+            bnt_attend.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent  intent=new Intent(CallMainActivity.this,VideoActivity.class);
+                    try {
+                        intent.putExtra("roomkey",o.getString("roomKey"));
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
             /*
 			bnt_attend.setTag(o.getString("roomid"));
@@ -175,13 +208,17 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
     }
 
-    private void down6() {
+    private JSONArray down6() {
 
 
         ESClientQueryRoom esClientQueryRoom = new ESClientQueryRoomImpl();
-        QueryMsg queryMsg = new QueryMsg(1);
-        Log.e(TAG, queryMsg + "Romsg   is");
-        array = esClientQueryRoom.esclientqueryeroom(queryMsg);
+        QueryMsg queryMsg = new QueryMsg(userId,1);
+        Log.e(TAG,  "Romsg   is"+queryMsg);
+
+        Log.e(TAG,  "Romsg   is"+array.toString());
+
+        return esClientQueryRoom.esclientQueryRoom(queryMsg);
+
 
     }
 
@@ -240,11 +277,11 @@ public class CallMainActivity extends Activity implements OnClickListener,
                     //客服中心
                     Tools.showProgressDialog(this, "加载中...");
                     ESClientMakeACDCallImpl esClientMakeACDCall=new ESClientMakeACDCallImpl();
-                    CallingMsg  createRomMsg=new CallingMsg("video",1);
+                    CallingMsg  createRomMsg=new CallingMsg(userId,1,"video");
                     returnMsg=esClientMakeACDCall.esclientmakeacdcall(createRomMsg);
                     Log.e(TAG,"acdcall    fail");
                   if (returnMsg!=null) {
-                      Intent  intent=new Intent(CallMainActivity.this, CallingServerActivity.class);
+                      Intent  intent=new Intent(CallMainActivity.this, VideoActivity.class);
                     intent.putExtra("roomkey", returnMsg.getRoomKey());
                     intent.putExtra("roomId",  returnMsg.getRoomId());
                       Log.e(TAG,"acdcall    start");
@@ -255,19 +292,19 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
                 } else {
                     // 经理
-                    Tools.showProgressDialog(this, "加载中...");
+                  //  Tools.showProgressDialog(this, "加载中...");
                     HashMap mp = new HashMap();
                     // operation=&userid=cust2
 
                     ESClientMakeDIDCall EsClientMakeDIDCall = new ESClientMakeDIDCallImpl();
-                    CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","123","1232");
+                    CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","vip2",userId);
                     String roomkey = EsClientMakeDIDCall.esclientMakeDiDCall(callingMsg);
                     //Log.e(TAG, roomkey + "roomkey	is:");
                     if(roomkey!=null){
                         Intent intent1 = new Intent(CallMainActivity.this, VideoActivity.class);
                         intent1.putExtra("roomkey", roomkey);
                         startActivity(intent1);
-                        Tools.dismissProgressDialog();
+                       // Tools.dismissProgressDialog();
                     }
                    /* Tools.NetGetData(Contants.serverurl,
                             mp, this, this, NetCommand.CreateRoomManager.getValue());*/
@@ -452,23 +489,9 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
 
 
-             /*   for (int i = 0; i < jarr.length(); i++) {
-
-
-                    JSONObject otemp = jarr.getJSONObject(i);
-                    View vtemp = this.createRowView(otemp);
-                    view_notifylist.addView(vtemp);
-
-                }
-*/
                 JSONArray jsonArray=new JSONArray();
                 jsonArray=array;
-              /*  AlertDialog ret = null;
-            AlertDialog.Builder builder = new AlertDialog.Builder(CallMainActivity.this);
-                View loginview = LayoutInflater.from(CallMainActivity.this).inflate(
-                        R.layout.dialog_selectroomtype, null);
-                ret = builder.create();
-                ret.setView(loginview, 0, 0, 0, 0);*/
+
                 if (jsonArray!=null&&myflag){
                     for (int j= 0;j<jsonArray.length();j++){
                         JSONObject jsonObject=jsonArray.getJSONObject(j);

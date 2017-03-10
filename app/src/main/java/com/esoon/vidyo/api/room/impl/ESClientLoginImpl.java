@@ -4,6 +4,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.esoon.utils.VidyoUtils;
 import com.esoon.vidyo.TestActivity;
 import com.esoon.vidyo.api.room.ESClientLoginInterface;
 import com.google.gson.Gson;
@@ -14,7 +15,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 /**
- * Created by Administrator on 2017/2/9.
+ * 登陆
  */
 
 public class ESClientLoginImpl implements ESClientLoginInterface {
@@ -22,18 +23,19 @@ public class ESClientLoginImpl implements ESClientLoginInterface {
     private static final String TAG = "ESClientLoginImpl";
     JSONObject  obj;
     @Override
-    public boolean LoginMessage(String userName, String userPsd) {
-        RequestParams   requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/vLogin");
+    public boolean loginMessage(String userName, String userPsd,String  userId) {
+        RequestParams   requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/vLogin");
         LoginMessage loginMessage=new LoginMessage();
         System.out.println("userName is  :"+userName);
         System.out.println("userPsd is  :"+userPsd);
         loginMessage.setUserName(userName);
         loginMessage.setUserPsd(userPsd);
+        loginMessage.setUserId(userId);
         Gson    gson=new Gson();
        String   sendMsg=gson.toJson(loginMessage);
         requestParams.addBodyParameter("",sendMsg);
         System.out.println("hello is  :"+userPsd);
-
+        Log.e(TAG, obj+"Login   success");
 
        try{
 
@@ -46,10 +48,8 @@ public class ESClientLoginImpl implements ESClientLoginInterface {
            throwable.printStackTrace();
            throwable.toString();
        }
-        Log.e(TAG, "Something wrong, filesDir is null");
-        Log.e(TAG, "Something  wrong, filesDir is null");
-        Log.e(TAG,obj+ "Something  wrong, filesDir is null");
-        Log.e(TAG, obj+"Something  wrong, filesDir is null");
+
+
 
 
         System.out.println("flag is  :"+flag);

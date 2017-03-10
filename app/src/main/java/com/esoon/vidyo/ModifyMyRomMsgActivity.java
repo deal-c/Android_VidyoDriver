@@ -14,8 +14,6 @@ import com.esoon.R;
 import com.esoon.pojo.DeleteMsg;
 import com.esoon.vidyo.api.room.ESClientDeleteRoom;
 import com.esoon.vidyo.api.room.impl.ESClientDeleteRoomImpl;
-import com.esoon.vidyosample.CallMainActivity;
-
 
 
 public class ModifyMyRomMsgActivity extends Activity {
@@ -99,7 +97,7 @@ String  roomId;
                    }
 
                     DeleteMsg   deleteMsg=new DeleteMsg(myid,nameEdtxt.getText().toString(),1);
-                if (esClientDeleteRoom.esclientdeleteroom(deleteMsg)){
+                if (esClientDeleteRoom.Esclientdeleteroom(deleteMsg)){
                     Toast.makeText(ModifyMyRomMsgActivity.this,"删除成功,房间id是:"+idEdtxt.getText().toString(),Toast.LENGTH_LONG).show();
                     Intent  intent=new Intent(ModifyMyRomMsgActivity.this, CallMainActivity.class);
                     startActivity(intent);

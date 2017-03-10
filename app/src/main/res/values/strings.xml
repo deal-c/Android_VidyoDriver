@@ -2,6 +2,20 @@
 <resources>
 
 
+    <string name="title_activity_general_">General_Activity</string>
+    <string-array name="generals">
+        <item>Test1</item>
+        <item>Test2</item>
+        <item>Test3</item>
+        <item>Test4</item>
+        <item>Tset5</item>
+        <item>Test6</item>
+        <item>Test7</item>
+        <item>Test8</item>
+        <item>Test9</item>
+        <item>Test10</item>
+    </string-array>
+    <string name="portalAddress">http://192.168.4.143:8090/</string>
     <string name="login">Login</string>
     <string name="join_button_text">Join Own RoomMsg</string>
     <string name="join_dialog_title">Join My own RoomMsg</string>

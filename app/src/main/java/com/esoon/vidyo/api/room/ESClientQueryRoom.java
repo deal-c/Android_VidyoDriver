@@ -9,5 +9,6 @@ import org.json.JSONArray;
  */
 
 public interface ESClientQueryRoom {
-        JSONArray esclientqueryeroom(QueryMsg queryMsg);
+        JSONArray esclientQueryRoom(QueryMsg queryMsg);
+
 }

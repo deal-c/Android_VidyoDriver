@@ -6,7 +6,7 @@ import com.esoon.vidyo.api.other.ESClientSendMessage;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 
 /**
- * Created by Administrator on 2017/2/27.
+ * 发送文本消息.
  */
 
 public class ESClientSendMessageImpl implements ESClientSendMessage{

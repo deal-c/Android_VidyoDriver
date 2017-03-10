@@ -2,7 +2,7 @@ package com.esoon.vidyo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import android.os.Handler;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -21,19 +22,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
 
+import com.esoon.ExampleUtil;
+import com.esoon.PushSetActivity;
 import com.esoon.R;
+import com.esoon.pojo.JPushMsg;
+import com.esoon.utils.Tools;
+import com.esoon.vidyo.api.other.ESClientInitJPush;
+import com.esoon.vidyo.api.other.impl.ESClientInitJPushImpl;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.ESClientLoginInterface;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientLoginImpl;
-import com.esoon.vidyosample.CallMainActivity;
 
-import com.vidyo.utils.Tools;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-public class MyLoginActivity extends Activity  {
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+
+public class MyLoginActivity extends Activity {
 
     private EditText login_username;
     private EditText login_password;
@@ -41,58 +52,118 @@ public class MyLoginActivity extends Activity  {
     private CheckBox cb_remeber;
     private Button user_register_button;
     private CheckBox psdButton;
-    boolean myflag=false;
+    boolean myflag = false;
     private EditText edit_id;
-    boolean flag =true;
+    boolean flag = true;
     static String YES = "yes";
     static String NO = "no";
     static String name, password;
-    ESClientLoginInterface loginInterface=new ESClientLoginImpl();
+    ESClientLoginInterface loginInterface = new ESClientLoginImpl();
     private String isMemory = "";//isMemory变量用来判断SharedPreferences有没有数据，包括上面的YES和NO
-    private String FILE = "saveUserNamePwd";//用于保存SharedPreferences的文件
+    private String FILE = "shared_loginn_info";//用于保存SharedPreferences的文件
     private SharedPreferences sp = null;//声明一个SharedPreferences
     public static boolean isHttps = false;
-    private static final String TAG = "VidyoSampleActivity";
+    private static final String TAG = "MyLoginActivity";
+    private static final int MSG_SET_ALIAS = 1001;
+    private static final int MSG_SET_TAGS = 1002;
     String dialogMessage;
+    String rid;
+    Set<String> tagMsg;
+    String aliasMsg;
+    String      userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_mylogin);
-
+        rid = JPushInterface.getRegistrationID(getApplicationContext());
+        Log.e(TAG, "registedId is  :" + rid);
+        setTag();
+        setAlias();
         initWidget();
-        sp = getSharedPreferences(FILE, MODE_PRIVATE);
-        isMemory = sp.getString("isMemory", NO);
-//进入界面时，这个if用来判断SharedPreferences里面name和password有没有数据，有的话则直接打在EditText上面
-        if (isMemory.equals(YES)) {
-            name = sp.getString("name", "");
-            password = sp.getString("password", "");
-            login_username.setText(name);
-            login_password.setText(password);
-        }
-        Editor editor = sp.edit();
-        editor.putString(name, login_username.toString());
-        editor.putString(password, login_password.toString());
-        editor.commit();
+        //Jpush();
+
 
 
     }
-    private void showErrorDialog(String msg)
-    {
+
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+
+                case MSG_SET_ALIAS:
+                    Log.d(TAG, "Set alias in handler.");
+                    JPushInterface.setAliasAndTags(getApplicationContext(), (String) msg.obj, null, mAliasCallback);
+                    break;
+                case MSG_SET_TAGS:
+                    Log.d(TAG, "Set tags in handler.");
+                    JPushInterface.setAliasAndTags(getApplicationContext(), null, (Set<String>) msg.obj, mTagsCallback);
+                    break;
+
+                default:
+                    Log.i(TAG, "Unhandled msg - " + msg.what);
+            }
+        }
+    };
+
+    private void setAlias() {
+        // EditText aliasEdit = (EditText) findViewById(R.id.et_alias);
+        String alias = rid;
+        if (TextUtils.isEmpty(alias)) {
+            Toast.makeText(MyLoginActivity.this, R.string.error_alias_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!ExampleUtil.isValidTagAndAlias(alias)) {
+            Toast.makeText(MyLoginActivity.this, R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //调用JPush API设置Alias
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
+    }
+
+
+    private void setTag() {
+        EditText tagEdit = (EditText) findViewById(R.id.et_tag);
+        String tag = rid;
+
+        // 检查 tag 的有效性
+        if (TextUtils.isEmpty(tag)) {
+            Toast.makeText(MyLoginActivity.this, R.string.error_tag_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // ","隔开的多个 转换成 Set
+        String[] sArray = tag.split(",");
+        Set<String> tagSet = new LinkedHashSet<String>();
+        for (String sTagItme : sArray) {
+            if (!ExampleUtil.isValidTagAndAlias(sTagItme)) {
+                Toast.makeText(MyLoginActivity.this, R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            tagSet.add(sTagItme);
+        }
+
+        //调用JPush API设置Tag
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_TAGS, tagSet));
+
+    }
+
+    private void showErrorDialog(String msg) {
 
 
         AlertDialog.Builder builder;
-        AlertDialog alerterror=null;
+        AlertDialog alerterror = null;
 
         final AlertDialog finalAlerterror = alerterror;
         builder = new AlertDialog.Builder(this).setTitle(msg)
                 .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener()
-                        {
+                        new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
-                                                int whichButton)
-                            {
+                                                int whichButton) {
                                 finalAlerterror.dismiss();
                                 // showDialog(DIALOG_JOIN_CONF);
                                 finish();
@@ -107,112 +178,79 @@ public class MyLoginActivity extends Activity  {
 
         name = login_username.getText().toString();
         password = login_password.getText().toString();
-        Toast.makeText(MyLoginActivity.this,"正在登陆，请稍后...",Toast.LENGTH_LONG).show();
+        Toast.makeText(MyLoginActivity.this, "正在登陆，请稍后...", Toast.LENGTH_LONG).show();
     /*    loginInterface=new ESClientLoginImpl();
         flag=loginInterface.LoginMessage(name,password);*/
 
-        ESClientCreateRoom  esClientCreateRoom=new ESClientCreateRoomImpl();
+        ESClientCreateRoom esClientCreateRoom = new ESClientCreateRoomImpl();
 
     }
 
 
     public void remenber() {
-        if (cb_remeber.isChecked()) {
+
             if (sp == null) {
                 sp = getSharedPreferences(FILE, MODE_PRIVATE);
             }
             Editor edit = sp.edit();
-            edit.putString("name", login_username.getText().toString());
-            edit.putString("password", login_password.getText().toString());
-            edit.putString("isMemory", YES);
+            edit.putString("name",login_username.getText().toString() );
+            edit.putString( "password",login_password.getText().toString());
             edit.commit();
-        } else if (!cb_remeber.isChecked()) {
-            if (sp == null) {
-                sp = getSharedPreferences(FILE, MODE_PRIVATE);
-            }
-            Editor edit = sp.edit();
-            edit.putString("isMemory", NO);
-            edit.commit();
-        }
+
     }
 
     private void initWidget() {
-        // cb_remeber = (CheckBox) findViewById(R.id.cb_remeber);
+
         login_username = (EditText) findViewById(R.id.edit_username);
         login_password = (EditText) findViewById(R.id.edit_password);
         user_login_button = (Button) findViewById(R.id.button_login);
-        //   user_register_button = (Button) findViewById(R.id.cb_remeber);
+
         psdButton = (CheckBox) findViewById(R.id.psdButton);
-        // edit_id = (EditText) findViewById(R.id.edit_id);
+
         user_login_button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"checkEdit():"+checkEdit());
-                System.out.println("checkEdit():"+checkEdit());
+                remenber();
+                Log.d(TAG, "checkEdit():" + checkEdit());
+                System.out.println("checkEdit():" + checkEdit());
+
+                Thread downloadRunLogin = new Thread() {
+                    @Override
+                    public void run() {
+                        myflag = login();
+
+                    }
 
 
-/*
+                };
 
-                if(! Tools.isNetworkConnected(MyLoginActivity.this)) {
-                    dialogMessage = new String("Network Unavailable!\n"
-                            + "Check network connection.");
-                    showErrorDialog("网络不通");
-                    // app = null;
-                    return;
-                }else{*/
+                Thread downloadRunJupsh = new Thread() {
+                    @Override
+                    public void run() {
+                        myflag = Jpush();
+
+                    }
+
+
+                };
+
                 if (checkEdit()) {
                     name = login_username.getText().toString();
                     password = login_password.getText().toString();
 
-
-   Thread downloadRun1 = new Thread() {
-                        @Override
-                        public void run() {
-                         myflag=down1();
-
-                        }
-
-
-                    };
-                  new Thread(downloadRun1).start();
-
-                    /*if(flag){
-
-                    }*/
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            if (myflag==false){
-                            dialog();}
-                        }
-                    },3000);
-                            //告诉主线程执行任务
-
-
-
-
-
-                   /* if (loginInterface.LoginMessage(name,password)){
-                        System.out.println("搞什么飞机");
-                        Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
-                        startActivity(intent);
-                        MyLoginActivity.this.finish();
-                    }*/
-
-
+                    if (!Tools.isNetworkConnected(MyLoginActivity.this)) {
+                        dialog();
+                    } else {
+                        new Thread(downloadRunLogin).start();
+                        new Thread(downloadRunJupsh).start();
+                    }
+                } else {
+                    Toast.makeText(MyLoginActivity.this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-     /*   edit_id.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MyLoginActivity.this, "您不能不能修改Id，详情请联系客服", Toast.LENGTH_LONG).show();
-            }
-        });*/
+
         psdButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -260,78 +298,113 @@ public class MyLoginActivity extends Activity  {
         });
     }
 
-    private boolean down1() {
+    private boolean Jpush() {
+        if (aliasMsg != null) {
+            Log.e(TAG, "InitJpush  start");
+            JPushMsg jPushMsg = new JPushMsg(userId, "常州亿迅公司", 2, aliasMsg, aliasMsg, "", rid);
+            ESClientInitJPush esClientInitJPush = new ESClientInitJPushImpl();
+            esClientInitJPush.esclientInitJPush(jPushMsg);
+        }
+        return false;
+    }
 
-        ESClientLoginInterface  esClientLoginInterface=new ESClientLoginImpl();
-        if ( esClientLoginInterface.LoginMessage(name,password)) {
-            //   Toast.makeText(MyLoginActivity.this,"登陆成功！",Toast.LENGTH_LONG).show();
+    private boolean login() {
+        userId =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
+        ESClientLoginInterface esClientLoginInterface = new ESClientLoginImpl();
+        if (esClientLoginInterface.loginMessage(name, userId, password)) {
             Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
             intent.putExtra("name", name);
-            flag=false;
-
+            flag = false;
             startActivity(intent);
-           // MyLoginActivity.this.finish();
-
         }
         return flag;
     }
 
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
 
-
-protected void  dialog(){
-    AlertDialog.Builder builder=new AlertDialog.Builder(MyLoginActivity.this);
-    builder.setMessage("请检查网络连接");
-    builder.setTitle("提示");
-    builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
         @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-            MyLoginActivity.this.finish();
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
+            aliasMsg = alias;
+            Log.e(TAG, "alias msg is" + alias);
+            switch (code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.i(TAG, logs);
+                    break;
+
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);
+                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    } else {
+                        Log.i(TAG, "No network");
+                    }
+                    break;
+
+                default:
+                    logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);
+            }
+
+            ExampleUtil.showToast(logs, getApplicationContext());
         }
-    });
-builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        dialog.dismiss();
-    }
-});
-    builder.create().show();
-}
 
+    };
+    private final TagAliasCallback mTagsCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
 
-    /*private boolean login() {
-        RequestParams requestParams = new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/vLogin");
-        Gson gson = new Gson();
+            Log.e(TAG, "alias msg is:" + aliasMsg);
+            Log.e(TAG, "tags msg is:" + tags.toString());
+            switch (code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.i(TAG, logs);
+                    break;
 
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);
+                    if (ExampleUtil.isConnected(getApplicationContext())) {
+                        mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_TAGS, tags), 1000 * 60);
+                    } else {
+                        Log.i(TAG, "No network");
+                    }
+                    break;
 
-        requestParams.addBodyParameter("", qq);
-        x.http().post(requestParams, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Toast.makeText(MyLoginActivity.this, "登陆成功", Toast.LENGTH_LONG).show();
-                flag = true;
-                startMain();
+                default:
+                    logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);
             }
 
+            ExampleUtil.showToast(logs, getApplicationContext());
+        }
+
+    };
+
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MyLoginActivity.this);
+        builder.setMessage("请检查网络连接");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(MyLoginActivity.this, "登陆失败", Toast.LENGTH_LONG).show();
-                Toast.makeText(MyLoginActivity.this, ex.toString(), Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                MyLoginActivity.this.finish();
             }
         });
-        return flag;
-    }*/
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
 
     private boolean checkEdit() {
         if (login_username.getText().toString().trim().equals("")) {

@@ -8,7 +8,7 @@ import android.telephony.TelephonyManager;
 import com.esoon.vidyo.api.other.ESClientGetVideoConfiguration;
 
 /**
- * Created by Administrator on 2017/3/4.
+ * 获取手机配置信息
  */
 
 public class ESClientGetVideoConfigurationImpl implements ESClientGetVideoConfiguration{

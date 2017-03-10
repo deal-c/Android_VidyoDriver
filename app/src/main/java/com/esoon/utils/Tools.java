@@ -23,7 +23,7 @@ import com.esoon.R;
 import com.esoon.pojo.CallingManagerMsg;
 import com.esoon.vidyo.api.call.ESClientMakeDIDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeDIDCallImpl;
-import com.esoon.vidyosample.VideoActivity;
+import com.esoon.vidyo.VideoActivity;
 
 import org.json.JSONObject;
 

@@ -12,8 +12,10 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import static com.esoon.utils.VidyoUtils.queueinfo;
+
 /**
- * Created by Administrator on 2017/2/15.
+ * 拨打客服中心
  */
 
 public class ESClientMakeACDCallImpl implements ESClientMakeACDCall {
@@ -26,34 +28,13 @@ public class ESClientMakeACDCallImpl implements ESClientMakeACDCall {
     ReturnMsg   returnMsg=new   ReturnMsg();
     @Override
     public ReturnMsg esclientmakeacdcall(CallingMsg callingMsg) {
-        RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/createRoom");
+        RequestParams requestParams=new RequestParams(queueinfo+"api/v1/video/vidyo/createRoom");
         Gson gson=new Gson();
         String createMsg= gson.toJson(callingMsg);
-        Log.e(TAG, createMsg+"calling   msg is:");
+        Log.e(TAG,"ACDCall   msg is:"+createMsg);
         requestParams.addBodyParameter("",createMsg);
 
-/*x.http().post(requestParams, new Callback.CommonCallback<String>() {
-    @Override
-    public void onSuccess(String result) {
-        Log.e(TAG, result.toString()+"Something  wrong, filesDir is null");
-    }
-
-    @Override
-    public void onError(Throwable ex, boolean isOnCallback) {
-        Log.e(TAG, ex.toString()+"Something  wrong, filesDir is null");
-
-    }
-
-    @Override
-    public void onCancelled(CancelledException cex) {
-
-    }
-
-    @Override
-    public void onFinished() {
-
-    }
-});*/
+        Log.e(TAG,"ACDCall   start:");
         try {
             object= x.http().postSync(requestParams,JSONObject.class);
            // int   statusCode= object.getInt("statusCode");
@@ -62,15 +43,14 @@ public class ESClientMakeACDCallImpl implements ESClientMakeACDCall {
           roomId=room.getString("roomId");
 
         }catch (Throwable throwable){
-            Log.e(TAG,throwable.toString()+"121");
-           Log.e(TAG,throwable.getMessage()+"121");
-            Log.e(TAG,throwable.getLocalizedMessage()+"1212");
+            Log.e(TAG,"ACDCall  wrong   msg is:"+throwable.toString());
             throwable.printStackTrace();
         }
 
         returnMsg.setRoomKey(roomKey);
         returnMsg.setRoomId(roomId);
-
+        Log.e(TAG,"ACDCall   success:");
+        Log.e(TAG,"ACDCall  backMsg   msg is:"+object);
         return returnMsg;
     }
 }

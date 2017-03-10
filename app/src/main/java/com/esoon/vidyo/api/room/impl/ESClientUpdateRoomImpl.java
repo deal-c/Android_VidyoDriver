@@ -3,6 +3,7 @@ package com.esoon.vidyo.api.room.impl;
 import android.util.Log;
 
 import com.esoon.pojo.CreateRomMsg;
+import com.esoon.utils.VidyoUtils;
 import com.esoon.vidyo.api.room.ESClientUpdateRoom;
 import com.google.gson.Gson;
 
@@ -11,7 +12,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 /**
- * Created by Administrator on 2017/3/2.
+ * 更新会议室
  */
 
 public class ESClientUpdateRoomImpl implements ESClientUpdateRoom {
@@ -22,7 +23,7 @@ public class ESClientUpdateRoomImpl implements ESClientUpdateRoom {
 
     @Override
     public boolean UpdateRoom(CreateRomMsg createRomMsg) {
-        RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/updateRoom");
+        RequestParams requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/updateRoom");
         Gson gson=new Gson();
         String createMsg= gson.toJson(createRomMsg);
         Log.e(TAG, "updateroom    start!");

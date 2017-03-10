@@ -1,5 +1,8 @@
 package com.esoon.vidyo.api.room.impl;
 
+import android.util.Log;
+
+import com.esoon.utils.VidyoUtils;
 import com.esoon.vidyo.api.room.ESClientDeleteRoom;
 import com.google.gson.Gson;
 import com.esoon.pojo.DeleteMsg;
@@ -9,17 +12,21 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 /**
- * Created by Administrator on 2017/2/15.
+ * 删除房间.
  */
 
 public class ESClientDeleteRoomImpl implements ESClientDeleteRoom {
     boolean flag=false;
+    private static final String TAG = "ESClientDeleteRoomImpl";
     @Override
-    public boolean esclientdeleteroom(DeleteMsg deleteMsg) {
-        RequestParams requestParams=new RequestParams("http://192.168.4.143:8090/api/v1/video/vidyo/deleteRoom");
+    public boolean Esclientdeleteroom(DeleteMsg deleteMsg) {
+        RequestParams requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/deleteRoom");
        Gson gson=new Gson();
      String dMsg=gson.toJson(deleteMsg);
         requestParams.addBodyParameter("",dMsg);
+        Log.e(TAG, "sending deleteMsg  :"+dMsg);
+        Log.e(TAG, "deleteRom   start");
+        Log.e(TAG, "requestParams   is"+requestParams.toString());
         try {
             JSONObject object= x.http().postSync(requestParams,JSONObject.class);
             int   statusCode= object.getInt("statusCode");
@@ -29,8 +36,9 @@ public class ESClientDeleteRoomImpl implements ESClientDeleteRoom {
 
         }catch (Throwable throwable){
             throwable.printStackTrace();
+            Log.e(TAG, "deleteRom wrongMsg  is:"+throwable.toString());
         }
-
+        Log.e(TAG, "deleteRom   success");
         return flag;
     }
 }

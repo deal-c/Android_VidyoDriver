@@ -1,4 +1,4 @@
-package com.esoon.vidyosample;
+package com.esoon.vidyo;
 
 public  interface OnSizeChangedListener{
 	

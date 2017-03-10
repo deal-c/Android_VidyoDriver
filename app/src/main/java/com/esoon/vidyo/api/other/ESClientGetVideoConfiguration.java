@@ -9,5 +9,5 @@ import android.app.Activity;
 public interface ESClientGetVideoConfiguration {
 
     //获取手机配置信息接口
-    StringBuilder  GetVideoConfiguration(Activity  activity);
+    StringBuilder  GetVideoConfiguration(Activity activity);
 }

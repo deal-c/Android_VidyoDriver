@@ -14,9 +14,6 @@ import com.esoon.vidyo.api.queue.ESClientGetQueuePosition;
 import com.esoon.vidyo.api.queue.impl.ESClientGetQueuePositionImpl;
 import com.esoon.vidyo.api.room.ESClientDeleteRoom;
 import com.esoon.vidyo.api.room.impl.ESClientDeleteRoomImpl;
-import com.esoon.vidyosample.CallMainActivity;
-
-import com.esoon.vidyosample.VideoActivity;
 
 public class CallingServerActivity extends Activity {
 TextView    queueMsg;
@@ -60,7 +57,7 @@ TextView    queueMsg;
 
 
 
-                if (esClientDeleteRoom.esclientdeleteroom(deleteMsg)) {
+                if (esClientDeleteRoom.Esclientdeleteroom(deleteMsg)) {
                     Intent intent=new Intent(CallingServerActivity.this,CallMainActivity.class);
                     startActivity(intent);
                finish();
@@ -91,6 +88,7 @@ TextView    queueMsg;
                 intent.putExtra("roomkey",roomKey);
                 startActivity(intent);
                     flag=false;
+                    CallingServerActivity.this.finish();
 
                 }
 

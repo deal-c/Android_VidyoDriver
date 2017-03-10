@@ -94,24 +94,26 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content" />
 
+	<ImageButton
+		android:layout_marginRight="5dp"
+		android:layout_centerVertical="true"
+		android:id="@+id/bnt_attend"
+		android:layout_marginBottom="20dp"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+		android:scaleType="fitCenter"
+		android:text="参加"
+		android:textSize="16sp"
+		android:textColor="#000000"
+		android:padding="10dp"
+		android:drawableTop="@drawable/canjia"
+		android:src="@drawable/canjia"
+		android:background="@drawable/bg_shadow">
+	</ImageButton>
 
- 	    	<ImageButton
-			    android:id="@+id/bnt_attend"
-			    android:layout_marginBottom="20dp"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_alignParentRight="true"
-			    android:layout_alignParentBottom="true"
-			    android:scaleType="fitCenter"
-			    android:text="参加"
-			    android:textSize="16sp"
-			    android:textColor="#000000"
-				android:padding="10dp"
-			    android:drawableTop="@drawable/canjia"
-			    android:src="@drawable/canjia"
-			    android:background="@drawable/bg_shadow">
-		  </ImageButton>
 
- 	</RelativeLayout>
+</RelativeLayout>
  
       		

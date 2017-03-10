@@ -5,7 +5,9 @@ package com.esoon.pojo;
  */
 
 public class CreateRomMsg {
-private String  userId;
+
+
+    private String  userId;
     private RoomMsg RoomMsg;
     private int callType;
     private String  subMeidaType;

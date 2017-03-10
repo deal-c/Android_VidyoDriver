@@ -12,11 +12,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.esoon.R;
+import com.esoon.vidyo.VideoActivity;
+
 import org.xutils.*;
 
 import cn.jpush.android.api.JPushInterface;
 
 public class VidyoSampleApplicationkevin extends android.app.Application {
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -24,8 +28,10 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 		x.Ext.setDebug(BuildConfig.DEBUG);
 		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
 		JPushInterface.init(this);
+
 	}
-	public static final String TAG = "VidyoSample";
+
+	public static final String TAG = "TestApp";
 	static Handler hdlr;
 	long address;	
 
@@ -105,10 +111,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 			e.printStackTrace();
 			logDir = "/data/data/com.esoon.vidyosample/app_marina/";
 		}
-		System.out.println("？？？"+caFileName);
-		System.out.println("？？？"+logDir);
-		System.out.println("？？？"+pathDir);
-		System.out.println("？？？"+activity);
+
 
 	address = Construct(caFileName,logDir, pathDir, activity);
 		if (address == 0)
@@ -151,8 +154,16 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 		m.sendToTarget();
 	
 	}
-	
-	
+	public void ParticipantsChanged() {
+		Log.d(TAG, "ParticipantsChanged  received!");
+
+
+		Message msg = Message.obtain();
+		msg.setTarget(hdlr);
+		msg.what = VideoActivity.Event_PartIn;
+		msg.sendToTarget();
+
+	}
 	public void callEndedCallback() {	
 		Log.d(TAG, "Call ended received!");
 		Message msg = Message.obtain();
@@ -258,7 +269,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 	public native int RequestGetNumParticipants();
 	public native String getBandInfo();
 	public native void GuestLogin(String	vidyoportalName,String roomkey, String displayName,String	pin);
-	
+
 	// load the library - name matches jni/Android.mk
 	static {
 	    System.loadLibrary("VidyoClientApp");

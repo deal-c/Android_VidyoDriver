@@ -6,20 +6,37 @@ package com.esoon.pojo;
 
 public class LoginMessage {
    private String  userName;
-    private String  userPsd;
+    private String  userId;
+private String  userPsd;
 
-    public LoginMessage(){}
-    @Override
-    public String toString() {
-        return "LoginMessage{" +
-                "userName='" + userName + '\'' +
-                ", userPsd='" + userPsd + '\'' +
-                '}';
+    public String getUserPsd() {
+        return userPsd;
     }
 
-    public LoginMessage(String userName, String userPsd) {
-        this.userName = userName;
+    public void setUserPsd(String userPsd) {
         this.userPsd = userPsd;
+    }
+
+    public LoginMessage(String userName, String userId, String userPsd) {
+        this.userName = userName;
+        this.userId = userId;
+        this.userPsd = userPsd;
+
+    }
+
+    public LoginMessage(){}
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public LoginMessage(String userName, String userId) {
+        this.userName = userName;
+        this.userId = userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -30,11 +47,6 @@ public class LoginMessage {
         this.userName = userName;
     }
 
-    public String getUserPsd() {
-        return userPsd;
-    }
 
-    public void setUserPsd(String userPsd) {
-        this.userPsd = userPsd;
-    }
+
 }

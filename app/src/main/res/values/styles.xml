@@ -43,9 +43,14 @@
         <item name="android:background">@drawable/btn_main_tab_selector</item>
    
     </style>
+    <style name="Transparent">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
 
-    
-     <style name="st_video_button">
+    </style>
+    <style name="st_video_button">
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_weight">1</item>

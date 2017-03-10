@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_vidyo_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.esoon.vidyo.VidyoMainActivity"
+    android:background="@color/white">
+<RelativeLayout
+    android:id="@+id/firstLayout"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+    <Button
+        android:text="退出"
+        android:background="#cccccc"
+        android:textSize="15sp"
+        android:layout_width="55dp"
+        android:layout_height="25dp" />
+    <ImageView
+        android:id="@+id/head_Img"
+        android:paddingTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/touxiang1"/>
+
+    <TextView
+        android:id="@+id/userName_text"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/head_Img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+
+        android:paddingLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bnt_callservice"
+        android:text="拨打客服中心"
+        android:drawableLeft="@drawable/kedu"
+        android:background="@drawable/bnt_custom_green"
+        android:layout_width="160dp"
+        android:layout_height="38dp"
+       />
+<Button
+    android:paddingRight="10dp"
+    android:background="@drawable/bnt_custom_blue"
+    android:drawableLeft="@drawable/kehujingli"
+    android:text="呼叫客户经理"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_width="160dp"
+    android:layout_height="38dp" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    
+    
+</RelativeLayout>
+
+    <Button
+        android:text="创建会议"
+        android:id="@+id/reservate"
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="40dp" />
+
+    <RelativeLayout
+        android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="40dp"
+            android:paddingTop="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <ListView
+            android:id="@+id/queryView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ListView>
+
+
+    </RelativeLayout>
+</RelativeLayout>

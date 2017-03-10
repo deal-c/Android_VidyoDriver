@@ -11,7 +11,7 @@ import android.os.Environment;
 import android.view.View;
 
 
-public class ESClientScreenShot {
+public class ESClientScreenShotImpl {
     private static void screenshot(Activity activity)
     {
         // 获取屏幕

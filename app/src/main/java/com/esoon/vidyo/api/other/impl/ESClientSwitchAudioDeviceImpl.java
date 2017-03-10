@@ -6,7 +6,7 @@ import com.esoon.vidyo.api.other.ESClientSwitchAudioDevice;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 
 /**
- * Created by Administrator on 2017/3/2.
+ * 开启/关闭扬声器
  */
 
 public class ESClientSwitchAudioDeviceImpl  implements ESClientSwitchAudioDevice{

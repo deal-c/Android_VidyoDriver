@@ -7,5 +7,5 @@ import android.app.Activity;
  */
 
 public interface ESClientSwitchAudioDevice {
-    boolean SwitchAudioDevice(Activity  activity,boolean    flag);
+    boolean SwitchAudioDevice(Activity activity, boolean flag);
 }

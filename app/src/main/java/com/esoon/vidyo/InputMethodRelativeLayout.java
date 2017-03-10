@@ -1,4 +1,4 @@
-package com.esoon.vidyosample;
+package com.esoon.vidyo;
 
 import android.app.Activity;
 import android.content.Context;
