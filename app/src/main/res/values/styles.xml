@@ -11,8 +11,23 @@
             backward-compatibility can go here.
         -->
     </style>
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/pop_show</item>
+        <item name="android:windowExitAnimation">@anim/pop_dismiss</item>
+    </style>
 
-    <!-- Application theme. -->
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框 -->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上 -->
+        <item name="android:windowIsTranslucent">true</item><!--半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/popwin_anim_style</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:backgroundDimAmount">0.4</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>

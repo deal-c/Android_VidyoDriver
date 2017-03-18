@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_reservation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/white"
+ >
+
+    <RelativeLayout
+        android:id="@+id/rsheadlayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/blue"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <ImageButton
+                android:layout_width="28dp"
+                android:layout_height="16dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
+                android:background="#00000000"
+                android:scaleType="fitXY"
+
+                android:src="@drawable/back_login" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:text="选择参会人" />
+
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:layout_width="26dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/call_room"
+
+                android:scaleType="fitXY" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+
+        android:id="@+id/viewAdder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rsheadlayout"
+        android:padding="5dp"
+        android:orientation="horizontal">
+
+        <GridView
+            android:background="@drawable/bg_shadow"
+            android:numColumns="auto_fit"
+            android:columnWidth="50dp"
+            android:stretchMode="columnWidth"
+            android:id="@+id/addPerson"
+            android:padding="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></GridView>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/serach_pic"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/viewAdder"
+        android:layout_height="50dp"
+        android:background="@color/blue">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:background="@drawable/search_rom" >
+
+            <EditText
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+               />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+<RelativeLayout
+    android:padding="5dp"
+
+    android:layout_below="@+id/serach_pic"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ListView
+        android:divider="@null"
+        android:padding="10dp"
+
+        android:background="@drawable/bg_shadow"
+    android:id="@+id/select_pic"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"></ListView>L
+</RelativeLayout>
+
+
+
+</RelativeLayout>

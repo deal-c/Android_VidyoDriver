@@ -7,5 +7,5 @@ import android.app.Activity;
  */
 
 public interface ESClientUninitialize {
-    boolean EsclientUninit(Activity activity);
+    boolean esClientUninit(Activity activity);
 }

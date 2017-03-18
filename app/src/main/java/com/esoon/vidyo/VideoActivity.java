@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.WorkerThread;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -49,8 +50,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.esoon.R;
+import com.esoon.vidyo.api.call.ESClientCancelCall;
 import com.esoon.vidyo.api.call.ESClientGetVideoNumParticipants;
 import com.esoon.vidyo.api.call.impl.ESClientGetVideoNumParticipantsImpl;
+import com.esoon.vidyo.api.call.impl.ESClientcancellcallImpl;
 import com.esoon.vidyo.api.other.ESClientGetNeworkTrafficStat;
 import com.esoon.vidyo.api.other.ESClientMuteAudio;
 import com.esoon.vidyo.api.other.ESClientSendMessage;
@@ -62,6 +65,8 @@ import com.esoon.vidyo.api.other.impl.ESClientSwitchAudioDeviceImpl;
 import com.esoon.vidyo.api.queue.ESClientGetQueuePosition;
 import com.esoon.vidyo.api.queue.impl.ESClientGetQueuePositionImpl;
 import com.esoon.vidyo.api.room.ESClientJoinRoom;
+import com.esoon.vidyo.api.room.ESClientUninitialize;
+import com.esoon.vidyo.api.room.impl.ESCUtil;
 import com.esoon.vidyo.api.room.impl.ESClientJoinRoomImpl;
 import com.esoon.vidyosample.VidyoSampleApplicationkevin;
 import com.vidyo.LmiDeviceManager.LmiDeviceManagerView;
@@ -73,10 +78,14 @@ import com.vidyo.utils.ICancelCall;
 import com.vidyo.utils.INetRequest;
 import com.vidyo.utils.Tools;
 
+import static com.esoon.R.id.showQueue;
+import static com.esoon.R.id.themeEdTxt;
+
 public class VideoActivity extends Activity implements
         LmiDeviceManagerView.Callback, SensorEventListener,
         View.OnClickListener, INetRequest, ICancelCall, OnSoftKeyboardStateChangedListener
-        , OnSizeChangedListener {
+        , OnSizeChangedListener, ESClientJoinRoom {
+
     private static final String TAG = "videoActivity";
     private boolean doRender = false;
     private LmiDeviceManagerView bcView; // new 2.2.2
@@ -104,13 +113,13 @@ public class VideoActivity extends Activity implements
     private float[] mR = new float[16];
     private float[] mI = new float[16];
     private float[] mOrientation = new float[3];
-
+    private final int COMPLETE = 0;
     final int DIALOG_LOGIN = 0;
     final int DIALOG_JOIN_CONF = 3;
     final int DIALOG_MSG = 1;
     final int DIALOG_CALL_RECEIVED = 2;
     final int FINISH_MSG = 4;
-
+    ESCUtil escUtil;
     VidyoSampleApplicationkevin app;
     StringBuffer message;
     private int currentOrientation;
@@ -141,13 +150,19 @@ public class VideoActivity extends Activity implements
     LinearLayout view_messagelist = null; // 聊天内容面板.
     LinearLayout panel_chatsend = null; // 发送聊天内容面板.
     EditText edit_chatmsg = null;
+    TextView showQueue;
     TextView text_bandinfo = null; //显示带宽信息
     private boolean isloopband = true;
-
+    Handler handler;
     TextView joinRomNum;
+    ESClientGetQueuePosition esClientGetQueuePosition;
+    ESClientSwitchAudioDevice esclientSwitchAudioDevice;
     InputMethodRelativeLayout input_layout;
+    ESClientSendMessage esClientSendMessage;
 
+    ESClientGetNeworkTrafficStat esClientGetNeworkTrafficStat;
     //=======================================
+    ESClientMuteAudio MuteAudio;
 
     public Handler getMHandler() {
         return MHandler;
@@ -157,6 +172,8 @@ public class VideoActivity extends Activity implements
         MHandler = mHandler;
     }
 
+    private ESClientUninitialize esClientUninitialize;
+    private String userName;
     private Dialog mydialog;
     private boolean mIsOnPause = false;
     private ImageView cameraView;
@@ -265,8 +282,8 @@ public class VideoActivity extends Activity implements
             Bundle b = msg.getData();
             switch (msg.what) {
                 case Event_ShowBand: {
-                    ESClientGetNeworkTrafficStat GetNeworkTrafficStat = new ESClientGetNeworkTrafficStatImpl();
-                    String info = GetNeworkTrafficStat.EsclientGetNeworkTrafficStat(VideoActivity.this);
+
+                    String info = escUtil.eSClientGetNeworkTrafficStat(esClientGetNeworkTrafficStat, VideoActivity.this, VideoActivity.this);
                     if (info != null) {
                         String stra[] = info.split(",");
 
@@ -287,10 +304,14 @@ public class VideoActivity extends Activity implements
                     break;
                 }
                 case Event_PartIn:
+                    int participants = b.getInt("Participants");
+                    Log.e(TAG, "Event_PartIn");
 
-                    Log.e(TAG,"Event_PartIn");
-                  if (mydialog != null) {
-                        mydialog.dismiss();
+                    if (participants == 2) {
+
+                        if (mydialog != null) {
+                            mydialog.dismiss();
+                        }
                     }
 
                     break;
@@ -397,19 +418,31 @@ public class VideoActivity extends Activity implements
         LayoutInflater factory = LayoutInflater.from(this);
         final View textEntryView = factory.inflate(R.layout.activity_test1, null);
         mydialog.setContentView(textEntryView);
-
-
         Button deleteCall = (Button) textEntryView.findViewById(R.id.deleteCall);
-        TextView showQueue = (TextView) textEntryView.findViewById(R.id.showQueue);
+        showQueue = (TextView) textEntryView.findViewById(R.id.showQueue);
         deleteCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VideoActivity.this.finish();
+                ESClientCancelCall  esClientCancelCall=new ESClientcancellcallImpl();
+              if(esClientCancelCall.cancellCall(roomid)){
+                  escUtil.eSClientUninitialize(esClientUninitialize, VideoActivity.this, VideoActivity.this);
+              }
+
+
+
             }
         });
+        showQueue.setText("正在获取排队消息......");
 
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message message) {
+                if (message.what == COMPLETE) {
+                    showQueue.setText("当前排队数为" + queuenum);
+                }
+            }
+        };
 
-        showQueue.setText("当前排队数为" + queuenum);
 
     }
 
@@ -434,6 +467,45 @@ public class VideoActivity extends Activity implements
     }
 
     @Override
+    public boolean joinRom(Activity activity, String roomKey, String userName) {
+        return false;
+    }
+
+    @Override
+    public void joinRomCallBack(boolean flag) {
+        Log.e(TAG, "加入房间回调接口成功");
+    }
+
+    class WorkThread extends Thread {
+        @Override
+        public void run() {
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        Thread.sleep(6000);//休眠3秒
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (roomid != null) {
+                        // ESClientGetQueuePosition esc = new ESClientGetQueuePositionImpl();
+                        //  queuenum = esc.esclientGetQueuePosition(Integer.parseInt(roomid));
+                        queuenum = escUtil.eSClientGetQueuePosition(esClientGetQueuePosition, VideoActivity.this, Integer.parseInt(roomid));
+                        Message message = new Message();
+                        message.what = COMPLETE;
+                        handler.sendMessage(message);
+                    }
+                }
+            }.start();
+
+
+        }
+
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
 
 
@@ -443,20 +515,18 @@ public class VideoActivity extends Activity implements
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Log.d(TAG, "entering onCreate ");
         super.onCreate(savedInstanceState);
-        create();
+        escUtil = new ESCUtil();
         this.requestWindowFeature(Window.FEATURE_NO_TITLE); // disable title bar
         //必须传递roomid 这个参数.
-
+        userName = this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("name", "get  wrong   userId");
         this.roomkey = this.getIntent().getStringExtra("roomkey");
         this.roomid = this.getIntent().getStringExtra("roomId");
         this.needdelete = this.getIntent().getBooleanExtra("needdelete", false);
         this.showqueue = this.getIntent().getBooleanExtra("showqueue", false);
         this.calltype = this.getIntent().getStringExtra("calltype");
-        if (roomid != null) {
-            ESClientGetQueuePosition esc = new ESClientGetQueuePositionImpl();
-            queuenum = esc.esclientGetQueuePosition(Integer.parseInt(roomid));
-        }
 
+        create();
+        new WorkThread().start();
         app = (VidyoSampleApplicationkevin) getApplication();
         app.setHandler(message_handler);
         app.setVideoAct(this);
@@ -482,16 +552,10 @@ public class VideoActivity extends Activity implements
 
         bntGuanduan = (RadioButton) this.findViewById(R.id.tab_guanduan_video);
         bntGuanduan.setOnClickListener(this);
-/*
-        joinRomNum = (TextView) findViewById(R.id.roomNum);
-        joinRomNum.setOnClickListener(this);*/
         panelView = (RadioGroup) this.findViewById(R.id.radioGroupview);
         tv_title_video = (TextView) findViewById(R.id.tv_title_video);
-        // Button	jieping=(Button)findViewById(R.id.jieping);
-        //jieping.setOnClickListener(this);
         RadioButton t = (RadioButton) this.findViewById(R.id.tab_fullscreen_video);
         t.setOnClickListener(this);
-
         t = (RadioButton) this.findViewById(R.id.tab_micro_video);
         t.setOnClickListener(this);
         t = (RadioButton) this.findViewById(R.id.tab_speaker_video);
@@ -500,15 +564,12 @@ public class VideoActivity extends Activity implements
         t.setOnClickListener(this);
         t = (RadioButton) this.findViewById(R.id.tab_chat_video);
         t.setOnClickListener(this);
-    /*    t = (RadioButton) this.findViewById(R.id.screenShot);*/
         t.setOnClickListener(this);
 
         view_messagelist = (LinearLayout) this.findViewById(R.id.view_messagelist);
 
         panel_chatsend = (LinearLayout) this.findViewById(R.id.panel_sendmsg);
 
-//		cameraView = (ImageView) findViewById(R.id.action_camera_icon);
-//		cameraView.setOnClickListener(this);
 
         text_bandinfo = (TextView) findViewById(R.id.text_bandinfo);
         bnt_exitfullscreen = (ImageView) findViewById(R.id.bnt_exitfullscreen);
@@ -549,6 +610,7 @@ public class VideoActivity extends Activity implements
         //	ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         //NetworkInfo netInfo = cm.getActiveNetworkInfo();
         String caFileName = writeCaCertificates();
+        Log.e(TAG, "cafileName is:" + caFileName);
         String dialogMessage;
 //		setupAudio(); // will set the audio to high volume level
 
@@ -571,18 +633,15 @@ public class VideoActivity extends Activity implements
             // app = null;
             return;
         } else if (app.initialize(caFileName, this) == false) {
+            Log.e(TAG, "cafileName is:" + caFileName);
+            Log.e(TAG, "cafileName is:" + caFileName);
             dialogMessage = new String("Initialization Failed!\n"
                     + "Check network connection.");
             showErrorDialog("网络不通,initialize 错误");
             // app = null;
             return;
         }
-/*if(calltype.equals("manager")){
-    Intent intent1=new Intent(VideoActivity.this,CreatemyActivity.class);
 
-	startActivity(intent1);
-
-}*/
         if (!loginStatus) {
             StartVideoServerLogin();
             loginStatus = true;
@@ -593,7 +652,6 @@ public class VideoActivity extends Activity implements
         app.HideToolBar(true);
         //显示排队界面.
         if (showqueue) {
-
 
         }
 
@@ -606,11 +664,6 @@ public class VideoActivity extends Activity implements
 
     }
 
-    private void down3() {
-        Log.d(TAG, "显示排队界面...");
-
-    }
-
     /**
      * 监控键盘按键事件
      */
@@ -618,14 +671,14 @@ public class VideoActivity extends Activity implements
     public boolean dispatchKeyEvent(KeyEvent event) {
 //	        System.out.println ("event.getKeyCode():" + event.getKeyCode());
 //		 if(event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
-//	        { 
-//	            /*隐藏软键盘*/  
-//	            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  
-//	            if(inputMethodManager.isActive()){  
-//	                inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);  
+//	        {
+//	            /*隐藏软键盘*/
+//	            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//	            if(inputMethodManager.isActive()){
+//	                inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
 //	            }
-//	         
-//	            return true;  
+//
+//	            return true;
 //	        }  
         return super.dispatchKeyEvent(event);
     }
@@ -715,7 +768,6 @@ public class VideoActivity extends Activity implements
         stopDevices();
         app.DisableAllVideoStreams();
         app.Dispose();
-        app.uninitialize();
 
         //删除房间.
         if (needdelete) {
@@ -757,8 +809,8 @@ public class VideoActivity extends Activity implements
         stopDevices();
         app.DisableAllVideoStreams();
         app.Dispose();
-
-        app.uninitialize();
+        escUtil.eSClientUninitialize(esClientUninitialize, this, this);
+        // app.uninitialize();
         finish();
     }
 
@@ -843,13 +895,15 @@ public class VideoActivity extends Activity implements
     }
 
     private void StartVideoServerLogin() {
-      /*  showProgressDialog("加载中...");*/
+
         mydialog.show();
         Log.e(TAG, "video	start	login");
         if (roomkey != null) {
-            ESClientJoinRoom EsclientJoinRom = new ESClientJoinRoomImpl();
-            EsclientJoinRom.JoinRom(this, roomkey);
-            //joinRomNum.setText(app.RequestGetNumParticipants());
+
+            escUtil.esClientJoinRoom(this, this, this, roomkey, userName);
+          /*  ESClientJoinRoom EsclientJoinRom = new ESClientJoinRoomImpl();
+            EsclientJoinRom.joinRom(this, roomkey,userName);*/
+
 
         }
 
@@ -911,12 +965,12 @@ public class VideoActivity extends Activity implements
         /* copy the data to the appropriate array */
         for (int i = 0; i < 3; i++)
             data[i] = event.values[i]; /*
-										 * copy the data to the appropriate
+                                         * copy the data to the appropriate
 										 * array
 										 */
 
 		/*
-		 * calculate the rotation data from the latest accelerometer and
+         * calculate the rotation data from the latest accelerometer and
 		 * magnetic data
 		 */
         Boolean ret = SensorManager.getRotationMatrix(mR, mI, mGData, mMData);
@@ -961,7 +1015,7 @@ public class VideoActivity extends Activity implements
         }
 
 		/*
-		 * if (newOrientation != currentOrientation) {
+         * if (newOrientation != currentOrientation) {
 		 * camera.setCameraOrientation( newOrientation ); currentOrientation =
 		 * newOrientation; }
 		 */
@@ -981,9 +1035,9 @@ public class VideoActivity extends Activity implements
                     //	Toast.makeText(this, "发送内容不能为空", 3).show();
                 } else {
 
-                    ESClientSendMessage esClientSendMessage = new ESClientSendMessageImpl();
-                    esClientSendMessage.Sendchat("123", chatmsg, VideoActivity
-                            .this);
+                    /*esClientSendMessage.Sendchat("123", chatmsg, VideoActivity
+                            .this);*/
+                    escUtil.eSClientSendMessage(esClientSendMessage, VideoActivity.this, VideoActivity.this, "123", chatmsg);
                     //app.SendChat(chatmsg);
                     this.ShowMessage("我:", chatmsg);
                     edit_chatmsg.setText("");
@@ -1042,7 +1096,7 @@ public class VideoActivity extends Activity implements
 
 
             }
-			/*case	R.id.jieping:
+            /*case	R.id.jieping:
 			*//*	Thread downloadRun = new Thread() {
 					@Override
 					public void run() {
@@ -1062,10 +1116,10 @@ public class VideoActivity extends Activity implements
                 RadioButton rv = (RadioButton) arg0;
 
                 Drawable top = null;
-		if(this.isCloseCamare)
-				top = getResources().getDrawable(R.drawable.camera_privacy);
-			else
-				top = getResources().getDrawable(R.drawable.camera);
+                if (this.isCloseCamare)
+                    top = getResources().getDrawable(R.drawable.camera_privacy);
+                else
+                    top = getResources().getDrawable(R.drawable.camera);
 
                 rv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
 
@@ -1079,17 +1133,17 @@ public class VideoActivity extends Activity implements
             case R.id.tab_micro_video: {
                 //麦克开启,关闭
                 this.isCloseMicro = !this.isCloseMicro;
-                ESClientMuteAudio MuteAudio = new ESClientMuteAudioImpl();
-                //	MuteAudio.MuteAudio(isCloseMicro,VideoActivity.this);
-                app.AutoStartMicrophone(isCloseMicro);
-
+                escUtil.eSClientMuteAudio(MuteAudio, this, this, isCloseMicro);
+                   /* MuteAudio.MuteAudio(isCloseMicro, VideoActivity.this);
+                app.AutoStartMicrophone(isCloseMicro);*/
+                Log.e(TAG, "麦克开启");
                 Drawable top = null;
                 RadioButton rv = (RadioButton) arg0;
-			
-			if(this.isCloseMicro)
-				top = getResources().getDrawable(R.drawable.mic_mute);
-			else
-				top = getResources().getDrawable(R.drawable.mic);
+
+                if (this.isCloseMicro)
+                    top = getResources().getDrawable(R.drawable.mic_mute);
+                else
+                    top = getResources().getDrawable(R.drawable.mic);
 
                 rv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
 
@@ -1099,17 +1153,18 @@ public class VideoActivity extends Activity implements
             case R.id.tab_speaker_video: {
                 //声音外放开启,关闭
                 this.isCloseSpeaker = !this.isCloseSpeaker;
-                //app.AutoStartSpeaker(isCloseSpeaker);
-                ESClientSwitchAudioDevice EsclientSwitchAudioDevice = new ESClientSwitchAudioDeviceImpl();
-                EsclientSwitchAudioDevice.SwitchAudioDevice(this, isCloseSpeaker);
+                app.AutoStartSpeaker(isCloseSpeaker);
+                 // ESClientSwitchAudioDevice EsclientSwitchAudioDevice = new ESClientSwitchAudioDeviceImpl();
+             //   escUtil.eSClientSwitchAudioDevice(esclientSwitchAudioDevice, this, this, isCloseSpeaker);
+                //  EsclientSwitchAudioDevice.SwitchAudioDevice(this, isCloseSpeaker);
 
                 Drawable top = null;
                 RadioButton rv = (RadioButton) arg0;
-			
-			if(this.isCloseSpeaker)
-				top = getResources().getDrawable(R.drawable.speaker);
-			else
-				top = getResources().getDrawable(R.drawable.speaker_mute);
+
+                if (this.isCloseSpeaker)
+                    top = getResources().getDrawable(R.drawable.speaker_mute);
+                else
+                    top = getResources().getDrawable(R.drawable.speaker);
 
                 rv.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
 

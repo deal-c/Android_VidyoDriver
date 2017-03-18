@@ -97,7 +97,7 @@ String  roomId;
                    }
 
                     DeleteMsg   deleteMsg=new DeleteMsg(myid,nameEdtxt.getText().toString(),1);
-                if (esClientDeleteRoom.Esclientdeleteroom(deleteMsg)){
+                if (esClientDeleteRoom.esClientDeleteRoom(deleteMsg)){
                     Toast.makeText(ModifyMyRomMsgActivity.this,"删除成功,房间id是:"+idEdtxt.getText().toString(),Toast.LENGTH_LONG).show();
                     Intent  intent=new Intent(ModifyMyRomMsgActivity.this, CallMainActivity.class);
                     startActivity(intent);

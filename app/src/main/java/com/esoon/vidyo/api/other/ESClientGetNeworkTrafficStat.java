@@ -7,6 +7,6 @@ import android.app.Activity;
  */
 
 public interface ESClientGetNeworkTrafficStat {
-    String  EsclientGetNeworkTrafficStat(Activity activity);
+    String  esclientGetNeworkTrafficStat(Activity activity);
 
 }

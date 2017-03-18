@@ -36,56 +36,61 @@ import com.esoon.pojo.CreateRomMsg;
 import com.esoon.pojo.ReturnMsg;
 import com.esoon.pojo.ScheduleInfo;
 import com.esoon.pojo.RoomMsg;
+import com.esoon.pojo.Userdata;
 import com.esoon.vidyo.api.call.ESClientMakeACDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
+import com.esoon.vidyo.api.room.impl.ESCUtil;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CreatemyActivity extends Activity {
-    ScheduleInfo scheduleInfo = new ScheduleInfo();
+public class CreatemyActivity extends Activity implements View.OnClickListener, ESClientCreateRoom {
+
     private View.OnClickListener imgViewListener;
     private Bitmap myBitmap;
     private int REQUEST_OK = 1;
     private LinearLayout ly_list;
     private static final String TAG = "CreatemyActivity";
     Button imageView;
+    String nameString;
+    String themeStrng;
     GridView addpic;
     private ArrayList<HashMap<String, Object>> listItem;
     BaseAdapter adapter;
     int[] checkimages = new int[20];
     String[] checktext = new String[20];
-    TextView    countNum;
-    int count=0;
+    TextView countNum;
+    Button createrom;
+    int count = 0;
     private String initStartDateTime = "2013年9月3日 14:44"; // 初始化开始时间
     private String initEndDateTime = "2014年8月23日 17:44"; // 初始化结束时间
-    String  roomId;
+    String roomId;
+    String shareId;
+    EditText timeselect;
+    EditText endtime;
+    EditText textname;
+    EditText texttheme;
+    Button back;
+    Userdata userdata = new Userdata("10001");
+    Userdata[] userArry = {userdata, userdata};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create);
+        initview();
 
-        imageView = (Button) findViewById(R.id.addItem);
-        Button createrom = (Button) findViewById(R.id.createMyRom);
-        final EditText text = (EditText) findViewById(R.id.textname);
-        EditText text1 = (EditText) findViewById(R.id.texttheme);
-        countNum=(TextView)findViewById(R.id.countNum);
-        addpic = (GridView) findViewById(R.id.addpic);
-
-    final String    shareId =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
-        final EditText timeselect = (EditText) findViewById(R.id.timeseclect);
-        final EditText endtime = (EditText) findViewById(R.id.end_time);
-
-        DisplayMetrics  dm=new DisplayMetrics();
+        DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        float   density=dm.density;
-        int gritdviewWidth=(int)(40*checkimages.length*density);
-        int itemWith=(int)(40*density);
+        float density = dm.density;
+        int gritdviewWidth = (int) (40 * checkimages.length * density);
+        int itemWith = (int) (40 * density);
 
-        LinearLayout.LayoutParams   params=new LinearLayout.LayoutParams(gritdviewWidth,LinearLayout.LayoutParams.FILL_PARENT);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(gritdviewWidth, LinearLayout.LayoutParams.FILL_PARENT);
         addpic.setLayoutParams(params);
         addpic.setColumnWidth(itemWith);
         addpic.setHorizontalSpacing(2);
@@ -128,141 +133,141 @@ public class CreatemyActivity extends Activity {
 //          若不为空直接取出使用,提升程序效率
                 }
 
-                if(position<1){
+                if (position < 1) {
                     viewHolder.imageView.setImageResource(R.drawable.touxiang1);
-                }else   if(checktext!=null){
-                    viewHolder.imageView.setImageResource(checkimages[position-1]);
+                } else if (checktext != null) {
+                    viewHolder.imageView.setImageResource(checkimages[position - 1]);
                 }
-              viewHolder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
-                  @Override
-                  public boolean onLongClick(View v) {
+                viewHolder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
 
 
-                      return false;
-                  }
-              });
+                        return false;
+                    }
+                });
 
                 return convertView;
             }
         };
 
-
         Intent intent = this.getIntent();
 
         checktext = intent.getStringArrayExtra("checktext");
         checkimages = intent.getIntArrayExtra("checkimages");
-if (checkimages==null){
-    countNum.setText("人数1");
-}else {
-    for (int  i=0;i<checkimages.length;i++){
-        if (checkimages[i]!=0){
-            count++;
-        }
-    }
-    countNum.setText("人数"+(count+1));
-}
-
-            addpic.setAdapter(adapter);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(roomId!=null){
-                    Intent intent = new Intent(CreatemyActivity.this, SelectPicActivity.class);
-                    intent.putExtra("roomId",roomId);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(CreatemyActivity.this,"请先创建房间",Toast.LENGTH_SHORT).show();
+        if (checkimages == null) {
+            countNum.setText("人数1");
+        } else {
+            for (int i = 0; i < checkimages.length; i++) {
+                if (checkimages[i] != 0) {
+                    count++;
                 }
-
             }
-        });
-        timeselect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            countNum.setText("人数" + (count + 1));
+        }
+
+        addpic.setAdapter(adapter);
+        imageView.setOnClickListener(this);
+        timeselect.setOnClickListener(this);
+        endtime.setOnClickListener(this);
+
+        back.setOnClickListener(this);
+        createrom.setOnClickListener(this);
+
+    }
+
+    private boolean checkEdit() {
+        if (textname.getText().toString().trim().equals("")) {
+            Toast.makeText(CreatemyActivity.this, "房间名不能为空", Toast.LENGTH_SHORT).show();
+        } else if (texttheme.getText().toString().trim().equals("")) {
+            Toast.makeText(CreatemyActivity.this, "会议主题不能为空", Toast.LENGTH_SHORT).show();
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+
+    private void initview() {
+        imageView = (Button) findViewById(R.id.addItem);
+        createrom = (Button) findViewById(R.id.createMyRom);
+        textname = (EditText) findViewById(R.id.textname);
+        texttheme = (EditText) findViewById(R.id.texttheme);
+        countNum = (TextView) findViewById(R.id.countNum);
+        addpic = (GridView) findViewById(R.id.addpic);
+        shareId = this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password", "get  wrong   userId");
+        timeselect = (EditText) findViewById(R.id.timeseclect);
+        endtime = (EditText) findViewById(R.id.end_time);
+        back = (Button) findViewById(R.id.backTo);
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.createMyRom:
+                if (checkEdit()) {
+                    nameString = textname.getText().toString();
+                    themeStrng = texttheme.getText().toString();
+                    boolean schedule = true;
+                    Log.e(TAG, "wrong  edittext is:" + nameString);
+                    ESCUtil escUtil = new ESCUtil();
+                    Userdata[]  users=new Userdata[]{};
+                    Userdata    userData=new Userdata();
+                    ScheduleInfo scheduleInfo = new ScheduleInfo(timeselect.getText().toString(),userData,users);
+                    CreateRomMsg createRomMsg = new CreateRomMsg(shareId, new RoomMsg(nameString, themeStrng, "常州"), 3, "video", "default", null, scheduleInfo, schedule, null);
+                    ReturnMsg returnMsg = escUtil.eSClientCreateRoom(this, CreatemyActivity.this, createRomMsg);
+                    //ReturnMsg returnMsg = esClientCreateRoom.createRoom(createRomMsg);
+                    Toast.makeText(CreatemyActivity.this, "创建成功", Toast.LENGTH_LONG).show();
+                    roomId = returnMsg.getRoomId();
+                }
+                break;
+
+            case R.id.timeseclect:
                 DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
                         CreatemyActivity.this, initEndDateTime);
                 dateTimePicKDialog.dateTimePicKDialog(timeselect);
-            }
-        });
-        endtime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
+
+                break;
+            case R.id.end_time:
+
+                DateTimePickDialogUtil endDateTimePicKDialog = new DateTimePickDialogUtil(
                         CreatemyActivity.this, initEndDateTime);
-                dateTimePicKDialog.dateTimePicKDialog(endtime);
-            }
-        });
-        final String nameString = text.getText().toString();
-        final String themeStrng = text.getText().toString();
-        Button back = (Button) findViewById(R.id.backTo);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent  intent=new Intent(CreatemyActivity.this,CallMainActivity.class);
-                startActivity(intent);
+                endDateTimePicKDialog.dateTimePicKDialog(endtime);
+                break;
+            case R.id.addItem:
+
+                if (roomId != null) {
+                    Intent createIntent = new Intent(CreatemyActivity.this, SelectPicActivity.class);
+                    createIntent.putExtra("roomId", roomId);
+                    startActivity(createIntent);
+                } else {
+                    Toast.makeText(CreatemyActivity.this, "请先创建房间", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.backTo:
+
+                Intent finishIntent = new Intent(CreatemyActivity.this, CallMainActivity.class);
+                startActivity(finishIntent);
                 finish();
-            }
-        });
-        createrom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
 
-
-
-                ESClientCreateRoom esClientCreateRoom = new ESClientCreateRoomImpl();
-                CreateRomMsg createRomMsg = new CreateRomMsg(shareId, scheduleInfo, "123", "video", "default", 3, new
-                        RoomMsg(nameString, themeStrng, "常州"));
-                ReturnMsg    returnMsg = esClientCreateRoom.Createroom(createRomMsg);
-                Toast.makeText(CreatemyActivity.this, "创建成功，key值为：" + returnMsg.getRoomKey(), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(CreatemyActivity.this, VideoActivity.class);
-                intent.putExtra("roomkey", returnMsg.getRoomKey());
-                roomId=returnMsg.getRoomId();
-             //   startActivity(intent);
-
-
-            }
-        });
-
-    }
-
-    private void openAlertDialog() {
-        // TODO Auto-generated method stub
-        AlertDialog menuDialog = new AlertDialog.Builder(CreatemyActivity.this)
-                .setTitle("邀请人员")
-                .setAdapter(getAdapter(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-                        //获取选中项的内容
-                        //  addpic.setBackground(listItem.get(which).get("ItemManager"));
-                    }
-                }).show();
+        }
 
 
     }
 
-    //获取设配器内容（要显示的效果）
-    private ListAdapter getAdapter() {
-        listItem = new ArrayList<HashMap<String, Object>>();
-        HashMap<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("ImageManager", R.drawable.touxiang1);
-        map1.put("ItemManager", "杰克");
-        listItem.add(map1);
-        HashMap<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("ImageManager", R.drawable.touxiang1);
-        map2.put("ItemManager", "艾伦");
-        listItem.add(map2);
-        HashMap<String, Object> map3 = new HashMap<String, Object>();
-        map3.put("ImageManager", R.drawable.touxiang1);
-        map3.put("ItemManager", "瑞兹");
-        listItem.add(map3);
+    @Override
+    public ReturnMsg createRoom(CreateRomMsg createRomMsg) {
+        return null;
+    }
 
+    @Override
+    public void createRoomCallBack(Boolean flag) {
 
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this, listItem, R.layout.list_item,
-                new String[]{"ImageManager", "ItemManager"},
-                new int[]{R.id.image, R.id.text});
-        return listItemAdapter;
     }
 
     public class ViewHolder {

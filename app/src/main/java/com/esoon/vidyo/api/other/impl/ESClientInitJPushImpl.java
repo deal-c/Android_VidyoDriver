@@ -21,7 +21,7 @@ public class ESClientInitJPushImpl implements ESClientInitJPush {
 
     @Override
     public boolean esclientInitJPush(JPushMsg jPushMsg) {
-        RequestParams  requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/push/initialize");
+        RequestParams  requestParams=new RequestParams(VidyoUtils.NetPortalInfo+"api/v1/video/push/initialize");
         Gson    gson=new Gson();
         String  msg=gson.toJson(jPushMsg);
         Log.e(TAG,"Init sendMsg is  :"+jPushMsg);

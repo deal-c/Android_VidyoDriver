@@ -32,16 +32,16 @@ public class ESClientQueryRoomImpl  implements ESClientQueryRoom {
     int   statusCode=1;
     @Override
     public JSONArray esclientQueryRoom(QueryMsg  queryMsg) {
-        RequestParams requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/queryRoom");
+        RequestParams requestParams=new RequestParams(VidyoUtils.NetPortalInfo+"api/v1/video/vidyo/queryRoom");
         Gson gson=new Gson();
         String dMsg=gson.toJson(queryMsg);
-
+        Log.e(TAG,"queryMsg  msg   is:"+queryMsg);
         requestParams.addBodyParameter("",dMsg);
 
 
         try {
            object= x.http().postSync(requestParams,JSONObject.class);
-            Log.e(TAG,"queryMsg  msg   is:"+object);
+            Log.e(TAG,"queryMsg  back   msg   is:"+object);
             statusCode  = object.getInt("statusCode");
             rommsg=object.getJSONArray("room");
             if (statusCode==0){

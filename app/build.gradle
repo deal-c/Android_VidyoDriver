@@ -13,6 +13,7 @@ android {
 
         ndk {
             moduleName "ndkVidyoSample"
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }
 
         applicationId "com.esoon"

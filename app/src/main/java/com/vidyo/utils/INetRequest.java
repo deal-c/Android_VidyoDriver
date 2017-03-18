@@ -13,4 +13,6 @@ public interface INetRequest
  * 
  */
 	public void NetExecutePost(JSONObject result, int resultcode, int commandid);
+
+
 }

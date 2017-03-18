@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/activity_my_vidyo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    >
+
+    <ImageView
+        android:src="@drawable/touxiang1"
+        android:id="@+id/head_Img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp" />
+
+    <RelativeLayout
+
+       android:id="@+id/textLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/head_Img"
+       android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+
+        >
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:id="@+id/part_in"
+            android:text="正在加入"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:id="@+id/conf"
+            android:layout_below="@+id/part_in"
+            android:text="会议室808"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_below="@id/conf"
+            android:id="@+id/wait"
+            android:text="请等待"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:id="@+id/nums"
+            android:layout_below="@+id/wait"
+            android:text="当前参会人数"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:gravity="center_horizontal"
+            android:layout_below="@id/nums"
+            android:id="@+id/confTheme"
+            android:text="会议主题:开发部门会议"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/textLayout"
+        android:id="@+id/videoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:background="#00000000"
+            android:src="@drawable/voice_mute"
+            android:layout_marginLeft="40dp"
+            android:scaleType="fitXY"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <ImageButton
+            android:scaleType="fitXY"
+            android:background="#00000000"
+            android:src="@drawable/sound_mute"
+            android:layout_centerHorizontal="true"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <ImageButton
+            android:scaleType="fitXY"
+            android:background="#00000000"
+            android:src="@drawable/camera_mute"
+            android:layout_marginRight="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:scaleType="fitXY"
+        android:background="#00000000"
+        android:src="@drawable/cancell_call"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imageButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/head_Img"
+        android:layout_alignStart="@+id/head_Img"
+        android:layout_marginBottom="42dp" />
+
+</RelativeLayout>

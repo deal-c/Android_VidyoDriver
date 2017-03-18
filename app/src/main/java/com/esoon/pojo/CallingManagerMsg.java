@@ -8,14 +8,14 @@ public class CallingManagerMsg {
 
     String  userId;
     String  userData;
-    String  manageId;
+    String  managerId;
     String  subMediaType;
 int  callType;
 
-    public CallingManagerMsg(int callType, String subMediaType, String manageId, String userId) {
+    public CallingManagerMsg(int callType, String subMediaType, String managerId, String userId) {
         this.callType = callType;
         this.subMediaType = subMediaType;
-        this.manageId = manageId;
+        this.managerId = managerId;
         this.userId = userId;
     }
 
@@ -25,7 +25,7 @@ int  callType;
         return "CallingManagerMsg{" +
                 "userId='" + userId + '\'' +
                 ", userData='" + userData + '\'' +
-                ", manageId='" + manageId + '\'' +
+                ", manageId='" + managerId + '\'' +
                 ", subMediaType='" + subMediaType + '\'' +
                 '}';
     }
@@ -47,11 +47,11 @@ int  callType;
     }
 
     public String getManageId() {
-        return manageId;
+        return managerId;
     }
 
     public void setManageId(String manageId) {
-        this.manageId = manageId;
+        this.managerId = manageId;
     }
 
     public String getSubMediaType() {
@@ -64,14 +64,14 @@ int  callType;
 
     public CallingManagerMsg(String userId, String manageId, String subMediaType) {
         this.userId = userId;
-        this.manageId = manageId;
+        this.managerId = manageId;
         this.subMediaType = subMediaType;
     }
 
     public CallingManagerMsg(String userId, String userData, String manageId, String subMediaType) {
         this.userId = userId;
         this.userData = userData;
-        this.manageId = manageId;
+        this.managerId = manageId;
         this.subMediaType = subMediaType;
     }
 

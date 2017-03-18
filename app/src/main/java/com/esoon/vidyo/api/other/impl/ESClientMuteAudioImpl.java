@@ -14,15 +14,10 @@ public  class ESClientMuteAudioImpl implements ESClientMuteAudio {
     VidyoSampleApplicationkevin app;
     @Override
     public boolean MuteAudio(boolean flag, Activity activity) {
-        if (flag==true){
+
 
             app = (VidyoSampleApplicationkevin) activity.getApplication();
             app.AutoStartMicrophone(flag);
-        }else {
-
-            app.AutoStartMicrophone(flag);
-        }
-
 
         return flag;
     }

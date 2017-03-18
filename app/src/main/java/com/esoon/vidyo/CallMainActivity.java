@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
 import com.esoon.R;
 import com.esoon.pojo.CallingManagerMsg;
 import com.esoon.pojo.CallingMsg;
@@ -29,10 +30,12 @@ import com.esoon.utils.Contants;
 import com.esoon.utils.Contants.NetCommand;
 import com.esoon.utils.INetRequest;
 import com.esoon.utils.Tools;
+import com.esoon.vidyo.api.call.ESClientMakeACDCall;
 import com.esoon.vidyo.api.call.ESClientMakeDIDCall;
 import com.esoon.vidyo.api.call.impl.ESClientMakeACDCallImpl;
 import com.esoon.vidyo.api.call.impl.ESClientMakeDIDCallImpl;
 import com.esoon.vidyo.api.room.ESClientQueryRoom;
+import com.esoon.vidyo.api.room.impl.ESCUtil;
 import com.esoon.vidyo.api.room.impl.ESClientQueryRoomImpl;
 
 import org.json.JSONArray;
@@ -46,7 +49,8 @@ import java.util.HashMap;
 public class CallMainActivity extends Activity implements OnClickListener,
         INetRequest {
     JSONArray array;
-    boolean myflag=true;
+    ESCUtil escUtil;
+    boolean myflag = true;
     String name;
     String roomid;
     String startdate;
@@ -56,12 +60,16 @@ public class CallMainActivity extends Activity implements OnClickListener,
     private static String TAG = "callMain";
     private final int Msg_NetInvite = 1;
     private LinearLayout view_notifylist = null;
-    ReturnMsg   returnMsg;
-    String  userId;
+    ReturnMsg returnMsg;
+    ReturnMsg   didreturnMsg;
+    String userId;
+    ESClientMakeDIDCall esClientMakeDIDCall;
+    ESClientQueryRoom esClientQueryRoom;
     ScheduleInfo scheduleInfo = new ScheduleInfo();
     // 邀请进入房间的提示窗口.
     Dialog conferenceDialog = null;
     boolean isStopLoop = false;
+    ESClientMakeACDCall esClientMakeACDCall;
 
     /**
      * 启动循环获取邀请消息
@@ -93,18 +101,13 @@ public class CallMainActivity extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        array=new JSONArray();
-        Thread downloadRun1 = new Thread() {
-            @Override
-            public void run() {
-                array=down6();
-            }
-        };
-      //  new Thread(downloadRun1).start();
-        userId =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
-   String     userName =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("name","get  wrong   userId");
+        escUtil = new ESCUtil();
+        array = new JSONArray();
 
-        array=down6();
+        userId = this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password", "get  wrong   userId");
+        String userName = this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("name", "get  wrong   userId");
+
+        array = down6();
         setContentView(R.layout.activity_call_main);
         this.name = this.getIntent().getStringExtra("name");
         Button bntservice = (Button) this.findViewById(R.id.bnt_callservice);
@@ -120,23 +123,23 @@ public class CallMainActivity extends Activity implements OnClickListener,
         btngal.setOnClickListener(this);
         view_notifylist = (LinearLayout) this.findViewById(R.id.view_notifylist);
 
-        String  userId=this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
+        String userId = this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password", "get  wrong   userId");
 
-        Log.e(TAG,"getshare id  is:"+userId);
+        Log.e(TAG, "getshare id  is:" + userId);
 
 
-        for (int j= 0;j<array.length();j++){
-                JSONObject jsonObject= null;
-                try {
-                    jsonObject = array.getJSONObject(j);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                View vtemp = this.createRowView(jsonObject);
-                view_notifylist.addView(vtemp);
-                myflag=false;
-                // bnt_attend.setTag(o.getString("roomid"));
+        for (int j = 0; j < array.length(); j++) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = array.getJSONObject(j);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+            View vtemp = this.createRowView(jsonObject);
+            view_notifylist.addView(vtemp);
+            myflag = false;
+            // bnt_attend.setTag(o.getString("roomid"));
+        }
 
         //请求通知会议列表.
  /*     HashMap mp = new HashMap();
@@ -160,33 +163,22 @@ public class CallMainActivity extends Activity implements OnClickListener,
         TextView text_organizerrow = (TextView) v.findViewById(R.id.text_organizerrow);
         TextView text_topicrow = (TextView) v.findViewById(R.id.text_topicrow);
         ImageButton bnt_attend = (ImageButton) v.findViewById(R.id.bnt_attend);
-       // bnt_attend.setOnClickListener(this);
+        // bnt_attend.setOnClickListener(this);
 
         try {
-                view_notifylist.setTag(o.getString("roomId"));
-                text_opentime.setText(o.getString("roomId"));
-                text_topicrow.setText(o.getString("roomSubject"));
-                text_organizerrow.setText(o.getString("roomCreatedDate"));
-          //      bnt_attend.setTag(o.getString("roomKey"));
-                v.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent  intent=new Intent(CallMainActivity.this,TestActivity.class);
-                        try {
-                            intent.putExtra("roomKey",o.getString("roomKey"));
-                            startActivity(intent);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+            view_notifylist.setTag(o.getString("roomId"));
+            text_opentime.setText(o.getString("roomName"));
+            text_topicrow.setText(o.getString("roomSubject"));
+            text_organizerrow.setText(o.getString("roomCreatedDate"));
+
 
             bnt_attend.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent  intent=new Intent(CallMainActivity.this,VideoActivity.class);
+                    Intent intent = new Intent(CallMainActivity.this, VideoActivity.class);
                     try {
-                        intent.putExtra("roomkey",o.getString("roomKey"));
+                        intent.putExtra("roomId", o.getString("roomId"));
+                        intent.putExtra("roomkey", o.getString("roomKey"));
                         startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -195,7 +187,7 @@ public class CallMainActivity extends Activity implements OnClickListener,
             });
 
             /*
-			bnt_attend.setTag(o.getString("roomid"));
+            bnt_attend.setTag(o.getString("roomid"));
 			text_opentime.setText(o.getString("startdate") +"-" + o.getString("enddate"));
 			text_topicrow.setText(o.getString("roomtopic"));
 			text_organizerrow.setText("组织者:"+o.getString("roomOrganizer"));*/
@@ -211,13 +203,8 @@ public class CallMainActivity extends Activity implements OnClickListener,
     private JSONArray down6() {
 
 
-        ESClientQueryRoom esClientQueryRoom = new ESClientQueryRoomImpl();
-        QueryMsg queryMsg = new QueryMsg(userId,1);
-        Log.e(TAG,  "Romsg   is"+queryMsg);
-
-        Log.e(TAG,  "Romsg   is"+array.toString());
-
-        return esClientQueryRoom.esclientQueryRoom(queryMsg);
+        QueryMsg queryMsg = new QueryMsg(userId, 1);
+        return escUtil.eSClientQueryRoom(esClientQueryRoom, CallMainActivity.this, queryMsg);
 
 
     }
@@ -276,34 +263,36 @@ public class CallMainActivity extends Activity implements OnClickListener,
                 if (calltype.equals("service")) {
                     //客服中心
                     Tools.showProgressDialog(this, "加载中...");
-                    ESClientMakeACDCallImpl esClientMakeACDCall=new ESClientMakeACDCallImpl();
-                    CallingMsg  createRomMsg=new CallingMsg(userId,1,"video");
-                    returnMsg=esClientMakeACDCall.esclientmakeacdcall(createRomMsg);
-                    Log.e(TAG,"acdcall    fail");
-                  if (returnMsg!=null) {
-                      Intent  intent=new Intent(CallMainActivity.this, VideoActivity.class);
-                    intent.putExtra("roomkey", returnMsg.getRoomKey());
-                    intent.putExtra("roomId",  returnMsg.getRoomId());
-                      Log.e(TAG,"acdcall    roomId"+ returnMsg.getRoomId());
-                    startActivity(intent);
-                    Tools.dismissProgressDialog();}
+                    ESClientMakeACDCallImpl esClientMakeACDCall = new ESClientMakeACDCallImpl();
+                    CallingMsg createRomMsg = new CallingMsg(userId, 1, "video");
+                    returnMsg = escUtil.eSClientMakeACDCall(esClientMakeACDCall, CallMainActivity.this, createRomMsg);
+                    //   Log.e(TAG,"acdcall    fail");
+                    if (returnMsg != null) {
+                        Intent intent = new Intent(CallMainActivity.this, VideoActivity.class);
+                        intent.putExtra("roomkey", returnMsg.getRoomKey());
+                        intent.putExtra("roomId", returnMsg.getRoomId());
+                        Log.e(TAG, "acdcall    roomId" + returnMsg.getRoomId());
+                        startActivity(intent);
+                        Tools.dismissProgressDialog();
+                    }
 
 
                 } else {
                     // 经理
-                  //  Tools.showProgressDialog(this, "加载中...");
+                    //  Tools.showProgressDialog(this, "加载中...");
                     HashMap mp = new HashMap();
                     // operation=&userid=cust2
 
-                    ESClientMakeDIDCall EsClientMakeDIDCall = new ESClientMakeDIDCallImpl();
-                    CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","vip2",userId);
-                    String roomkey = EsClientMakeDIDCall.esclientMakeDiDCall(callingMsg);
+
+                    CallingManagerMsg callingMsg = new CallingManagerMsg(2, "video", "vip2", userId);
+                    didreturnMsg= escUtil.eSClientMakeDIDCall(esClientMakeDIDCall, CallMainActivity.this, callingMsg);
                     //Log.e(TAG, roomkey + "roomkey	is:");
-                    if(roomkey!=null){
+                    if (didreturnMsg.getRoomKey() != null) {
                         Intent intent1 = new Intent(CallMainActivity.this, VideoActivity.class);
-                        intent1.putExtra("roomkey", roomkey);
+                        intent1.putExtra("roomkey", didreturnMsg.getRoomKey() );
+                        intent1.putExtra("roomId",didreturnMsg.getRoomId());
                         startActivity(intent1);
-                       // Tools.dismissProgressDialog();
+                        // Tools.dismissProgressDialog();
                     }
                    /* Tools.NetGetData(Contants.serverurl,
                             mp, this, this, NetCommand.CreateRoomManager.getValue());*/
@@ -350,12 +339,11 @@ public class CallMainActivity extends Activity implements OnClickListener,
                 calltype = "service";
 
 
-
             }
             break;
 
 		/*	case R.id.deleteRom:
-				Intent	intent1=new Intent(CallMainActivity.this,ModifyMyRomMsgActivity.class);
+                Intent	intent1=new Intent(CallMainActivity.this,ModifyMyRomMsgActivity.class);
 				startActivity(intent1);
 				break;*/
             case R.id.bnt_callmanager:
@@ -368,12 +356,12 @@ public class CallMainActivity extends Activity implements OnClickListener,
 
                 };*/
             {
-			dialogselectalltype=Tools.createSelectCallType(this, this);
-			dialogselectalltype.show();
+                dialogselectalltype = Tools.createSelectCallType(this, this);
+                dialogselectalltype.show();
 
-			dialogselectalltype.getWindow().setLayout(
-					ViewGroup.LayoutParams.MATCH_PARENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialogselectalltype.getWindow().setLayout(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
                 calltype = "manager";
 
             }
@@ -429,7 +417,6 @@ public class CallMainActivity extends Activity implements OnClickListener,
     }
 
 
-
     private void down() {
         Intent intent = new Intent(CallMainActivity.this, VideoActivity.class);
         intent.putExtra("calltype", calltype);
@@ -483,22 +470,22 @@ public class CallMainActivity extends Activity implements OnClickListener,
             }
         }
         // 通知会议列表.
-        if (array!=null) {
+        if (array != null) {
             try {
 
 
+                JSONArray jsonArray = new JSONArray();
+                jsonArray = array;
 
-                JSONArray jsonArray=new JSONArray();
-                jsonArray=array;
-
-                if (jsonArray!=null&&myflag){
-                    for (int j= 0;j<jsonArray.length();j++){
-                        JSONObject jsonObject=jsonArray.getJSONObject(j);
+                if (jsonArray != null && myflag) {
+                    for (int j = 0; j < jsonArray.length(); j++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(j);
                         View vtemp = this.createRowView(jsonObject);
                         view_notifylist.addView(vtemp);
-                        myflag=false;
+                        myflag = false;
                         // bnt_attend.setTag(o.getString("roomid"));
-                    }}
+                    }
+                }
 
 
                 //模拟数据.

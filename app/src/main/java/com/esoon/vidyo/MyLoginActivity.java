@@ -18,23 +18,24 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
 
 import com.esoon.ExampleUtil;
-import com.esoon.PushSetActivity;
 import com.esoon.R;
 import com.esoon.pojo.JPushMsg;
+import com.esoon.pojo.LoginMessage;
 import com.esoon.utils.Tools;
 import com.esoon.vidyo.api.other.ESClientInitJPush;
 import com.esoon.vidyo.api.other.impl.ESClientInitJPushImpl;
 import com.esoon.vidyo.api.room.ESClientCreateRoom;
 import com.esoon.vidyo.api.room.ESClientLoginInterface;
+import com.esoon.vidyo.api.room.impl.ESCUtil;
 import com.esoon.vidyo.api.room.impl.ESClientCreateRoomImpl;
 import com.esoon.vidyo.api.room.impl.ESClientLoginImpl;
 
@@ -44,7 +45,7 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 
-public class MyLoginActivity extends Activity {
+public class MyLoginActivity extends Activity implements ESClientLoginInterface{
 
     private EditText login_username;
     private EditText login_password;
@@ -58,6 +59,7 @@ public class MyLoginActivity extends Activity {
     static String YES = "yes";
     static String NO = "no";
     static String name, password;
+    ESClientInitJPush   esClientInitJPush;
     ESClientLoginInterface loginInterface = new ESClientLoginImpl();
     private String isMemory = "";//isMemory变量用来判断SharedPreferences有没有数据，包括上面的YES和NO
     private String FILE = "shared_loginn_info";//用于保存SharedPreferences的文件
@@ -66,6 +68,7 @@ public class MyLoginActivity extends Activity {
     private static final String TAG = "MyLoginActivity";
     private static final int MSG_SET_ALIAS = 1001;
     private static final int MSG_SET_TAGS = 1002;
+    ESCUtil escUtil=new ESCUtil();
     String dialogMessage;
     String rid;
     Set<String> tagMsg;
@@ -74,9 +77,11 @@ public class MyLoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        escUtil=new ESCUtil();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        setContentView(R.layout.activity_mylogin);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_newmylogin);
         rid = JPushInterface.getRegistrationID(getApplicationContext());
         Log.e(TAG, "registedId is  :" + rid);
         setTag();
@@ -87,6 +92,7 @@ public class MyLoginActivity extends Activity {
 
 
     }
+
 
     private final Handler mHandler = new Handler() {
         @Override
@@ -179,9 +185,6 @@ public class MyLoginActivity extends Activity {
         name = login_username.getText().toString();
         password = login_password.getText().toString();
         Toast.makeText(MyLoginActivity.this, "正在登陆，请稍后...", Toast.LENGTH_LONG).show();
-    /*    loginInterface=new ESClientLoginImpl();
-        flag=loginInterface.LoginMessage(name,password);*/
-
         ESClientCreateRoom esClientCreateRoom = new ESClientCreateRoomImpl();
 
     }
@@ -302,6 +305,7 @@ public class MyLoginActivity extends Activity {
         if (aliasMsg != null) {
             Log.e(TAG, "InitJpush  start");
             JPushMsg jPushMsg = new JPushMsg(userId, "常州亿迅公司", 2, aliasMsg, aliasMsg, "", rid);
+            escUtil.eSClientInitJPush(esClientInitJPush,MyLoginActivity.this,jPushMsg);
             ESClientInitJPush esClientInitJPush = new ESClientInitJPushImpl();
             esClientInitJPush.esclientInitJPush(jPushMsg);
         }
@@ -310,8 +314,10 @@ public class MyLoginActivity extends Activity {
 
     private boolean login() {
         userId =this.getSharedPreferences("shared_loginn_info", Context.MODE_PRIVATE).getString("password","get  wrong   userId");
-        ESClientLoginInterface esClientLoginInterface = new ESClientLoginImpl();
-        if (esClientLoginInterface.loginMessage(name, userId, password)) {
+        ESCUtil escUtil =new ESCUtil();
+
+        LoginMessage    loginMessage=new LoginMessage(name, userId, password);
+        if (escUtil.eSClientLogin(this,MyLoginActivity.this,loginMessage)) {
             Intent intent = new Intent(MyLoginActivity.this, CallMainActivity.class);
             intent.putExtra("name", name);
             flag = false;
@@ -418,4 +424,16 @@ public class MyLoginActivity extends Activity {
     }
 
 
+    @Override
+    public boolean loginMessage(LoginMessage loginMessage) {
+
+
+
+        return false;
+    }
+
+    @Override
+    public boolean loginCallBack(boolean string) {
+        return false;
+    }
 }

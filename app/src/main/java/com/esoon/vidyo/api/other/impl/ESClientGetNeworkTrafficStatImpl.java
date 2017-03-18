@@ -16,7 +16,7 @@ public class ESClientGetNeworkTrafficStatImpl implements ESClientGetNeworkTraffi
     private String      TAG="ESClientGetNework";
 
     @Override
-    public String EsclientGetNeworkTrafficStat(Activity activity) {
+    public String esclientGetNeworkTrafficStat(Activity activity) {
 
         app = (VidyoSampleApplicationkevin) activity.getApplication();
         showInfo=app.getBandInfo();

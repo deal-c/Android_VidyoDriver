@@ -19,8 +19,8 @@ public class ESClientDeleteRoomImpl implements ESClientDeleteRoom {
     boolean flag=false;
     private static final String TAG = "ESClientDeleteRoomImpl";
     @Override
-    public boolean Esclientdeleteroom(DeleteMsg deleteMsg) {
-        RequestParams requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/deleteRoom");
+    public boolean esClientDeleteRoom(DeleteMsg deleteMsg) {
+        RequestParams requestParams=new RequestParams(VidyoUtils.NetPortalInfo+"api/v1/video/vidyo/deleteRoom");
        Gson gson=new Gson();
      String dMsg=gson.toJson(deleteMsg);
         requestParams.addBodyParameter("",dMsg);
@@ -40,5 +40,10 @@ public class ESClientDeleteRoomImpl implements ESClientDeleteRoom {
         }
         Log.e(TAG, "deleteRom   success");
         return flag;
+    }
+
+    @Override
+    public void esClientDeleteRoomCallBack(boolean flag) {
+
     }
 }

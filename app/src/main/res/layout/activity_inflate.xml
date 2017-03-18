@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_shadow"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_a" />
+
+        <TextView
+            android:id="@+id/search_roomId"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="808"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="150dp"
+            android:gravity="center_vertical"
+            android:text="2人会议中"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="正在进行"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:background="#fff1f1f1"
+        android:paddingTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"></RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="14dp"
+        android:paddingTop="10dp">
+
+        <ImageButton
+            android:scaleType="centerCrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#00000000"
+            android:src="@drawable/search_themepic" />
+
+        <TextView
+            android:id="@+id/themeEdTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="开发部门会议"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/countTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="140dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="3:15"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingTop="5dp"
+        android:background="#fff1f1f1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"></LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="14dp"
+        android:paddingTop="5dp"
+        android:weightSum="1">
+
+        <ImageButton
+            android:scaleType="centerCrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#00000000"
+            android:src="@drawable/search_time" />
+
+        <TextView
+            android:id="@+id/confTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.10"
+            android:gravity="center_vertical"
+            android:text="2017年三月7日"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:background="#fff1f1f1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"></LinearLayout>
+
+    <LinearLayout
+android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+       >
+        <ImageButton
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="1dp"
+            android:background="@drawable/bg_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:text="添加人员" />
+
+
+        <ImageButton
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="1dp"
+            android:background="#E1E1E1"
+            android:id="@+id/atendRom"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:text="加入会议" />
+
+    </LinearLayout>
+</LinearLayout>

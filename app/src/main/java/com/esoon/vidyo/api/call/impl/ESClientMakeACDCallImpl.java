@@ -12,7 +12,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import static com.esoon.utils.VidyoUtils.queueinfo;
+import static com.esoon.utils.VidyoUtils.NetPortalInfo;
 
 /**
  * 拨打客服中心
@@ -28,7 +28,7 @@ public class ESClientMakeACDCallImpl implements ESClientMakeACDCall {
     ReturnMsg   returnMsg=new   ReturnMsg();
     @Override
     public ReturnMsg esclientmakeacdcall(CallingMsg callingMsg) {
-        RequestParams requestParams=new RequestParams(queueinfo+"api/v1/video/vidyo/createRoom");
+        RequestParams requestParams=new RequestParams(NetPortalInfo+"api/v1/video/vidyo/createRoom");
         Gson gson=new Gson();
         String createMsg= gson.toJson(callingMsg);
         Log.e(TAG,"ACDCall   msg is:"+createMsg);

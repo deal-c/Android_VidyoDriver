@@ -8,7 +8,7 @@ public class RoomMsg {
     private int  roomId;
     private String roomName;
     private String roomSubject;
-
+    private String roomLocation;
     public RoomMsg(int roomId, String roomName, String roomLocation, String roomSubject) {
         this.roomId = roomId;
         this.roomName = roomName;
@@ -16,7 +16,7 @@ public class RoomMsg {
         this.roomSubject = roomSubject;
     }
 
-    private String roomLocation;
+
 
     public RoomMsg(String roomName, String roomsubject, String roomlocation) {
         this.roomName = roomName;

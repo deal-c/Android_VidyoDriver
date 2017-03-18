@@ -57,9 +57,9 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
         if (!(null == initDateTime || "".equals(initDateTime))) {
             calendar = this.getCalendarByInintData(initDateTime);
         } else {
-            initDateTime = calendar.get(Calendar.YEAR) + "年"
-                    + calendar.get(Calendar.MONTH) + "月"
-                    + calendar.get(Calendar.DAY_OF_MONTH) + "日 "
+            initDateTime = calendar.get(Calendar.YEAR) + "-"
+                    + calendar.get(Calendar.MONTH) + "-"
+                    + calendar.get(Calendar.DAY_OF_MONTH) + " "
                     + calendar.get(Calendar.HOUR_OF_DAY) + ":"
                     + calendar.get(Calendar.MINUTE);
         }
@@ -116,7 +116,7 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
         calendar.set(datePicker.getYear(), datePicker.getMonth(),
                 datePicker.getDayOfMonth(), timePicker.getCurrentHour(),
                 timePicker.getCurrentMinute());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         dateTime = sdf.format(calendar.getTime());
         ad.setTitle(dateTime);

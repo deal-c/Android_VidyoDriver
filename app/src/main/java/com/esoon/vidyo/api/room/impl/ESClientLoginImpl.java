@@ -19,41 +19,54 @@ import org.xutils.x;
  */
 
 public class ESClientLoginImpl implements ESClientLoginInterface {
-    boolean flag=false;
+    boolean flag = false;
     private static final String TAG = "ESClientLoginImpl";
-    JSONObject  obj;
+    JSONObject obj;
+
     @Override
-    public boolean loginMessage(String userName, String userPsd,String  userId) {
-        RequestParams   requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/vLogin");
-        LoginMessage loginMessage=new LoginMessage();
-        System.out.println("userName is  :"+userName);
-        System.out.println("userPsd is  :"+userPsd);
-        loginMessage.setUserName(userName);
-        loginMessage.setUserPsd(userPsd);
-        loginMessage.setUserId(userId);
-        Gson    gson=new Gson();
-       String   sendMsg=gson.toJson(loginMessage);
-        requestParams.addBodyParameter("",sendMsg);
-        System.out.println("hello is  :"+userPsd);
-        Log.e(TAG, obj+"Login   success");
+    public boolean loginMessage(LoginMessage loginMessage) {
+        RequestParams requestParams = new RequestParams(VidyoUtils.NetPortalInfo + "api/v1/video/vidyo/vLogin");
 
-       try{
+        System.out.println("userName is  :" + loginMessage.getUserName());
+        System.out.println("userPsd is  :" + loginMessage.getUserPsd());
 
-          obj=  x.http().postSync(requestParams,JSONObject.class);
-          int   statusCode= obj.getInt("statusCode");
-           if(statusCode==0){
-               flag=true;
-           }
-       }catch (Throwable throwable) {
-           throwable.printStackTrace();
-           throwable.toString();
-       }
+        Gson gson = new Gson();
+        String sendMsg = gson.toJson(loginMessage);
+        requestParams.addBodyParameter("", sendMsg);
 
+        Log.d(TAG, obj + "Login   success");
 
+        try {
 
+            obj = x.http().postSync(requestParams, JSONObject.class);
+            int statusCode = obj.getInt("statusCode");
+            if (statusCode == 0) {
+                flag = true;
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
 
-        System.out.println("flag is  :"+flag);
-return flag;
+            Log.e(TAG, "Login wrong  success is" + throwable.toString());
+        }
+
+        System.out.println("flag is  :" + flag);
+        return flag;
 
     }
+
+    @Override
+    public boolean loginCallBack(boolean flag) {
+
+        if (flag) {
+            Log.e(TAG, "login success");
+
+        } else {
+            Log.e(TAG, "login fail");
+        }
+
+
+        return flag;
+    }
+
+
 }

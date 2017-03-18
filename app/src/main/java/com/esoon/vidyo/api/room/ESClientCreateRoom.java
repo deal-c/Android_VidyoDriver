@@ -8,5 +8,8 @@ import com.esoon.pojo.ReturnMsg;
  */
 
 public interface ESClientCreateRoom {
-    ReturnMsg Createroom(CreateRomMsg createRomMsg);
+    ReturnMsg createRoom(CreateRomMsg createRomMsg);
+    void createRoomCallBack(Boolean flag);
+
+
 }

@@ -5,8 +5,8 @@
     android:versionName="1.0">
 
     <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
+        android:minSdkVersion="15"
+        android:targetSdkVersion="22" />
 
     <permission
         android:name="com.esoon.permission.JPUSH_MESSAGE"
@@ -64,14 +64,13 @@
         <activity android:name=".vidyo.MyLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".vidyo.DateActivity" />
         <activity android:name=".vidyo.TestActivity" />
-        <activity android:name=".vidyo.CreatemyActivity">
-
-        </activity>
+        <activity android:name=".vidyo.CreatemyActivity" />
         <activity
             android:name=".vidyo.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -81,20 +80,14 @@
         <activity
             android:name=".vidyo.CallMainActivity"
             android:label="@string/title_activity_call_main"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".vidyo.CallingActivity"
             android:label="@string/title_activity_calling"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".vidyo.NewCreateActivity" />
-        <activity android:name=".vidyo.CallingServerActivity" /><![CDATA[
+        <activity android:name=".vidyo.CallingServerActivity" />
         >
-
-
-
-
-
-        ]]>
         <activity android:name=".vidyosample.TestActivity" />
         <activity
             android:name=".MainActivity"
@@ -219,13 +212,16 @@
             android:value="7a84aaa2ccbc3ba6044eebaf" />
 
         <activity android:name=".vidyo.VidyoMainActivity" />
-        <activity android:name=".vidyo.Test4Activity" >
-
-
-
-
-        </activity>>
-        <activity android:name=".vidyo.SelectPicActivity"></activity>
+        >
+        <activity android:name=".vidyo.SelectPicActivity" />
+        <activity android:name=".vidyo.TestESCActivity" />
+        <activity android:name=".vidyosample.LoginActivity"></activity>
+        <activity
+            android:name=".vidyosample.MainActivity"
+            android:theme="@android:style/Theme.NoTitleBar.OverlayActionModes"></activity>
+        <activity android:name=".vidyosample.ReservationActivity"></activity>
+        <activity android:name=".vidyosample.MyVidyoActivity"></activity>
+        <activity android:name=".vidyosample.ReservationCreateActivity"></activity>
     </application>
 
 </manifest>

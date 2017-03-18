@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,11 @@ import java.util.HashMap;
 
 public class Tools
 {
-
+	public static int getScreenWidth(Context context){
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		int screenWidth = wm.getDefaultDisplay().getWidth();//屏幕宽度
+		return screenWidth;
+	}
 	private static ProgressDialog progressDialog = null;
 
 	public static void showProgressDialog(Context context, String msg)
@@ -183,36 +188,6 @@ public class Tools
 	}
 
 
-	public static Dialog createSelectCallManager(final Activity _this,
-												 OnClickListener _click)
-	{
-		AlertDialog ret = null;
-		View loginview = LayoutInflater.from(_this).inflate(
-				R.layout.dialog_selectroomtype, null);
-		Button bnt_selectvideoroom = (Button)loginview.findViewById(R.id.bnt_selectvideoroom);
-
-		bnt_selectvideoroom.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				ESClientMakeDIDCall EsClientMakeDIDCall = new ESClientMakeDIDCallImpl();
-				CallingManagerMsg callingMsg = new CallingManagerMsg(2,"video","123","1232");
-				String roomkey = EsClientMakeDIDCall.esclientMakeDiDCall(callingMsg);
-				//Log.e(TAG, roomkey + "roomkey	is:");
-				if(roomkey!=null){
-					Intent intent1 = new Intent(_this, VideoActivity.class);
-					intent1.putExtra("roomkey", roomkey);
-					_this.startActivity(intent1);
-				}
-			}
-		});
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(_this);
-
-		ret = builder.create();
-		ret.setView(loginview, 0, 0, 0, 0);
-
-		return ret;
-	}
 
 
 

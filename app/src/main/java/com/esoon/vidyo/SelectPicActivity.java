@@ -31,10 +31,11 @@ import com.esoon.pojo.InviteMsg;
 import com.esoon.pojo.Userdata;
 import com.esoon.vidyo.api.queue.ESClientRoomInvited;
 import com.esoon.vidyo.api.queue.impl.ESClientRoomInvitedImpl;
+import com.esoon.vidyo.api.room.impl.ESCUtil;
 
 
 public class SelectPicActivity extends Activity {
-
+    boolean yyflag;
     private final static String TAG = "SelectPicActivity";
     private ListView lvGenerals;//listView对象
     private List<Map<String, Object>> generals;//要显示数据的集合
@@ -43,9 +44,11 @@ public class SelectPicActivity extends Activity {
     private BaseAdapter generalAdapter;//适配器\
     int count = 0;
     Button commit;
+    ESClientRoomInvited esClientRoomInvited;
     Button cancellinvite;
     int[] checkimages = new int[20];
     String[] checktext = new String[20];
+    ESCUtil escUtil;
     String roomId;
     int[] images = {
             R.drawable.select_1, R.drawable.select_2, R.drawable.select_3,
@@ -53,19 +56,20 @@ public class SelectPicActivity extends Activity {
             R.drawable.select_7, R.drawable.select_7, R.drawable.select_8,
             R.drawable.select_5};
     String[] names = {};
-    Userdata    userdata=new Userdata("10001");
-    Userdata[] userArry = {userdata,userdata};
+    Userdata userdata = new Userdata();
+    Userdata[] userArry = new Userdata[30];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seclect_pic);
+        escUtil = new ESCUtil();
         initData();
         initView();
         Intent intent = this.getIntent();
         roomId = intent.getStringExtra("roomId");
-        Log.e(TAG,"roomId is:"+roomId);
-        final int RoomId=Integer.parseInt(roomId);
+        Log.e(TAG, "roomId is:" + roomId);
+        final int RoomId = Integer.parseInt(roomId);
         cancellinvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,14 +82,25 @@ public class SelectPicActivity extends Activity {
                 Intent intent = new Intent(SelectPicActivity.this, CreatemyActivity.class);
                 intent.putExtra("checkimages", checkimages);
                 intent.putExtra("checktext", checktext);
+                //   intent.putExtra("userArry",userArry);
                 if (roomId != null) {
+                    int i;
+                    int j=0;
+                    for (i = 0; i < checktext.length; i++) {
+                        if (checktext[i] != null) {
+                            userdata.setUserId(checktext[i]);
+                            i = i + 1;
+                            userArry[j]=userdata;
+                            j++;
+                        }
+                    }
 
-                    InviteMsg inviteMsg = new InviteMsg(userArry,RoomId);
-                    ESClientRoomInvited esClientRoomInvited = new ESClientRoomInvitedImpl();
-                    if (esClientRoomInvited.esclientRoomInvited(inviteMsg)) {
+                    InviteMsg inviteMsg = new InviteMsg(userArry, RoomId);
+                    //  ESClientRoomInvited esClientRoomInvited = new ESClientRoomInvitedImpl();
+            //        if (escUtil.eSClientRoomInvited(esClientRoomInvited, inviteMsg, SelectPicActivity.this, yyflag)) {
                         Toast.makeText(SelectPicActivity.this, "发送成功", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
-                    }
+                  //  }
                 }
 
 
@@ -115,6 +130,7 @@ public class SelectPicActivity extends Activity {
     }
 
     private void initView() {
+
 // TODO Auto-generated method stub
         cancellinvite = (Button) findViewById(R.id.cancellinvite);
         commit = (Button) findViewById(R.id.commit);
@@ -178,15 +194,15 @@ public class SelectPicActivity extends Activity {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
-                            for (int i=0;i<checktext.length;i++ ){
-                                if (checktext[i]==null){
+                            for (int i = 0; i < checktext.length; i++) {
+                                if (checktext[i] == null) {
                                     checktext[i] = names[position];
                                     break;
                                 }
                             }
-                            for (int j=0;j<checkimages.length;j++){
-                                if (checkimages[j]==0){
-                                    checkimages[j]=images[position];
+                            for (int j = 0; j < checkimages.length; j++) {
+                                if (checkimages[j] == 0) {
+                                    checkimages[j] = images[position];
                                     break;
                                 }
                             }

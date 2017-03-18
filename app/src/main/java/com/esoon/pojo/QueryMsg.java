@@ -9,6 +9,15 @@ public class QueryMsg {
     int roomId;
     int getType;
 
+    @Override
+    public String toString() {
+        return "QueryMsg{" +
+                "userId='" + userId + '\'' +
+                ", roomId=" + roomId +
+                ", getType=" + getType +
+                '}';
+    }
+
     public QueryMsg(int getType) {
         this.getType = getType;
     }

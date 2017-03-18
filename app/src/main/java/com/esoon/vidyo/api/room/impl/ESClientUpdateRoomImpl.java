@@ -23,10 +23,10 @@ public class ESClientUpdateRoomImpl implements ESClientUpdateRoom {
 
     @Override
     public boolean UpdateRoom(CreateRomMsg createRomMsg) {
-        RequestParams requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/updateRoom");
+        RequestParams requestParams=new RequestParams(VidyoUtils.NetPortalInfo+"api/v1/video/vidyo/updateRoom");
         Gson gson=new Gson();
         String createMsg= gson.toJson(createRomMsg);
-        Log.e(TAG, "updateroom    start!");
+        Log.d(TAG, "updateroom    start!");
         requestParams.addBodyParameter("",createMsg);
 
 
@@ -44,8 +44,8 @@ public class ESClientUpdateRoomImpl implements ESClientUpdateRoom {
             Log.e(TAG,"updateroom fail:");
             Log.e(TAG,"updateroom throwable is:"+throwable.toString());
         }
-        Log.e(TAG,"updateroom  message  is:"+object.toString());
-        Log.e(TAG,"updateroom    success!");
+        Log.d(TAG,"updateroom  message  is:"+object.toString());
+        Log.d(TAG,"updateroom    success!");
         return flag;
     }
 

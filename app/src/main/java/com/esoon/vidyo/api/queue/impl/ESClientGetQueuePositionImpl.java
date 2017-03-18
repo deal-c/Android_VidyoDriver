@@ -25,14 +25,14 @@ JSONObject  queueinfo;
     @Override
     public int esclientGetQueuePosition(int roomId) {
 
-        RequestParams requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/queueinfo/"+roomId);
-        Log.e(TAG, object+"ESClientGetQueuePositionImpl roomId is："+roomId);
+        RequestParams requestParams=new RequestParams(VidyoUtils.NetPortalInfo+"api/v1/video/queueinfo/"+roomId);
+        Log.e(TAG, "ESClientGetQueuePositionImpl roomId is："+roomId);
         try {
            object= x.http().getSync(requestParams,JSONObject.class);
             int   statusCode= object.getInt("statusCode");
             queueinfo=object.getJSONObject("queueinfo");
             queueNum=queueinfo.getInt("queueNum");
-            Log.e(TAG, object+"ESClientGetQueuePositionImpl roomId is："+roomId);
+            Log.e(TAG,"ESClientGetQueuePositionImpl Msg is：" +object);
             if(statusCode==0){
                 flag=true;
             }

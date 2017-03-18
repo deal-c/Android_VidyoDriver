@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:orientation="vertical"
+    android:paddingRight="5dp"
+    android:paddingTop="52dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+
+            <Button
+                android:textSize="12sp"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:background="#FFE6E6E6"
+                android:scaleType="centerCrop"
+                android:text="呼叫客户经理" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/white"></RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+            <Button
+                android:textSize="12sp"
+                android:layout_width="90dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="#FFE6E6E6"
+                android:scaleType="centerCrop"
+                android:text="呼叫客服中心" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

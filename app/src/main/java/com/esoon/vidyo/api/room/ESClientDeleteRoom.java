@@ -7,5 +7,7 @@ import com.esoon.pojo.DeleteMsg;
  */
 
 public interface ESClientDeleteRoom {
-    boolean Esclientdeleteroom(DeleteMsg deleteMsg);
+    boolean esClientDeleteRoom(DeleteMsg deleteMsg);
+    void esClientDeleteRoomCallBack(boolean flag);
+
 }

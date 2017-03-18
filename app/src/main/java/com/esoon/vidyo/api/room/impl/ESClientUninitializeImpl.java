@@ -13,7 +13,7 @@ public class ESClientUninitializeImpl implements ESClientUninitialize {
 
 
     @Override
-    public boolean EsclientUninit(Activity activity) {
+    public boolean esClientUninit(Activity activity) {
         VidyoSampleApplicationkevin app;
 
         app = (VidyoSampleApplicationkevin) activity.getApplication();

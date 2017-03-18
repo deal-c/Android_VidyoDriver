@@ -57,11 +57,11 @@ TextView    queueMsg;
 
 
 
-                if (esClientDeleteRoom.Esclientdeleteroom(deleteMsg)) {
+              /*  if (esClientDeleteRoom.Esclientdeleteroom(deleteMsg)) {
                     Intent intent=new Intent(CallingServerActivity.this,CallMainActivity.class);
                     startActivity(intent);
                finish();
-                }
+                }*/
                 Thread downloadRun3 = new Thread() {
                     @Override
                     public void run() {

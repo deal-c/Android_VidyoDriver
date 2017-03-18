@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.esoon.pojo.CallingManagerMsg;
 import com.esoon.pojo.CallingMsg;
+import com.esoon.pojo.ReturnMsg;
 import com.esoon.utils.VidyoUtils;
 import com.esoon.vidyo.api.call.ESClientMakeDIDCall;
 import com.google.gson.Gson;
@@ -22,9 +23,11 @@ public class ESClientMakeDIDCallImpl implements ESClientMakeDIDCall {
     JSONObject object;
     JSONObject  room;
     String  roomKey;
+    String  roomId;
+    ReturnMsg   returnMsg=new   ReturnMsg();
     @Override
-    public String esclientMakeDiDCall(CallingManagerMsg callingMsg) {
-        RequestParams requestParams = new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/createRoom");
+    public ReturnMsg esclientMakeDiDCall(CallingManagerMsg callingMsg) {
+        RequestParams requestParams = new RequestParams(VidyoUtils.NetPortalInfo+"api/v1/video/vidyo/createRoom");
         Gson gson = new Gson();
         String calling = gson.toJson(callingMsg);
         requestParams.addBodyParameter("", calling);
@@ -37,6 +40,7 @@ public class ESClientMakeDIDCallImpl implements ESClientMakeDIDCall {
             Log.e(TAG,"DIDCall back msg is"+object);
            room=object.getJSONObject("room");
             roomKey=room.getString("roomKey");
+            roomId=room.getString("roomId");
 
 
         }catch (Throwable throwable){
@@ -45,8 +49,9 @@ public class ESClientMakeDIDCallImpl implements ESClientMakeDIDCall {
             Log.e(TAG,throwable.getLocalizedMessage());
             throwable.printStackTrace();
         }
-
+        returnMsg.setRoomKey(roomKey);
+        returnMsg.setRoomId(roomId);
         Log.e(TAG,"DIDCall  sucess");
-        return roomKey;
+        return returnMsg;
     }
 }

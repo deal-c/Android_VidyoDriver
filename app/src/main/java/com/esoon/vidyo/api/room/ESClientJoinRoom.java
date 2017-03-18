@@ -8,5 +8,6 @@ import android.app.Activity;
 
 public interface ESClientJoinRoom {
 
-    public boolean  JoinRom(Activity activity, String roomKey);
+    public boolean  joinRom(Activity activity, String roomKey,String    userName);
+    void joinRomCallBack(boolean  flag);
 }

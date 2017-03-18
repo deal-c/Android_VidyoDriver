@@ -22,7 +22,7 @@ public class ESClientRoomInvitedImpl implements ESClientRoomInvited{
     @Override
     public boolean esclientRoomInvited(InviteMsg    inviteMsg) {
         Log.e(TAG,"Invite sending");
-        RequestParams requestParams=new RequestParams(VidyoUtils.queueinfo+"api/v1/video/vidyo/sendInvitedLink");
+        RequestParams requestParams=new RequestParams(VidyoUtils.NetPortalInfo+"api/v1/video/vidyo/sendInvitedLink");
         Gson gson=new Gson();
         Log.e(TAG,"Invite roomId  is"+inviteMsg.getRoomId());
         Log.e(TAG,"Invite roomId  is"+inviteMsg.toString());

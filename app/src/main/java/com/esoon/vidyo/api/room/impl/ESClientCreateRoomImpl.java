@@ -13,44 +13,45 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import static com.esoon.utils.VidyoUtils.queueinfo;
+import static com.esoon.utils.VidyoUtils.NetPortalInfo;
 
 /**
  * 创建房间
  */
 
 public class ESClientCreateRoomImpl implements ESClientCreateRoom {
-    boolean flag=false;
+    boolean flag = false;
     JSONObject object;
-    JSONObject  room;
-    String  roomKey;
-    String  roomId;
-    ReturnMsg   returnMsg=new   ReturnMsg();
+    JSONObject room;
+    String roomKey;
+    String roomId;
+    ReturnMsg returnMsg = new ReturnMsg();
     private static final String TAG = "ESClientCreateRoomImpl";
+
     @Override
-    public ReturnMsg Createroom(CreateRomMsg createRomMsg) {
-        RequestParams requestParams=new RequestParams(queueinfo+"api/v1/video/vidyo/createRoom");
-        Gson gson=new Gson();
-      String createMsg= gson.toJson(createRomMsg);
-        Log.e(TAG, "sending createRomMsg   :"+createMsg);
+    public ReturnMsg createRoom(CreateRomMsg createRomMsg) {
+        RequestParams requestParams = new RequestParams(NetPortalInfo + "api/v1/video/vidyo/createRoom");
+        Gson gson = new Gson();
+        String createMsg = gson.toJson(createRomMsg);
+        Log.e(TAG, "sending createRomMsg   :" + createMsg);
         Log.e(TAG, "createRoom   start");
-        requestParams.addBodyParameter("",createMsg);
+        requestParams.addBodyParameter("", createMsg);
 
         try {
-           object= x.http().postSync(requestParams,JSONObject.class);
-            int   statusCode= object.getInt("statusCode");
-            room=object.getJSONObject("room");
-            roomKey=room.getString("roomKey");
-            roomId=room.getString("roomId");
-            Log.e(TAG, "createRoom msg is:"+object);
-            if(statusCode==0){
-                flag=true;
+            object = x.http().postSync(requestParams, JSONObject.class);
+            int statusCode = object.getInt("statusCode");
+            room = object.getJSONObject("room");
+            roomKey = room.getString("roomKey");
+            roomId = room.getString("roomId");
+            Log.e(TAG, "createRoom msg is:" + object);
+            if (statusCode == 0) {
+                flag = true;
             }
 
-        }catch (Throwable throwable){
+        } catch (Throwable throwable) {
             throwable.printStackTrace();
             Log.e(TAG, "createRoom fail ");
-            Log.e(TAG, "createRoom  throwable is"+throwable.toString());
+            Log.e(TAG, "createRoom  throwable is" + throwable.toString());
         }
 
 
@@ -60,4 +61,11 @@ public class ESClientCreateRoomImpl implements ESClientCreateRoom {
         returnMsg.setRoomId(roomId);
         return returnMsg;
     }
+
+    @Override
+    public void createRoomCallBack(Boolean flag) {
+
+    }
+
+
 }

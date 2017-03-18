@@ -94,6 +94,7 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 	}
 	
 	public boolean initialize(String caFileName, Activity activity) {
+		Log.e(TAG,"kevin	cafilename		is"+caFileName);
 		String pathDir;
 		try {
 			pathDir = getAndroidInternalMemDir();
@@ -154,13 +155,15 @@ public class VidyoSampleApplicationkevin extends android.app.Application {
 		m.sendToTarget();
 	
 	}
-	public void ParticipantsChanged() {
-		Log.d(TAG, "ParticipantsChanged  received!");
+	public void ParticipantsChanged(int	parterNum) {
 
-
+		Bundle b = new Bundle();
+		b.putInt("Participants", parterNum);
+		Log.e(TAG, "ParticipantsChanged  received!"+parterNum);
 		Message msg = Message.obtain();
-		msg.setTarget(hdlr);
 		msg.what = VideoActivity.Event_PartIn;
+		msg.setData(b);
+		msg.setTarget(hdlr);
 		msg.sendToTarget();
 
 	}

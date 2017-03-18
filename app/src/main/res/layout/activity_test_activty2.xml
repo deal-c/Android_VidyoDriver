@@ -8,7 +8,7 @@
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
      android:text="@string/hello" />
- <Button android:id="@+id/button"
+ <Button android:id="@+id/callbackButton"
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
      android:text="@string/hello"
