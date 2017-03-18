@@ -62,11 +62,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity android:name=".vidyo.MyLoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".vidyo.DateActivity" />
         <activity android:name=".vidyo.TestActivity" />
@@ -215,7 +211,11 @@
         >
         <activity android:name=".vidyo.SelectPicActivity" />
         <activity android:name=".vidyo.TestESCActivity" />
-        <activity android:name=".vidyosample.LoginActivity"></activity>
+        <activity android:name=".vidyosample.LoginActivity">    <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
         <activity
             android:name=".vidyosample.MainActivity"
             android:theme="@android:style/Theme.NoTitleBar.OverlayActionModes"></activity>
